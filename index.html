@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw - AI 驱动的智能部署管理平台</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f7fa; }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 150px 0 100px;
+            text-align: center;
+        }
+        
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        /* Section */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        /* Features */
+        .feature-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* News */
+        .news-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .news-card-body {
+            padding: 1.5rem;
+        }
+        
+        .news-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        
+        .news-card-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .news-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Stats */
+        .stat-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2d3748;
+            color: #fff;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2rem; }
+            .section { padding: 40px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-rocket"></i> OpenClaw
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">功能</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#news">AI 新闻</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white ms-2" href="https://deploy.cloudmesh.top" target="_blank">
+                            <i class="fas fa-rocket"></i> 部署管理
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <h1>AI 驱动的智能部署管理平台</h1>
+            <p>让部署更简单，让管理更智能</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="https://deploy.cloudmesh.top" class="btn btn-light btn-lg" target="_blank">
+                    <i class="fas fa-rocket"></i> 立即体验
+                </a>
+                <a href="#features" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-info-circle"></i> 了解更多
+                </a>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-md-4 col-4">
+                    <div class="stat-card">
+                        <div class="stat-number">99.9%</div>
+                        <div>可用性</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-4">
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div>部署实例</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-4">
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div>智能监控</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>核心功能</h2>
+                <p class="text-muted">强大的功能，让部署管理更轻松</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                        <h4>一键部署</h4>
+                        <p>简单易用的部署界面，几分钟完成应用部署</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                        <h4>实时监控</h4>
+                        <p>24/7 实时监控，随时掌握系统运行状态</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                        <h4>AI 智能</h4>
+                        <p>AI 驱动的智能分析和自动优化</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI News Section -->
+    <section class="section bg-light" id="news">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-newspaper"></i> AI 科技新闻</h2>
+                <p class="text-muted">获取最新的人工智能和科技资讯</p>
+            </div>
+            
+            <div id="newsList" class="row">
+                <div class="col-12 text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">正在加载新闻...</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <button class="btn btn-primary" onclick="loadNews()">
+                    <i class="fas fa-sync-alt"></i> 刷新新闻
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 OpenClaw. All rights reserved.</p>
+            <p class="text-white-50">
+                <a href="https://deploy.cloudmesh.top" class="text-white-50" target="_blank">部署管理</a> |
+                <a href="#features" class="text-white-50">功能特性</a> |
+                <a href="#news" class="text-white-50">AI 新闻</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 加载新闻
+        async function loadNews() {
+            const newsList = document.getElementById('newsList');
+            
+            // 模拟新闻数据
+            const newsData = [
+                {
+                    title: "OpenAI 发布最新 GPT 模型，性能大幅提升",
+                    description: "OpenAI 今日发布了最新的 GPT 模型，在各项基准测试中表现优异，特别是在逻辑推理和代码生成方面有了显著提升。",
+                    url: "https://openai.com",
+                    publishedAt: new Date().toISOString(),
+                    source: "OpenAI",
+                    category: "AI 模型",
+                    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800"
+                },
+                {
+                    title: "Google DeepMind 在 AI 医疗领域取得重大突破",
+                    description: "Google DeepMind 团队宣布其 AI 系统在疾病诊断方面达到了专业医生水平，有望 revolutionize 医疗行业。",
+                    url: "https://deepmind.google",
+                    publishedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+                    source: "Google DeepMind",
+                    category: "AI 医疗",
+                    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800"
+                },
+                {
+                    title: "Meta 发布开源多模态 AI 模型",
+                    description: "Meta 公司发布了新的开源多模态 AI 模型，支持文本、图像和语音的跨模态理解，推动 AI 技术发展。",
+                    url: "https://ai.meta.com",
+                    publishedAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+                    source: "Meta AI",
+                    category: "开源 AI",
+                    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800"
+                },
+                {
+                    title: "AI 代码助手成为开发者新宠",
+                    description: "最新调查显示，超过 70% 的开发者已经开始使用 AI 代码助手，大大提高了开发效率和代码质量。",
+                    url: "#",
+                    publishedAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+                    source: "TechCrunch",
+                    category: "开发工具",
+                    image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=800"
+                },
+                {
+                    title: "自动驾驶技术迎来新里程碑",
+                    description: "多家自动驾驶公司宣布其技术已达到 L4 级别，距离完全自动驾驶又近了一步。",
+                    url: "#",
+                    publishedAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+                    source: "Reuters",
+                    category: "自动驾驶",
+                    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800"
+                },
+                {
+                    title: "AI 在气候变化研究中发挥重要作用",
+                    description: "科学家们利用 AI 技术分析气候数据，预测气候变化趋势，为应对全球变暖提供科学依据。",
+                    url: "#",
+                    publishedAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+                    source: "Nature",
+                    category: "科学研究",
+                    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800"
+                }
+            ];
+            
+            const html = newsData.map(item => `
+                <div class="col-md-6 col-lg-4">
+                    <div class="news-card">
+                        ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
+                        <div class="news-card-body">
+                            <div class="news-card-meta">
+                                <span><i class="fas fa-calendar"></i> ${formatDate(item.publishedAt)}</span>
+                                <span><i class="fas fa-user"></i> ${item.source}</span>
+                            </div>
+                            <h3 class="news-card-title">${item.title}</h3>
+                            <p class="text-muted" style="font-size: 0.9rem;">${item.description}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="news-tag">${item.category}</span>
+                                <a href="${item.url}" target="_blank" class="text-decoration-none">
+                                    阅读全文 <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            newsList.innerHTML = html;
+        }
+        
+        // 格式化日期
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            
+            if (hours < 1) return '刚刚';
+            else if (hours < 24) return `${hours}小时前`;
+            else return date.toLocaleDateString('zh-CN');
+        }
+        
+        // 页面加载时加载新闻
+        document.addEventListener('DOMContentLoaded', loadNews);
+    </script>
+    
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
