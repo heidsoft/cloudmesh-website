@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITSM 产品 - CloudMesh</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { padding-top: 70px; }
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 100px 0; }
+        .feature-box { padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+        .module-card { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); height: 100%; transition: transform 0.3s; }
+        .module-card:hover { transform: translateY(-10px); }
+        .module-icon { font-size: 3rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-rocket text-primary"></i> CloudMesh
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/products.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/deploy/">部署系统</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4">ITSM IT 服务管理平台</h1>
+            <p class="lead mb-4">基于 ITIL 最佳实践，AI 驱动的智能 IT 服务管理平台</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/deploy/login.html" class="btn btn-light btn-lg">
+                    <i class="fas fa-rocket"></i> 免费试用
+                </a>
+                <a href="#contact" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-envelope"></i> 联系我们
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">核心功能模块</h2>
+                <p class="text-muted">完整的 IT 服务管理解决方案</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="module-card text-center">
+                        <div class="module-icon text-primary"><i class="fas fa-ticket-alt"></i></div>
+                        <h4>工单管理</h4>
+                        <p class="text-muted">完整的工单生命周期管理，支持自定义流程</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="module-card text-center">
+                        <div class="module-icon text-success"><i class="fas fa-exclamation-triangle"></i></div>
+                        <h4>事件管理</h4>
+                        <p class="text-muted">快速响应和处理 IT 事件，最小化业务影响</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="module-card text-center">
+                        <div class="module-icon text-warning"><i class="fas fa-search"></i></div>
+                        <h4>问题管理</h4>
+                        <p class="text-muted">根因分析，预防问题重复发生</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="module-card text-center">
+                        <div class="module-icon text-info"><i class="fas fa-sync-alt"></i></div>
+                        <h4>变更管理</h4>
+                        <p class="text-muted">规范的变更流程，降低变更风险</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mt-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="module-card text-center">
+                        <div class="module-icon text-danger"><i class="fas fa-clock"></i></div>
+                        <h4>SLA 管理</h4>
+                        <p class="text-muted">服务级别协议管理，确保服务质量</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="module-card text-center">
+                        <div class="module-icon text-primary"><i class="fas fa-database"></i></div>
+                        <h4>CMDB</h4>
+                        <p class="text-muted">配置管理数据库，资产全生命周期管理</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="module-card text-center">
+                        <div class="module-icon text-success"><i class="fas fa-book"></i></div>
+                        <h4>知识库</h4>
+                        <p class="text-muted">知识积累和共享，提升团队效率</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="module-card text-center">
+                        <div class="module-icon text-info"><i class="fas fa-chart-line"></i></div>
+                        <h4>报表分析</h4>
+                        <p class="text-muted">多维度数据分析，辅助决策</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">产品优势</h2>
+                <p class="text-muted">为什么选择 CloudMesh ITSM</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-box bg-white">
+                        <h5><i class="fas fa-check-circle text-success"></i> ITIL 最佳实践</h5>
+                        <p class="text-muted">基于 ITIL v4 标准，符合行业最佳实践</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box bg-white">
+                        <h5><i class="fas fa-check-circle text-success"></i> AI 智能驱动</h5>
+                        <p class="text-muted">AI 智能分派、自动摘要、根因分析</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box bg-white">
+                        <h5><i class="fas fa-check-circle text-success"></i> 灵活定制</h5>
+                        <p class="text-muted">支持自定义流程、表单和报表</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-4 bg-dark text-white text-center" id="contact">
+        <div class="container">
+            <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+            <p class="text-white-50">
+                <a href="/" class="text-white-50">首页</a> |
+                <a href="/products.html" class="text-white-50">产品</a> |
+                <a href="/deploy/" class="text-white-50">部署系统</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
