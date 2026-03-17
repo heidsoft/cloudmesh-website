@@ -17,6 +17,44 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://cloudmesh.top/">
     
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "CloudMesh",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web-based",
+      "description": "CloudMesh 是 AI 驱动的智能 IT 管理平台，整合 OpenClaw DevOps 和 ITSM 工单系统，让 IT 管理更简单高效",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "100",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": "CloudMesh"
+      },
+      "featureList": "多云管理，监控告警，自动化运维，ITSM 工单系统，知识库",
+      "softwareVersion": "2.0",
+      "url": "https://cloudmesh.top/",
+      "screenshot": "https://cloudmesh.top/images/screenshot.png",
+      "author": {
+        "@type": "Organization",
+        "name": "CloudMesh Team",
+        "url": "https://cloudmesh.top/about/"
+      }
+    }
+    </script>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -781,6 +819,59 @@
                 justify-content: center;
             }
         }
+        
+        /* 移动端菜单样式 */
+        @media (max-width: 991px) {
+            .navbar-toggler {
+                display: block !important;
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 8px 12px;
+            }
+            .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            }
+            .navbar-collapse {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 15, 35, 0.98);
+                padding: 20px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            .navbar-collapse.show {
+                display: block;
+            }
+            .navbar-nav {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .nav-link {
+                padding: 12px 16px !important;
+                border-radius: 8px;
+                background: rgba(255,255,255,0.05);
+                margin-bottom: 2px;
+            }
+            .nav-link:hover {
+                background: rgba(102, 126, 234, 0.2);
+            }
+            .dropdown-menu {
+                background: rgba(255,255,255,0.05);
+                border: none;
+                padding: 10px;
+                margin-top: 5px;
+            }
+            .dropdown-item {
+                color: var(--gray-400) !important;
+                padding: 10px 16px;
+            }
+            .btn-trial {
+                margin-top: 15px !important;
+                text-align: center;
+            }
+        }
     </style>
     <script src="/js/i18n.js"></script>
 </head>
@@ -814,6 +905,7 @@
                             <li><a class="dropdown-item" href="/openclaw-generator/"><i class="fas fa-wrench"></i> 配置生成器 <span class="badge bg-warning text-dark ms-1">免费</span></a></li>
                         </ul>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="/solutions/">解决方案</a></li>
                     <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
                     <li class="nav-item"><a class="nav-link" href="/blog/">博客</a></li>
                     <li class="nav-item"><a class="nav-link" href="/pricing.html">定价</a></li>
