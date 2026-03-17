@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D室内设计 - CloudMesh 解决方案</title>
+    <meta name="description" content="专业3D室内设计服务，效果图渲染、VR全景展示、智能设计方案、施工图纸">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        :root { --primary: #667eea; --secondary: #764ba2; --accent: #8b5cf6; --bg-dark: #0f0f1a; --bg-card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.08); --text-primary: #fff; --text-secondary: #a0aec0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-dark); color: var(--text-primary); padding-top: 70px; line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .hero { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); padding: 100px 0; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); opacity: 0.3; }
+        .hero .icon { font-size: 80px; margin-bottom: 24px; position: relative; }
+        .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; position: relative; }
+        .hero p { font-size: 20px; opacity: 0.95; max-width: 600px; margin: 0 auto; position: relative; }
+        .section { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-title p { color: var(--text-secondary); font-size: 18px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        .feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; transition: all 0.3s; }
+        .feature-card:hover { transform: translateY(-8px); border-color: rgba(139,92,246,0.3); box-shadow: 0 20px 60px rgba(139,92,246,0.1); }
+        .feature-card .icon { width: 60px; height: 60px; border-radius: 16px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+        .feature-card p { color: var(--text-secondary); font-size: 15px; }
+        .feature-card ul { list-style: none; padding: 0; margin-top: 16px; }
+        .feature-card li { padding: 6px 0; color: var(--text-secondary); font-size: 14px; }
+        .feature-card li i { color: #8b5cf6; margin-right: 8px; }
+        .showcase { background: rgba(139,92,246,0.03); }
+        .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .showcase-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+        .showcase-item .image { height: 200px; background: linear-gradient(135deg, rgba(139,92,246,0.2) 0%, rgba(124,58,237,0.2) 100%); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+        .showcase-item .content { padding: 20px; }
+        .showcase-item h4 { font-size: 16px; margin-bottom: 8px; }
+        .showcase-item p { font-size: 13px; color: var(--text-secondary); }
+        .process-steps { display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap; gap: 20px; margin: 40px 0; }
+        .process-step { text-align: center; max-width: 180px; }
+        .process-step .number { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; margin: 0 auto 16px; }
+        .process-step h4 { font-size: 16px; margin-bottom: 8px; }
+        .process-step p { font-size: 13px; color: var(--text-secondary); }
+        .process-arrow { font-size: 32px; color: #8b5cf6; margin-top: 20px; }
+        .price-packages { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        .package-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; text-align: center; }
+        .package-card.featured { border-color: rgba(139,92,246,0.5); box-shadow: 0 10px 40px rgba(139,92,246,0.15); }
+        .package-card h3 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        .package-card .price { font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 16px 0; }
+        .package-card .price span { font-size: 16px; font-weight: 400; }
+        .package-card ul { list-style: none; padding: 0; margin: 24px 0; text-align: left; }
+        .package-card li { padding: 10px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; }
+        .package-card li:last-child { border-bottom: none; }
+        .package-card li i { color: #8b5cf6; margin-right: 10px; }
+        .cta { text-align: center; padding: 100px 0; background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%); }
+        .cta h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+        .cta p { color: var(--text-secondary); font-size: 18px; margin-bottom: 32px; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 14px 32px; border-radius: 12px; font-weight: 600; text-decoration: none; font-size: 16px; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(139,92,246,0.3); }
+        .btn-secondary { background: rgba(139,92,246,0.1); color: #8b5cf6; }
+        .navbar { background: rgba(15,15,26,0.95) !important; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+        .navbar-brand { color: var(--text-primary) !important; font-weight: 700; }
+        .nav-link { color: var(--text-secondary) !important; }
+        .nav-link:hover, .nav-link.active { color: #8b5cf6 !important; }
+        @media (max-width: 991px) { .navbar-toggler { display: block !important; border: 1px solid rgba(255,255,255,0.3); } .navbar-collapse { position: absolute; top: 100%; left: 0; right: 0; background: rgba(15,15,26,0.98); padding: 20px; } }
+        @media (max-width: 576px) { .hero h1 { font-size: 32px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-cloud"></i> CloudMesh</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/openclaw.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/solutions/">解决方案</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog/">博客</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="icon">🎲</div>
+            <h1>3D室内设计</h1>
+            <p>沉浸式空间设计体验，所见即所得</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>核心功能</h2>
+                <p>专业设计工具，高效出图体验</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🖼️</div>
+                    <h3>3D效果图</h3>
+                    <p>高质量室内效果图渲染，真实材质表现</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 照片级渲染效果</li>
+                        <li><i class="fas fa-check"></i> 多角度全景展示</li>
+                        <li><i class="fas fa-check"></i> 昼夜光线模拟</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🥽</div>
+                    <h3>VR全景漫游</h3>
+                    <p>720°虚拟现实体验，身临其境</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 沉浸式空间体验</li>
+                        <li><i class="fas fa-check"></i> 手机扫码观看</li>
+                        <li><i class="fas fa-check"></i> VR眼镜支持</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🤖</div>
+                    <h3>AI智能设计</h3>
+                    <p>AI辅助布局，一键生成方案</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 智能户型布局</li>
+                        <li><i class="fas fa-check"></i> 风格智能推荐</li>
+                        <li><i class="fas fa-check"></i> 一键快速渲染</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📐</div>
+                    <h3>施工图纸</h3>
+                    <p>全套施工图纸，标准规范</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 平面布置图</li>
+                        <li><i class="fas fa-check"></i> 立面剖面图</li>
+                        <li><i class="fas fa-check"></i> 水电点位图</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">💰</div>
+                    <h3>实时报价</h3>
+                    <p>方案自动生成预算清单</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 材料清单生成</li>
+                        <li><i class="fas fa-check"></i> 工程量自动计算</li>
+                        <li><i class="fas fa-check"></i> 预算实时更新</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🏠</div>
+                    <h3>软装搭配</h3>
+                    <p>家具软装智能推荐</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 家具模型库</li>
+                        <li><i class="fas fa-check"></i> 材质一键替换</li>
+                        <li><i class="fas fa-check"></i> 软装采购链接</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section showcase">
+        <div class="container">
+            <div class="section-title">
+                <h2>设计案例</h2>
+                <p>多风格设计展示</p>
+            </div>
+            <div class="showcase-grid">
+                <div class="showcase-item">
+                    <div class="image">🛋️</div>
+                    <div class="content">
+                        <h4>现代简约客厅</h4>
+                        <p>简洁线条，明亮空间</p>
+                    </div>
+                </div>
+                <div class="showcase-item">
+                    <div class="image">🛏️</div>
+                    <div class="content">
+                        <h4>北欧风卧室</h4>
+                        <p>温馨舒适，自然材质</p>
+                    </div>
+                </div>
+                <div class="showcase-item">
+                    <div class="image">🍳</div>
+                    <div class="content">
+                        <h4>现代厨房</h4>
+                        <p>功能齐全，动线合理</p>
+                    </div>
+                </div>
+                <div class="showcase-item">
+                    <div class="image">🛁</div>
+                    <div class="content">
+                        <h4>轻奢卫生间</h4>
+                        <p>品质细节，高级质感</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>服务流程</h2>
+                <p>专业流程，高效交付</p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="number">1</div>
+                    <h4>需求沟通</h4>
+                    <p>了解设计需求</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">2</div>
+                    <h4>方案设计</h4>
+                    <p>平面布局方案</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">3</div>
+                    <h4>3D建模</h4>
+                    <p>三维空间建模</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">4</div>
+                    <h4>效果图渲染</h4>
+                    <p>高质量出图</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">5</div>
+                    <h4>交付图纸</h4>
+                    <p>全套施工图纸</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>服务套餐</h2>
+                <p>灵活选择，满足不同需求</p>
+            </div>
+            <div class="price-packages">
+                <div class="package-card">
+                    <h3>基础版</h3>
+                    <div class="price">¥999<span>/起</span></div>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 平面布置图</li>
+                        <li><i class="fas fa-check"></i> 3张效果图</li>
+                        <li><i class="fas fa-check"></i> 基础施工图</li>
+                        <li><i class="fas fa-check"></i> 3天出图</li>
+                    </ul>
+                    <a href="/contact/" class="btn btn-secondary" style="display: block; margin-top: 20px;">咨询下单</a>
+                </div>
+                <div class="package-card featured">
+                    <h3>专业版</h3>
+                    <div class="price">¥2999<span>/起</span></div>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 全套平面图</li>
+                        <li><i class="fas fa-check"></i> 8张效果图</li>
+                        <li><i class="fas fa-check"></i> VR全景漫游</li>
+                        <li><i class="fas fa-check"></i> 全套施工图</li>
+                        <li><i class="fas fa-check"></i> 材料清单</li>
+                        <li><i class="fas fa-check"></i> 2次修改</li>
+                    </ul>
+                    <a href="/contact/" class="btn btn-primary" style="display: block; margin-top: 20px;">推荐选择</a>
+                </div>
+                <div class="package-card">
+                    <h3>尊享版</h3>
+                    <div class="price">¥5999<span>/起</span></div>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 专业版全部内容</li>
+                        <li><i class="fas fa-check"></i> 无限次修改</li>
+                        <li><i class="fas fa-check"></i> 软装搭配方案</li>
+                        <li><i class="fas fa-check"></i> 预算报价清单</li>
+                        <li><i class="fas fa-check"></i> 施工指导服务</li>
+                        <li><i class="fas fa-check"></i> 专属设计师对接</li>
+                    </ul>
+                    <a href="/contact/" class="btn btn-secondary" style="display: block; margin-top: 20px;">咨询下单</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>🚀 开启您的设计之旅</h2>
+            <p>联系我们，获取免费设计方案咨询</p>
+            <div class="cta-buttons">
+                <a href="/contact/" class="btn btn-primary"><i class="fas fa-phone"></i> 立即咨询</a>
+                <a href="/solutions/" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 返回解决方案</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

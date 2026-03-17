@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>弱电安装集成 - CloudMesh 解决方案</title>
+    <meta name="description" content="专业弱电安装集成服务，网线布线、机柜安装、监控探头、面板插座、门禁系统">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        :root { --primary: #667eea; --secondary: #764ba2; --accent: #ec4899; --bg-dark: #0f0f1a; --bg-card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.08); --text-primary: #fff; --text-secondary: #a0aec0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-dark); color: var(--text-primary); padding-top: 70px; line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .hero { background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 100px 0; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); opacity: 0.3; }
+        .hero .icon { font-size: 80px; margin-bottom: 24px; position: relative; }
+        .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; position: relative; }
+        .hero p { font-size: 20px; opacity: 0.95; max-width: 600px; margin: 0 auto; position: relative; }
+        .section { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-title p { color: var(--text-secondary); font-size: 18px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        .service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; transition: all 0.3s; }
+        .service-card:hover { transform: translateY(-8px); border-color: rgba(236,72,153,0.3); box-shadow: 0 20px 60px rgba(236,72,153,0.1); }
+        .service-card .icon { width: 60px; height: 60px; border-radius: 16px; background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 20px; }
+        .service-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+        .service-card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 16px; }
+        .service-card ul { list-style: none; padding: 0; }
+        .service-card li { padding: 6px 0; color: var(--text-secondary); font-size: 14px; }
+        .service-card li i { color: #ec4899; margin-right: 8px; }
+        .flow { background: rgba(236,72,153,0.03); }
+        .flow-steps { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 16px; margin: 40px 0; }
+        .flow-step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 30px; text-align: center; }
+        .flow-step h4 { font-size: 16px; margin-bottom: 8px; }
+        .flow-step p { font-size: 13px; color: var(--text-secondary); }
+        .flow-arrow { font-size: 24px; color: #ec4899; }
+        .price-table { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 40px; margin-top: 40px; }
+        .price-table table { width: 100%; border-collapse: collapse; }
+        .price-table th, .price-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        .price-table th { color: var(--text-primary); font-weight: 600; }
+        .price-table td { color: var(--text-secondary); }
+        .price-table .price { color: #ec4899; font-weight: 600; }
+        .cta { text-align: center; padding: 100px 0; background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%); }
+        .cta h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+        .cta p { color: var(--text-secondary); font-size: 18px; margin-bottom: 32px; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 14px 32px; border-radius: 12px; font-weight: 600; text-decoration: none; font-size: 16px; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(236,72,153,0.3); }
+        .btn-secondary { background: rgba(236,72,153,0.1); color: #ec4899; }
+        .navbar { background: rgba(15,15,26,0.95) !important; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+        .navbar-brand { color: var(--text-primary) !important; font-weight: 700; }
+        .nav-link { color: var(--text-secondary) !important; }
+        .nav-link:hover, .nav-link.active { color: #ec4899 !important; }
+        @media (max-width: 991px) { .navbar-toggler { display: block !important; border: 1px solid rgba(255,255,255,0.3); } .navbar-collapse { position: absolute; top: 100%; left: 0; right: 0; background: rgba(15,15,26,0.98); padding: 20px; } }
+        @media (max-width: 576px) { .hero h1 { font-size: 32px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-cloud"></i> CloudMesh</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/openclaw.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/solutions/">解决方案</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog/">博客</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="icon">🛠️</div>
+            <h1>弱电安装集成</h1>
+            <p>专业弱电施工与设备安装，规范施工，品质保障</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>安装服务</h2>
+                <p>各类弱电设备安装与调试</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon">🔗</div>
+                    <h3>综合布线安装</h3>
+                    <p>规范布线施工，标识清晰</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 网线布线施工</li>
+                        <li><i class="fas fa-check"></i> 光纤熔接铺设</li>
+                        <li><i class="fas fa-check"></i> 电话线路安装</li>
+                        <li><i class="fas fa-check"></i> 线槽桥架固定</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🗄️</div>
+                    <h3>机柜安装</h3>
+                    <p>标准化机柜安装部署</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 服务器机柜安装</li>
+                        <li><i class="fas fa-check"></i> 配线架安装</li>
+                        <li><i class="fas fa-check"></i> 理线器安装</li>
+                        <li><i class="fas fa-check"></i> PDU 电源安装</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">📹</div>
+                    <h3>监控安装</h3>
+                    <p>监控设备安装调试</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 摄像头安装固定</li>
+                        <li><i class="fas fa-check"></i> 录像机配置</li>
+                        <li><i class="fas fa-check"></i> 监控屏安装</li>
+                        <li><i class="fas fa-check"></i> 手机远程调试</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🔌</div>
+                    <h3>面板插座安装</h3>
+                    <p>各类面板插座安装</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 网络面板安装</li>
+                        <li><i class="fas fa-check"></i> 电源插座安装</li>
+                        <li><i class="fas fa-check"></i> 弱电箱安装</li>
+                        <li><i class="fas fa-check"></i> 信息箱安装</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🚪</div>
+                    <h3>门禁系统安装</h3>
+                    <p>门禁考勤设备安装</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 人脸识别安装</li>
+                        <li><i class="fas fa-check"></i> 刷卡门禁安装</li>
+                        <li><i class="fas fa-check"></i> 道闸系统安装</li>
+                        <li><i class="fas fa-check"></i> 闸机通道安装</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">📡</div>
+                    <h3>无线网络安装</h3>
+                    <p>无线覆盖方案部署</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> AP 设备安装</li>
+                        <li><i class="fas fa-check"></i> AC 控制器配置</li>
+                        <li><i class="fas fa-check"></i> 无线网络调试</li>
+                        <li><i class="fas fa-check"></i> 信号覆盖优化</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section flow">
+        <div class="container">
+            <div class="section-title">
+                <h2>服务流程</h2>
+                <p>标准化施工流程</p>
+            </div>
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <h4>📞 需求沟通</h4>
+                    <p>了解安装需求</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <h4>📋 现场勘测</h4>
+                    <p>实地测量评估</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <h4>💰 方案报价</h4>
+                    <p>出具详细报价</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <h4>🔧 现场施工</h4>
+                    <p>规范安装调试</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <h4>✅ 验收交付</h4>
+                    <p>测试验收培训</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>参考价格</h2>
+                <p>透明报价，无隐形消费</p>
+            </div>
+            <div class="price-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>服务项目</th>
+                            <th>单价</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>网线布线（超五类）</td>
+                            <td class="price">15-25元/点</td>
+                            <td>含网线、面板、测试</td>
+                        </tr>
+                        <tr>
+                            <td>网线布线（六类）</td>
+                            <td class="price">25-35元/点</td>
+                            <td>含网线、面板、测试</td>
+                        </tr>
+                        <tr>
+                            <td>监控摄像头安装</td>
+                            <td class="price">100-200元/个</td>
+                            <td>含支架、电源、调试</td>
+                        </tr>
+                        <tr>
+                            <td>网络机柜安装</td>
+                            <td class="price">300-800元/个</td>
+                            <td>含理线、标签、调试</td>
+                        </tr>
+                        <tr>
+                            <td>门禁设备安装</td>
+                            <td class="price">200-500元/台</td>
+                            <td>含布线、调试、培训</td>
+                        </tr>
+                        <tr>
+                            <td>AP 安装调试</td>
+                            <td class="price">150-300元/个</td>
+                            <td>含网线、调试、优化</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 20px; color: var(--text-secondary); font-size: 14px;">
+                    * 以上为参考价格，具体以实际勘测后报价为准。量大从优，欢迎咨询。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>🚀 获取免费勘测和报价</h2>
+            <p>联系我们，专业团队上门服务</p>
+            <div class="cta-buttons">
+                <a href="/contact/" class="btn btn-primary"><i class="fas fa-phone"></i> 立即咨询</a>
+                <a href="/solutions/" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 返回解决方案</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

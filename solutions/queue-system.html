@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能排队叫号系统 - CloudMesh 解决方案</title>
+    <meta name="description" content="智能排队叫号系统，多渠道预约取号、智能分流、实时通知，提升服务效率，优化客户体验">
+    <meta name="keywords" content="排队叫号,智能排队,预约系统,政务服务,医院排队">
+    
+    <meta property="og:title" content="智能排队叫号系统 - CloudMesh">
+    <meta property="og:description" content="智能排队叫号系统，提升服务效率">
+    <meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        :root { --primary: #667eea; --secondary: #764ba2; --success: #10b981; --warning: #f59e0b; --bg-dark: #0f0f1a; --bg-card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.08); --text-primary: #fff; --text-secondary: #a0aec0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-dark); color: var(--text-primary); padding-top: 70px; line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        .hero { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 100px 0; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); opacity: 0.3; }
+        .hero .icon { font-size: 80px; margin-bottom: 24px; position: relative; }
+        .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; position: relative; }
+        .hero p { font-size: 20px; opacity: 0.95; max-width: 600px; margin: 0 auto; position: relative; }
+        
+        .section { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-title p { color: var(--text-secondary); font-size: 18px; }
+        
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        .feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; transition: all 0.3s; }
+        .feature-card:hover { transform: translateY(-8px); border-color: rgba(245,158,11,0.3); box-shadow: 0 20px 60px rgba(245,158,11,0.1); }
+        .feature-card .icon { width: 60px; height: 60px; border-radius: 16px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+        .feature-card p { color: var(--text-secondary); font-size: 15px; }
+        
+        .process { background: rgba(245,158,11,0.03); }
+        .process-steps { display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap; gap: 20px; margin: 40px 0; }
+        .process-step { text-align: center; max-width: 200px; }
+        .process-step .number { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; margin: 0 auto 16px; }
+        .process-step h4 { font-size: 18px; margin-bottom: 8px; }
+        .process-step p { font-size: 14px; color: var(--text-secondary); }
+        .process-arrow { font-size: 32px; color: #f59e0b; margin-top: 20px; }
+        
+        .scenarios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+        .scenario-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; }
+        .scenario-card h3 { font-size: 22px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+        .scenario-card ul { list-style: none; padding: 0; }
+        .scenario-card li { padding: 10px 0; color: var(--text-secondary); }
+        .scenario-card li i { color: #f59e0b; margin-right: 10px; }
+        
+        .hardware-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+        .hardware-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center; }
+        .hardware-item i { font-size: 40px; color: #f59e0b; margin-bottom: 16px; }
+        .hardware-item h4 { font-size: 16px; margin-bottom: 8px; }
+        .hardware-item p { font-size: 13px; color: var(--text-secondary); }
+        
+        .stats { background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(217,119,6,0.1) 100%); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+        .stat-item { text-align: center; }
+        .stat-item .number { font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-item .label { color: var(--text-secondary); font-size: 16px; margin-top: 8px; }
+        
+        .cta { text-align: center; padding: 100px 0; background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%); }
+        .cta h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+        .cta p { color: var(--text-secondary); font-size: 18px; margin-bottom: 32px; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 14px 32px; border-radius: 12px; font-weight: 600; text-decoration: none; font-size: 16px; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(245,158,11,0.3); }
+        .btn-secondary { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        
+        .navbar { background: rgba(15,15,26,0.95) !important; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+        .navbar-brand { color: var(--text-primary) !important; font-weight: 700; }
+        .nav-link { color: var(--text-secondary) !important; }
+        .nav-link:hover, .nav-link.active { color: #f59e0b !important; }
+        
+        @media (max-width: 991px) { .navbar-toggler { display: block !important; border: 1px solid rgba(255,255,255,0.3); } .navbar-collapse { position: absolute; top: 100%; left: 0; right: 0; background: rgba(15,15,26,0.98); padding: 20px; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 576px) { .hero h1 { font-size: 32px; } .stats-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-cloud"></i> CloudMesh</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/openclaw.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/solutions/">解决方案</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog/">博客</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="icon">👥</div>
+            <h1>智能排队叫号系统</h1>
+            <p>提升服务效率，优化客户体验，告别排队等候焦虑</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>核心功能</h2>
+                <p>智能化排队管理，全方位服务提升</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">📱</div>
+                    <h3>多渠道预约取号</h3>
+                    <p>微信小程序、APP、自助机、现场取号等多种方式，灵活便捷</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔀</div>
+                    <h3>智能分流排队</h3>
+                    <p>根据业务类型、窗口状态、等候时间智能分配，均衡负载</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔔</div>
+                    <h3>实时通知提醒</h3>
+                    <p>短信、微信推送排队进度，前面还有几人，何时到达一目了然</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h3>数据统计看板</h3>
+                    <p>客流分析、窗口效率、服务评价、高峰预测全面可视化</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">⭐</div>
+                    <h3>服务评价系统</h3>
+                    <p>办理完成后扫码评价，收集反馈，持续改进服务质量</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🖥️</div>
+                    <h3>硬件集成</h3>
+                    <p>支持各类叫号屏、评价器、自助终端、打印机等硬件设备</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section process">
+        <div class="container">
+            <div class="section-title">
+                <h2>服务流程</h2>
+                <p>简单四步，轻松办理</p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="number">1</div>
+                    <h4>取号预约</h4>
+                    <p>微信/现场自助取号</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">2</div>
+                    <h4>等候通知</h4>
+                    <p>实时推送排队进度</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">3</div>
+                    <h4>叫号办理</h4>
+                    <p>语音+屏幕叫号提醒</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">4</div>
+                    <h4>评价反馈</h4>
+                    <p>扫码评价服务质量</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>应用场景</h2>
+                <p>覆盖多种行业服务场景</p>
+            </div>
+            <div class="scenarios-grid">
+                <div class="scenario-card">
+                    <h3><i class="fas fa-hospital"></i> 医院门诊</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 挂号分诊排队</li>
+                        <li><i class="fas fa-check"></i> 检查验血叫号</li>
+                        <li><i class="fas fa-check"></i> 取药窗口排队</li>
+                        <li><i class="fas fa-check"></i> 专科门诊分诊</li>
+                    </ul>
+                </div>
+                <div class="scenario-card">
+                    <h3><i class="fas fa-landmark"></i> 政务大厅</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 综合业务叫号</li>
+                        <li><i class="fas fa-check"></i> 公安户政办理</li>
+                        <li><i class="fas fa-check"></i> 税务服务窗口</li>
+                        <li><i class="fas fa-check"></i> 不动产登记</li>
+                    </ul>
+                </div>
+                <div class="scenario-card">
+                    <h3><i class="fas fa-university"></i> 银行网点</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 个人业务办理</li>
+                        <li><i class="fas fa-check"></i> 对公业务服务</li>
+                        <li><i class="fas fa-check"></i> 智能分流排队</li>
+                        <li><i class="fas fa-check"></i> VIP专属通道</li>
+                    </ul>
+                </div>
+                <div class="scenario-card">
+                    <h3><i class="fas fa-store"></i> 服务网点</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 电信营业厅</li>
+                        <li><i class="fas fa-check"></i> 电力服务厅</li>
+                        <li><i class="fas fa-check"></i> 燃气营业厅</li>
+                        <li><i class="fas fa-check"></i> 社保服务点</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>配套硬件</h2>
+                <p>一站式硬件集成服务</p>
+            </div>
+            <div class="hardware-grid">
+                <div class="hardware-item">
+                    <i class="fas fa-tv"></i>
+                    <h4>叫号显示屏</h4>
+                    <p>LED/LCD 显示屏</p>
+                </div>
+                <div class="hardware-item">
+                    <i class="fas fa-volume-up"></i>
+                    <h4>语音叫号器</h4>
+                    <p>智能语音播报</p>
+                </div>
+                <div class="hardware-item">
+                    <i class="fas fa-ticket-alt"></i>
+                    <h4>自助取号机</h4>
+                    <p>触摸屏一体机</p>
+                </div>
+                <div class="hardware-item">
+                    <i class="fas fa-thumbs-up"></i>
+                    <h4>评价器</h4>
+                    <p>满意度评价终端</p>
+                </div>
+                <div class="hardware-item">
+                    <i class="fas fa-print"></i>
+                    <h4>小票打印机</h4>
+                    <p>排队号票打印</p>
+                </div>
+                <div class="hardware-item">
+                    <i class="fas fa-window-maximize"></i>
+                    <h4>窗口显示屏</h4>
+                    <p>窗口状态显示</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="number">60%</div>
+                    <div class="label">等候时间缩短</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">200+</div>
+                    <div class="label">部署网点</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">99.9%</div>
+                    <div class="label">系统稳定性</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">95%</div>
+                    <div class="label">客户满意度</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>🚀 提升您的服务效率</h2>
+            <p>联系我们，获取专属解决方案和免费演示</p>
+            <div class="cta-buttons">
+                <a href="/contact/" class="btn btn-primary"><i class="fas fa-phone"></i> 立即咨询</a>
+                <a href="/solutions/" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 返回解决方案</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

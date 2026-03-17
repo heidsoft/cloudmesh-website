@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>弱电工程服务 - CloudMesh 解决方案</title>
+    <meta name="description" content="专业弱电工程服务，综合布线、监控系统、门禁考勤、机房建设，一站式解决方案">
+    <meta property="og:title" content="弱电工程服务 - CloudMesh">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        :root { --primary: #667eea; --secondary: #764ba2; --accent: #3b82f6; --bg-dark: #0f0f1a; --bg-card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.08); --text-primary: #fff; --text-secondary: #a0aec0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-dark); color: var(--text-primary); padding-top: 70px; line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .hero { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); padding: 100px 0; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); opacity: 0.3; }
+        .hero .icon { font-size: 80px; margin-bottom: 24px; position: relative; }
+        .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; position: relative; }
+        .hero p { font-size: 20px; opacity: 0.95; max-width: 600px; margin: 0 auto; position: relative; }
+        .section { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-title p { color: var(--text-secondary); font-size: 18px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        .service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; transition: all 0.3s; }
+        .service-card:hover { transform: translateY(-8px); border-color: rgba(59,130,246,0.3); box-shadow: 0 20px 60px rgba(59,130,246,0.1); }
+        .service-card .icon { width: 60px; height: 60px; border-radius: 16px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 20px; }
+        .service-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+        .service-card p { color: var(--text-secondary); font-size: 15px; }
+        .service-card ul { list-style: none; padding: 0; margin-top: 16px; }
+        .service-card li { padding: 8px 0; color: var(--text-secondary); font-size: 14px; }
+        .service-card li i { color: #3b82f6; margin-right: 10px; }
+        .advantages { background: rgba(59,130,246,0.03); }
+        .advantages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
+        .advantage-item { text-align: center; padding: 32px; }
+        .advantage-item i { font-size: 48px; color: #3b82f6; margin-bottom: 16px; }
+        .advantage-item h4 { font-size: 18px; margin-bottom: 8px; }
+        .advantage-item p { font-size: 14px; color: var(--text-secondary); }
+        .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+        .case-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; }
+        .case-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+        .case-card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 16px; }
+        .case-card ul { list-style: none; padding: 0; }
+        .case-card li { padding: 8px 0; color: var(--text-secondary); font-size: 14px; }
+        .case-card li i { color: #3b82f6; margin-right: 10px; }
+        .cta { text-align: center; padding: 100px 0; background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%); }
+        .cta h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+        .cta p { color: var(--text-secondary); font-size: 18px; margin-bottom: 32px; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 14px 32px; border-radius: 12px; font-weight: 600; text-decoration: none; font-size: 16px; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(59,130,246,0.3); }
+        .btn-secondary { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .navbar { background: rgba(15,15,26,0.95) !important; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+        .navbar-brand { color: var(--text-primary) !important; font-weight: 700; }
+        .nav-link { color: var(--text-secondary) !important; }
+        .nav-link:hover, .nav-link.active { color: #3b82f6 !important; }
+        @media (max-width: 991px) { .navbar-toggler { display: block !important; border: 1px solid rgba(255,255,255,0.3); } .navbar-collapse { position: absolute; top: 100%; left: 0; right: 0; background: rgba(15,15,26,0.98); padding: 20px; } }
+        @media (max-width: 576px) { .hero h1 { font-size: 32px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-cloud"></i> CloudMesh</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/openclaw.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/solutions/">解决方案</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog/">博客</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="icon">🔌</div>
+            <h1>弱电工程服务</h1>
+            <p>专业的智能化工程设计与施工，打造安全高效的智能建筑</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>服务范围</h2>
+                <p>全方位弱电工程解决方案</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon">🔗</div>
+                    <h3>综合布线</h3>
+                    <p>办公室、园区网络布线工程</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 网线、光纤布线</li>
+                        <li><i class="fas fa-check"></i> 电话线路铺设</li>
+                        <li><i class="fas fa-check"></i> 配线架安装</li>
+                        <li><i class="fas fa-check"></i> 线槽桥架施工</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">📹</div>
+                    <h3>监控系统</h3>
+                    <p>高清视频监控解决方案</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 摄像头安装调试</li>
+                        <li><i class="fas fa-check"></i> NVR 录像存储</li>
+                        <li><i class="fas fa-check"></i> 监控大屏显示</li>
+                        <li><i class="fas fa-check"></i> 远程手机查看</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🚪</div>
+                    <h3>门禁考勤</h3>
+                    <p>智能出入管理系统</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 人脸识别门禁</li>
+                        <li><i class="fas fa-check"></i> 指纹刷卡门禁</li>
+                        <li><i class="fas fa-check"></i> 访客管理系统</li>
+                        <li><i class="fas fa-check"></i> 考勤统计报表</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">📡</div>
+                    <h3>广播会议</h3>
+                    <p>音视频会议系统</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 公共广播系统</li>
+                        <li><i class="fas fa-check"></i> 视频会议室</li>
+                        <li><i class="fas fa-check"></i> 多媒体教室</li>
+                        <li><i class="fas fa-check"></i> 舞台音响系统</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🖥️</div>
+                    <h3>机房建设</h3>
+                    <p>数据中心基础设施</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 服务器机柜安装</li>
+                        <li><i class="fas fa-check"></i> UPS 电源系统</li>
+                        <li><i class="fas fa-check"></i> 精密空调系统</li>
+                        <li><i class="fas fa-check"></i> 环境监控报警</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🌐</div>
+                    <h3>网络集成</h3>
+                    <p>企业网络架构搭建</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 核心交换部署</li>
+                        <li><i class="fas fa-check"></i> 无线网络覆盖</li>
+                        <li><i class="fas fa-check"></i> 防火墙配置</li>
+                        <li><i class="fas fa-check"></i> VPN 远程接入</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section advantages">
+        <div class="container">
+            <div class="section-title">
+                <h2>我们的优势</h2>
+                <p>专业团队，品质保障</p>
+            </div>
+            <div class="advantages-grid">
+                <div class="advantage-item">
+                    <i class="fas fa-certificate"></i>
+                    <h4>资质齐全</h4>
+                    <p>建筑智能化工程专业承包资质</p>
+                </div>
+                <div class="advantage-item">
+                    <i class="fas fa-users"></i>
+                    <h4>专业团队</h4>
+                    <p>10年+ 工程经验技术团队</p>
+                </div>
+                <div class="advantage-item">
+                    <i class="fas fa-tools"></i>
+                    <h4>原厂正品</h4>
+                    <p>设备材料均为原厂正品</p>
+                </div>
+                <div class="advantage-item">
+                    <i class="fas fa-headset"></i>
+                    <h4>售后保障</h4>
+                    <p>7×24 技术支持服务</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>成功案例</h2>
+                <p>服务众多行业客户</p>
+            </div>
+            <div class="cases-grid">
+                <div class="case-card">
+                    <h3><i class="fas fa-hospital"></i> 医疗机构</h3>
+                    <p>为医院提供智能化系统集成</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 门诊综合布线</li>
+                        <li><i class="fas fa-check"></i> 病房监控系统</li>
+                        <li><i class="fas fa-check"></i> 排队叫号系统</li>
+                    </ul>
+                </div>
+                <div class="case-card">
+                    <h3><i class="fas fa-building"></i> 办公楼宇</h3>
+                    <p>企业总部智能化办公环境</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 综合网络布线</li>
+                        <li><i class="fas fa-check"></i> 门禁考勤系统</li>
+                        <li><i class="fas fa-check"></i> 视频会议系统</li>
+                    </ul>
+                </div>
+                <div class="case-card">
+                    <h3><i class="fas fa-industry"></i> 产业园区</h3>
+                    <p>智慧园区弱电基础设施</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 园区光纤网络</li>
+                        <li><i class="fas fa-check"></i> 周界安防监控</li>
+                        <li><i class="fas fa-check"></i> 数据中心建设</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>🚀 开启您的智能化项目</h2>
+            <p>联系我们，获取免费勘测和报价方案</p>
+            <div class="cta-buttons">
+                <a href="/contact/" class="btn btn-primary"><i class="fas fa-phone"></i> 咨询报价</a>
+                <a href="/solutions/" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 返回解决方案</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
