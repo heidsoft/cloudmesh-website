@@ -11,8 +11,8 @@
     <style>
         :root { --primary: #667eea; --secondary: #764ba2; --bg-dark: #0f0f1a; --bg-card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.08); --text-primary: #fff; --text-secondary: #a0aec0; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-dark); color: var(--text-primary); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 80px 20px 40px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-dark); color: var(--text-primary); padding-top: 70px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
         .header { text-align: center; margin-bottom: 60px; }
         .header h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .header p { color: var(--text-secondary); font-size: 18px; }
@@ -25,20 +25,7 @@
         .blog-card .meta { display: flex; gap: 20px; font-size: 13px; color: var(--text-secondary); }
         .nav-links { display: flex; gap: 16px; justify-content: center; margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border); flex-wrap: wrap; }
         .nav-links a { padding: 14px 28px; background: rgba(102,126,234,0.1); border-radius: 12px; color: var(--primary); text-decoration: none; font-weight: 600; }
-        @media (max-width: 768px) { .container { padding: 60px 16px 30px; } .header h1 { font-size: 36px; } .blog-grid { grid-template-columns: 1fr; } }
-        
-        /* Navbar 样式 */
-        .navbar { background: rgba(15,15,26,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 16px 0; }
-        .navbar-brand { font-size: 20px; font-weight: 700; color: #fff !important; display: flex; align-items: center; gap: 10px; }
-        .navbar-brand i { color: #667eea; }
-        .nav-link { color: #a0aec0 !important; font-weight: 500; padding: 8px 16px !important; transition: all 0.3s; }
-        .nav-link:hover, .nav-link.active { color: #fff !important; }
-        .btn-trial { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff !important; border-radius: 8px; }
-        .btn-trial:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102,126,234,0.4); }
-        .dropdown-menu { background: rgba(15,15,26,0.98); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
-        .dropdown-item { color: #a0aec0; padding: 10px 20px; }
-        .dropdown-item:hover { background: rgba(102,126,234,0.1); color: #fff; }
-        .dropdown-divider { border-color: rgba(255,255,255,0.08); }
+        @media (max-width: 768px) { .container { padding: 30px 16px; } .header h1 { font-size: 36px; } .blog-grid { grid-template-columns: 1fr; } body { padding-top: 60px; } }
     </style>
     
     <!-- Bootstrap JS -->
@@ -46,11 +33,11 @@
 </head>
 <body>
     <!-- 统一导航栏 -->
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <nav class="navbar navbar-expand-lg" id="navbar">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <i class="fas fa-cloud"></i>
-                <span>CloudMesh</span>
+                CloudMesh
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -68,7 +55,7 @@
                         </ul>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/blog/">博客</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/blog/">博客</a></li>
                     <li class="nav-item"><a class="nav-link" href="/pricing.html">定价</a></li>
                     <li class="nav-item"><a class="nav-link" href="/docs/quickstart.html">文档</a></li>
                     <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
@@ -90,6 +77,16 @@
         </div>
 
         <div class="blog-grid">
+            <a href="/blog/itsm-code-review.html" class="blog-card">
+                <span class="tag">代码审查</span>
+                <h2>🔍 ITSM 开源项目代码质量审查实战</h2>
+                <p>Go + Next.js 项目踩坑记录。分享代码审查过程中发现的问题和解决方案，包括 panic 处理、版本兼容、类型问题等。</p>
+                <div class="meta">
+                    <span><i class="far fa-calendar"></i> 2026-03-17</span>
+                    <span><i class="far fa-clock"></i> 8 分钟</span>
+                </div>
+            </a>
+
             <a href="/blog/changelog-march-2026.html" class="blog-card">
                 <span class="tag">更新日志</span>
                 <h2>📦 更新日志 - 2026 年 3 月</h2>
