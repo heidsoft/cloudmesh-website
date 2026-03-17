@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解决方案 - CloudMesh | 智能化解决方案提供商</title>
+    <meta name="description" content="CloudMesh 提供医疗知识库问答、智能排队叫号、弱电工程等智能化解决方案，助力企业数字化转型">
+    <meta name="keywords" content="医疗知识库,排队叫号系统,弱电工程,智能化解决方案,CloudMesh">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        :root { 
+            --primary: #667eea; 
+            --secondary: #764ba2; 
+            --success: #10b981; 
+            --bg-dark: #0f0f1a; 
+            --bg-card: rgba(255,255,255,0.03); 
+            --border: rgba(255,255,255,0.08); 
+            --text-primary: #fff; 
+            --text-secondary: #a0aec0; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: var(--bg-dark); 
+            color: var(--text-primary); 
+            padding-top: 70px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .hero p {
+            font-size: 20px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* Solutions Grid */
+        .solutions-section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-title p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 32px;
+        }
+        
+        .solution-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .solution-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(102,126,234,0.3);
+            box-shadow: 0 20px 60px rgba(102,126,234,0.15);
+        }
+        
+        .card-header {
+            padding: 40px 32px 24px;
+            background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .card-header .icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .card-header .icon.medical { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .card-header .icon.queue { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .card-header .icon.engineering { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        
+        .card-header h3 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .card-header .tagline {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        
+        .card-body {
+            padding: 32px;
+        }
+        .card-body h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .card-body ul {
+            list-style: none;
+            padding: 0;
+        }
+        .card-body li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .card-body li:last-child {
+            border-bottom: none;
+        }
+        .card-body li i {
+            color: var(--success);
+            margin-top: 4px;
+        }
+        
+        .card-footer {
+            padding: 24px 32px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 16px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102,126,234,0.3);
+        }
+        .btn-secondary {
+            background: rgba(102,126,234,0.1);
+            color: var(--primary);
+        }
+        .btn-secondary:hover {
+            background: rgba(102,126,234,0.2);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 80px 0;
+            background: rgba(102,126,234,0.03);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 32px;
+        }
+        .feature-item .number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+        .feature-item .label {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+        }
+        .cta-section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 18px;
+            margin-bottom: 32px;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-large {
+            padding: 16px 40px;
+            font-size: 16px;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(15,15,26,0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+        .navbar-brand { color: var(--text-primary) !important; font-weight: 700; }
+        .nav-link { color: var(--text-secondary) !important; }
+        .nav-link:hover, .nav-link.active { color: var(--primary) !important; }
+        .btn-trial {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white !important;
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 992px) {
+            .solutions-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 576px) {
+            .hero h1 { font-size: 32px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .card-footer { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-cloud"></i> CloudMesh</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">产品</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/products/openclaw.html"><i class="fas fa-rocket"></i> OpenClaw</a></li>
+                            <li><a class="dropdown-item" href="/products/itsm.html"><i class="fas fa-ticket-alt"></i> ITSM</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="/solutions/">解决方案</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog/">博客</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/docs/quickstart.html">文档</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-trial ms-2" href="/deploy/"><i class="fas fa-rocket"></i> 免费试用</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>🏢 行业解决方案</h1>
+            <p>深耕行业场景，提供一站式智能化解决方案，助力企业数字化转型</p>
+        </div>
+    </section>
+
+    <!-- Solutions Grid -->
+    <section class="solutions-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>我们的解决方案</h2>
+                <p>覆盖医疗、政务、企业等多个行业领域</p>
+            </div>
+
+            <div class="solutions-grid">
+                <!-- 医疗知识库问答系统 -->
+                <div class="solution-card">
+                    <div class="card-header">
+                        <div class="icon medical"><i class="fas fa-hospital-user"></i></div>
+                        <h3>医疗知识库问答系统</h3>
+                        <p class="tagline">AI 驱动的智能医疗问答平台</p>
+                    </div>
+                    <div class="card-body">
+                        <h4><i class="fas fa-check-circle"></i> 核心功能</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> <span>智能问答：基于 RAG 技术，精准回答医疗咨询问题</span></li>
+                            <li><i class="fas fa-check"></i> <span>知识库管理：支持文档导入、自动向量化、实时更新</span></li>
+                            <li><i class="fas fa-check"></i> <span>多终端适配：Web、小程序、APP 全平台覆盖</span></li>
+                            <li><i class="fas fa-check"></i> <span>隐私保护：本地部署，数据不出院，符合等保要求</span></li>
+                            <li><i class="fas fa-check"></i> <span>持续学习：问答记录自动优化知识库准确性</span></li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/solutions/medical-knowledge.html" class="btn btn-primary">了解详情</a>
+                        <a href="/contact/" class="btn btn-secondary">预约演示</a>
+                    </div>
+                </div>
+
+                <!-- 智能排队叫号系统 -->
+                <div class="solution-card">
+                    <div class="card-header">
+                        <div class="icon queue"><i class="fas fa-users-line"></i></div>
+                        <h3>智能排队叫号系统</h3>
+                        <p class="tagline">提升服务效率，优化客户体验</p>
+                    </div>
+                    <div class="card-body">
+                        <h4><i class="fas fa-check-circle"></i> 核心功能</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> <span>多渠道预约：微信、APP、现场自助机多种取号方式</span></li>
+                            <li><i class="fas fa-check"></i> <span>智能分流：根据业务类型、窗口状态自动分配排队</span></li>
+                            <li><i class="fas fa-check"></i> <span>实时通知：短信、微信推送排队进度，减少等待焦虑</span></li>
+                            <li><i class="fas fa-check"></i> <span>数据看板：客流分析、窗口效率、服务评价全面统计</span></li>
+                            <li><i class="fas fa-check"></i> <span>硬件集成：支持各类叫号屏、评价器、自助终端</span></li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/solutions/queue-system.html" class="btn btn-primary">了解详情</a>
+                        <a href="/contact/" class="btn btn-secondary">预约演示</a>
+                    </div>
+                </div>
+
+                <!-- 弱电工程服务 -->
+                <div class="solution-card">
+                    <div class="card-header">
+                        <div class="icon engineering"><i class="fas fa-network-wired"></i></div>
+                        <h3>弱电工程服务</h3>
+                        <p class="tagline">专业的智能化工程设计与施工</p>
+                    </div>
+                    <div class="card-body">
+                        <h4><i class="fas fa-check-circle"></i> 服务范围</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> <span>综合布线：办公室、园区网络布线，光纤入户工程</span></li>
+                            <li><i class="fas fa-check"></i> <span>监控系统：高清监控、智能分析、远程巡查系统</span></li>
+                            <li><i class="fas fa-check"></i> <span>门禁考勤：人脸识别、指纹门禁、访客管理系统</span></li>
+                            <li><i class="fas fa-check"></i> <span>广播会议：公共广播、视频会议、多媒体教室</span></li>
+                            <li><i class="fas fa-check"></i> <span>机房建设：UPS 电源、精密空调、环境监控系统</span></li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/solutions/weak-current.html" class="btn btn-primary">了解详情</a>
+                        <a href="/contact/" class="btn btn-secondary">咨询报价</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Stats -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="number">50+</div>
+                    <div class="label">成功案例</div>
+                </div>
+                <div class="feature-item">
+                    <div class="number">99.9%</div>
+                    <div class="label">系统可用性</div>
+                </div>
+                <div class="feature-item">
+                    <div class="number">7×24</div>
+                    <div class="label">技术支持</div>
+                </div>
+                <div class="feature-item">
+                    <div class="number">100%</div>
+                    <div class="label">客户满意度</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>🚀 开启智能化转型之旅</h2>
+            <p>联系我们，获取专属解决方案和报价</p>
+            <div class="cta-buttons">
+                <a href="/contact/" class="btn btn-primary btn-large"><i class="fas fa-phone"></i> 立即咨询</a>
+                <a href="/deploy/" class="btn btn-secondary btn-large"><i class="fas fa-rocket"></i> 免费试用</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
