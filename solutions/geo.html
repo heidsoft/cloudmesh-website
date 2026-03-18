@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO 生成式引擎优化服务 - CloudMesh 解决方案</title>
+    <meta name="description" content="专业的 GEO (Generative Engine Optimization) 服务，帮助品牌在 ChatGPT、Perplexity、Claude 等 AI 搜索引擎中获得更多曝光">
+    <meta name="keywords" content="GEO,生成式引擎优化,AI搜索优化,ChatGPT优化,Perplexity优化,AI搜索引擎,品牌AI曝光">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="GEO 生成式引擎优化服务 - CloudMesh">
+    <meta property="og:description" content="让您的品牌在 AI 搜索引擎中被看见">
+    <meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    <meta property="og:url" content="https://cloudmesh.top/solutions/geo.html">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        :root { 
+            --primary: #667eea; 
+            --secondary: #764ba2; 
+            --accent: #00d9ff;
+            --success: #10b981; 
+            --bg-dark: #0f0f1a; 
+            --bg-card: rgba(255,255,255,0.03); 
+            --border: rgba(255,255,255,0.08); 
+            --text-primary: #fff; 
+            --text-secondary: #a0aec0; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: var(--bg-dark); 
+            color: var(--text-primary); 
+            padding-top: 70px;
+            line-height: 1.7;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        .navbar .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+        .navbar .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #00d9ff 100%);
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        .hero .icon {
+            font-size: 80px;
+            margin-bottom: 24px;
+            position: relative;
+            display: inline-block;
+        }
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .hero .subtitle {
+            font-size: 28px;
+            opacity: 0.95;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            margin-top: 24px;
+            position: relative;
+        }
+        
+        /* Stats */
+        .stats-section {
+            background: rgba(102,126,234,0.05);
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+        .stat-item h3 {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        .stat-item p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        
+        /* Section */
+        .section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-title p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        
+        /* GEO vs SEO */
+        .comparison {
+            background: rgba(102,126,234,0.03);
+        }
+        .comparison-table {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .comparison-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        .comparison-table td:first-child {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .comparison-table td:nth-child(2) {
+            background: rgba(255,255,255,0.02);
+        }
+        .comparison-table td:nth-child(3) {
+            background: rgba(0,217,255,0.05);
+        }
+        
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0,217,255,0.3);
+            box-shadow: 0 20px 60px rgba(0,217,255,0.1);
+        }
+        .service-card .icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+        .service-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .service-card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        .service-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .service-card li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .service-card li:last-child {
+            border-bottom: none;
+        }
+        .service-card li i {
+            color: var(--accent);
+        }
+        .service-card .price {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        .service-card .price span {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .service-card .price small {
+            color: var(--text-secondary);
+            margin-left: 8px;
+        }
+        
+        /* Engines */
+        .engines-section {
+            background: rgba(102,126,234,0.03);
+        }
+        .engines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        .engine-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .engine-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .engine-card .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .engine-card h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .engine-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        /* Process */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: var(--accent);
+        }
+        .process-step:last-child::after {
+            display: none;
+        }
+        .process-step .number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+        .process-step h4 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        .process-step p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* FAQ */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .faq-item .question {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 17px;
+            font-weight: 500;
+        }
+        .faq-item .question:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        .faq-item .answer {
+            padding: 0 24px 24px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 32px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: #fff;
+            color: var(--primary);
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.3);
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .hero .subtitle { font-size: 20px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-grid { grid-template-columns: 1fr; gap: 24px; }
+            .process-step::after { display: none; }
+            .navbar .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">CloudMesh</a>
+            <div class="nav-links">
+                <a href="/">首页</a>
+                <a href="/solutions/">解决方案</a>
+                <a href="/products/">产品</a>
+                <a href="/pricing.html">定价</a>
+                <a href="/contact/">联系</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="icon">🤖</div>
+            <h1>GEO 生成式引擎优化</h1>
+            <div class="subtitle">让您的品牌在 AI 时代被看见</div>
+            <p>从传统 SEO 转向 GEO，帮助品牌在 ChatGPT、Perplexity、Claude 等 AI 搜索引擎中获得更多曝光和推荐</p>
+            <div class="badge">🚀 新一代搜索优化服务</div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>50%</h3>
+                    <p>搜索将转向 AI</p>
+                </div>
+                <div class="stat-item">
+                    <h3>3x</h3>
+                    <p>AI 引用转化率</p>
+                </div>
+                <div class="stat-item">
+                    <h3>5+</h3>
+                    <p>支持 AI 引擎</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>数据驱动优化</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEO vs GEO -->
+    <section class="section comparison">
+        <div class="container">
+            <div class="section-title">
+                <h2>SEO vs GEO：时代的转变</h2>
+                <p>从搜索引擎优化到生成式引擎优化，抢占 AI 搜索先机</p>
+            </div>
+            <div class="comparison-table">
+                <table>
+                    <tr>
+                        <th>对比维度</th>
+                        <th>SEO（传统搜索）</th>
+                        <th>GEO（AI 搜索）</th>
+                    </tr>
+                    <tr>
+                        <td>目标平台</td>
+                        <td>Google、百度</td>
+                        <td>ChatGPT、Perplexity、Claude、文心一言</td>
+                    </tr>
+                    <tr>
+                        <td>优化目标</td>
+                        <td>关键词排名、点击率</td>
+                        <td>被 AI 引用、出现在 AI 答案中</td>
+                    </tr>
+                    <tr>
+                        <td>用户行为</td>
+                        <td>搜索 → 点击链接</td>
+                        <td>提问 → 直接获得答案（零点击）</td>
+                    </tr>
+                    <tr>
+                        <td>内容策略</td>
+                        <td>关键词密度、外链建设</td>
+                        <td>权威性、结构化、易被 LLM 理解</td>
+                    </tr>
+                    <tr>
+                        <td>竞争态势</td>
+                        <td>高度内卷，红海市场</td>
+                        <td>新兴领域，蓝海机会</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>服务内容</h2>
+                <p>全方位 GEO 优化服务，助力品牌 AI 曝光</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon">🔍</div>
+                    <h3>GEO 诊断报告</h3>
+                    <p>全面检测品牌在各 AI 引擎中的曝光和认知度</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> ChatGPT 品牌认知检测</li>
+                        <li><i class="fas fa-check"></i> Perplexity 引用分析</li>
+                        <li><i class="fas fa-check"></i> Claude 问答测试</li>
+                        <li><i class="fas fa-check"></i> GEO 综合评分报告</li>
+                        <li><i class="fas fa-check"></i> 优化建议清单</li>
+                    </ul>
+                    <div class="price">
+                        <span>¥999</span><small>起/次</small>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="icon">✏️</div>
+                    <h3>内容 GEO 优化</h3>
+                    <p>优化现有内容，让 AI 更容易理解和引用</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 内容结构化改造</li>
+                        <li><i class="fas fa-check"></i> Schema.org 标记优化</li>
+                        <li><i class="fas fa-check"></i> FAQ 问答模块建设</li>
+                        <li><i class="fas fa-check"></i> 数据表格优化</li>
+                        <li><i class="fas fa-check"></i> 权威来源标注</li>
+                    </ul>
+                    <div class="price">
+                        <span>¥2,999</span><small>起/项目</small>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="icon">📈</div>
+                    <h3>品牌 AI 曝光</h3>
+                    <p>提升品牌在 AI 引擎中的出现频率和推荐优先级</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 多平台品牌提及建设</li>
+                        <li><i class="fas fa-check"></i> 知识图谱覆盖</li>
+                        <li><i class="fas fa-check"></i> 权威内容发布</li>
+                        <li><i class="fas fa-check"></i> 行业报告撰写</li>
+                        <li><i class="fas fa-check"></i> 持续监测优化</li>
+                    </ul>
+                    <div class="price">
+                        <span>¥4,999</span><small>起/月</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Engines -->
+    <section class="section engines-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>支持的 AI 引擎</h2>
+                <p>覆盖主流 AI 搜索平台，全方位提升品牌曝光</p>
+            </div>
+            <div class="engines-grid">
+                <div class="engine-card">
+                    <div class="icon">🤖</div>
+                    <h4>ChatGPT</h4>
+                    <p>OpenAI GPT 系列</p>
+                </div>
+                <div class="engine-card">
+                    <div class="icon">🔍</div>
+                    <h4>Perplexity</h4>
+                    <p>AI 搜索引擎</p>
+                </div>
+                <div class="engine-card">
+                    <div class="icon">🧠</div>
+                    <h4>Claude</h4>
+                    <p>Anthropic AI</p>
+                </div>
+                <div class="engine-card">
+                    <div class="icon">🌐</div>
+                    <h4>Google SGE</h4>
+                    <p>生成式搜索体验</p>
+                </div>
+                <div class="engine-card">
+                    <div class="icon">📝</div>
+                    <h4>文心一言</h4>
+                    <p>百度 AI 大模型</p>
+                </div>
+                <div class="engine-card">
+                    <div class="icon">💬</div>
+                    <h4>通义千问</h4>
+                    <p>阿里 AI 大模型</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>服务流程</h2>
+                <p>标准化流程，确保服务质量</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="number">1</div>
+                    <h4>需求沟通</h4>
+                    <p>了解品牌定位、目标用户、竞品情况</p>
+                </div>
+                <div class="process-step">
+                    <div class="number">2</div>
+                    <h4>诊断分析</h4>
+                    <p>检测各 AI 引擎品牌表现，生成诊断报告</p>
+                </div>
+                <div class="process-step">
+                    <div class="number">3</div>
+                    <h4>优化执行</h4>
+                    <p>内容优化、权威建设、多平台覆盖</p>
+                </div>
+                <div class="process-step">
+                    <div class="number">4</div>
+                    <h4>持续监测</h4>
+                    <p>定期检测 GEO 表现，持续优化改进</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" style="background: rgba(102,126,234,0.03);">
+        <div class="container">
+            <div class="section-title">
+                <h2>常见问题</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="question">
+                        <span>GEO 和 SEO 需要同时做吗？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="answer">
+                        建议同时进行。SEO 仍然是重要的流量来源，而 GEO 则是面向未来的布局。两者相辅相成，优质的内容结构和权威性建设对两者都有帮助。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">
+                        <span>GEO 优化多久能看到效果？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="answer">
+                        通常 1-3 个月可以看到初步效果。AI 模型会定期更新训练数据，持续的内容优化和权威建设能够逐步提升品牌在 AI 回答中的出现频率。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">
+                        <span>哪些行业适合做 GEO？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="answer">
+                        所有面向消费者的品牌都适合。特别是：B2B 服务、本地服务、电商品牌、知识付费、咨询服务、SaaS 产品等。用户越来越倾向于直接问 AI 获取推荐。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">
+                        <span>如何衡量 GEO 效果？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="answer">
+                        我们提供量化指标：品牌提及率、AI 引擎覆盖度、推荐优先级、GEO 综合评分等。每次诊断都会生成详细报告，清晰展示优化效果。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>准备好让您的品牌在 AI 时代脱颖而出了吗？</h2>
+            <p>免费获取 GEO 诊断预览，了解您的品牌在 AI 搜索中的表现</p>
+            <a href="/contact/" class="cta-btn">立即咨询</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CloudMesh. All rights reserved. | <a href="/" style="color: var(--text-secondary);">首页</a> | <a href="/solutions/" style="color: var(--text-secondary);">解决方案</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-item .question').forEach(item => {
+            item.addEventListener('click', () => {
+                const answer = item.nextElementSibling;
+                const isOpen = answer.style.display === 'block';
+                answer.style.display = isOpen ? 'none' : 'block';
+                item.querySelector('i').style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+            });
+        });
+    </script>
+</body>
+</html>
