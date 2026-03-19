@@ -3,16 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>博客 - OpenClaw | AI 驱动的 DevOps 技术分享</title>
-    <meta name="description" content="OpenClaw 技术博客，分享 AI Agent、DevOps、自动化运维等最佳实践">
-    <meta name="keywords" content="OpenClaw,博客，技术分享，AI Agent,DevOps">
+    <title>博客 - ClawOps | AI 驱动的 DevOps 技术分享</title>
+    <meta name="description" content="ClawOps 技术博客，分享 AI Agent、DevOps、自动化运维等最佳实践">
+    <meta name="keywords" content="ClawOps,博客，技术分享，AI Agent,DevOps">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="ClawOps 博客 - 技术分享">
+    <meta property="og:description" content="AI 驱动的 DevOps 技术分享与最佳实践">
+    <meta property="og:url" content="https://cloudmesh.top/blog/">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
     <style>
-        :root { --primary: #667eea; --secondary: #764ba2; --bg-dark: #0f0f1a; --bg-card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.08); --text-primary: #fff; --text-secondary: #a0aec0; }
+        :root { 
+            --primary: #667eea; 
+            --secondary: #764ba2; 
+            --bg-dark: #0f0f1a; 
+            --bg-card: rgba(255,255,255,0.03); 
+            --border: rgba(255,255,255,0.08); 
+            --text-primary: #fff; 
+            --text-secondary: #a0aec0; 
+            --glass-blur: blur(20px);
+            --glass-border: rgba(255,255,255,0.08);
+            --gray-400: #a0aec0;
+            --white: #fff;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-dark); color: var(--text-primary); padding-top: 70px; }
         .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        .navbar-brand i { font-size: 1.5rem; }
+        .nav-link { 
+            color: var(--gray-400) !important; 
+            font-weight: 600; 
+            padding: 0.5rem 1.25rem !important;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--white) !important; }
+        .btn-trial {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white) !important;
+            border-radius: 50px;
+            padding: 0.625rem 1.75rem !important;
+            font-weight: 700;
+        }
+        .dropdown-menu {
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 0.75rem;
+        }
+        .dropdown-item {
+            border-radius: 10px;
+            padding: 0.75rem 1.25rem;
+            color: var(--gray-400);
+            transition: all 0.3s ease;
+        }
+        .dropdown-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--white);
+        }
+        .dropdown-item i { width: 20px; margin-right: 10px; }
+        
+        /* Blog Styles */
         .header { text-align: center; margin-bottom: 60px; }
         .header h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .header p { color: var(--text-secondary); font-size: 18px; }
@@ -25,6 +104,29 @@
         .blog-card .meta { display: flex; gap: 20px; font-size: 13px; color: var(--text-secondary); }
         .nav-links { display: flex; gap: 16px; justify-content: center; margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border); flex-wrap: wrap; }
         .nav-links a { padding: 14px 28px; background: rgba(102,126,234,0.1); border-radius: 12px; color: var(--primary); text-decoration: none; font-weight: 600; }
+        
+        @media (max-width: 991px) {
+            .navbar-toggler {
+                display: block !important;
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 8px 12px;
+            }
+            .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            }
+            .navbar-collapse {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 15, 35, 0.98);
+                padding: 20px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            .navbar-nav { padding-bottom: 10px; }
+        }
         @media (max-width: 768px) { .container { padding: 30px 16px; } .header h1 { font-size: 36px; } .blog-grid { grid-template-columns: 1fr; } body { padding-top: 60px; } }
     </style>
     
@@ -48,12 +150,13 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">产品</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/products/openclaw.html"><i class="fas fa-rocket"></i> OpenClaw</a></li>
+                            <li><a class="dropdown-item" href="/products/clawops.html"><i class="fas fa-rocket"></i> ClawOps</a></li>
                             <li><a class="dropdown-item" href="/products/itsm.html"><i class="fas fa-ticket-alt"></i> ITSM</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/openclaw-generator/"><i class="fas fa-wrench"></i> 配置生成器 <span class="badge bg-warning text-dark ms-1">免费</span></a></li>
                         </ul>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="/solutions/">解决方案</a></li>
                     <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/blog/">博客</a></li>
                     <li class="nav-item"><a class="nav-link" href="/pricing.html">定价</a></li>
@@ -72,7 +175,7 @@
 
     <div class="container" style="padding-top: 40px;">
         <div class="header">
-            <h1>📝 OpenClaw 博客</h1>
+            <h1>📝 ClawOps 博客</h1>
             <p>技术分享 · 最佳实践 · 产品更新</p>
         </div>
 
@@ -90,7 +193,7 @@
             <a href="/blog/changelog-march-2026.html" class="blog-card">
                 <span class="tag">更新日志</span>
                 <h2>📦 更新日志 - 2026 年 3 月</h2>
-                <p>OpenClaw 3 月更新：配置生成器上线、安全功能增强、性能优化、文档系统完善等新功能和改进。</p>
+                <p>ClawOps 3 月更新：配置生成器上线、安全功能增强、性能优化、文档系统完善等新功能和改进。</p>
                 <div class="meta">
                     <span><i class="far fa-calendar"></i> 2026-03-11</span>
                     <span><i class="far fa-clock"></i> 5 分钟</span>
@@ -99,7 +202,7 @@
 
             <a href="/blog/security-best-practices.html" class="blog-card">
                 <span class="tag">安全</span>
-                <h2>🔒 OpenClaw 安全最佳实践</h2>
+                <h2>🔒 ClawOps 安全最佳实践</h2>
                 <p>保护你的 API 密钥和数据。包括密钥管理、权限控制、审计日志、文件权限等安全措施和最佳实践。</p>
                 <div class="meta">
                     <span><i class="far fa-calendar"></i> 2026-03-11</span>
@@ -110,7 +213,7 @@
             <a href="/blog/skill-market-guide.html" class="blog-card">
                 <span class="tag">教程</span>
                 <h2>🧩 Skill 市场使用指南</h2>
-                <p>扩展你的 OpenClaw 能力。了解如何发现、安装和管理 Skill，让 AI 助手具备更多专业技能。</p>
+                <p>扩展你的 ClawOps 能力。了解如何发现、安装和管理 Skill，让 AI 助手具备更多专业技能。</p>
                 <div class="meta">
                     <span><i class="far fa-calendar"></i> 2026-03-11</span>
                     <span><i class="far fa-clock"></i> 6 分钟</span>
@@ -119,8 +222,8 @@
 
             <a href="/blog/openclaw-architecture.html" class="blog-card">
                 <span class="tag">架构设计</span>
-                <h2>🏗️ OpenClaw 架构设计 - 一人抵一个 DevOps 团队</h2>
-                <p>深入了解 OpenClaw 的架构设计，如何通过 AI Agent 实现一人抵一个 DevOps 团队。包括多 Agent 协作、技能模块化、系统架构等。</p>
+                <h2>🏗️ ClawOps 架构设计 - 一人抵一个 DevOps 团队</h2>
+                <p>深入了解 ClawOps 的架构设计，如何通过 AI Agent 实现一人抵一个 DevOps 团队。包括多 Agent 协作、技能模块化、系统架构等。</p>
                 <div class="meta">
                     <span><i class="far fa-calendar"></i> 2026-03-11</span>
                     <span><i class="far fa-clock"></i> 10 分钟</span>
@@ -129,8 +232,8 @@
 
             <a href="/blog/quickstart-tutorial.html" class="blog-card">
                 <span class="tag">教程</span>
-                <h2>⚡ 5 分钟快速上手 OpenClaw</h2>
-                <p>从 0 到 1 配置你的 AI 助手。本教程将带你用 5 分钟时间完成 OpenClaw 的配置和使用，适合新手快速入门。</p>
+                <h2>⚡ 5 分钟快速上手 ClawOps</h2>
+                <p>从 0 到 1 配置你的 AI 助手。本教程将带你用 5 分钟时间完成 ClawOps 的配置和使用，适合新手快速入门。</p>
                 <div class="meta">
                     <span><i class="far fa-calendar"></i> 2026-03-11</span>
                     <span><i class="far fa-clock"></i> 5 分钟</span>
@@ -140,7 +243,7 @@
             <a href="/blog/enterprise-deployment.html" class="blog-card">
                 <span class="tag">最佳实践</span>
                 <h2>🏢 企业部署最佳实践</h2>
-                <p>OpenClaw 生产环境部署指南。包括配置中心集成、密钥管理、多环境管理、监控告警等企业级功能。</p>
+                <p>ClawOps 生产环境部署指南。包括配置中心集成、密钥管理、多环境管理、监控告警等企业级功能。</p>
                 <div class="meta">
                     <span><i class="far fa-calendar"></i> 2026-03-11</span>
                     <span><i class="far fa-clock"></i> 15 分钟</span>

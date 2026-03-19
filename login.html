@@ -3,88 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录 - OpenClaw 部署管理系统</title>
+    <title>登录 - CloudMesh</title>
+    <meta name="description" content="登录 CloudMesh 平台">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #00d9ff;
+            --dark-900: #0a0a12;
+            --dark-800: #0f0f1a;
+            --dark-700: #16162a;
+            --white: #ffffff;
+            --gray-400: #a0aec0;
+            --gray-500: #718096;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(20px);
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-cyber: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-900);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
         }
-        .login-card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-            padding: 3rem;
-            max-width: 400px;
+
+        /* Background Animation */
+        .bg-gradient {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(102,126,234,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .bg-gradient-1 { top: -200px; right: -200px; }
+        .bg-gradient-2 { bottom: -200px; left: -200px; animation-delay: -7s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 30px) scale(1.1); }
+        }
+
+        .login-container {
             width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
         }
-        .login-title {
+
+        .login-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
+        }
+
+        .login-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
-        .login-title i {
-            color: #667eea;
+
+        .login-logo {
             font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .form-label {
+            color: var(--gray-400);
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            color: var(--white);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            color: var(--white);
+        }
+
+        .form-control::placeholder {
+            color: var(--gray-500);
+        }
+
+        .form-check-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--glass-border);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .form-check-label {
+            color: var(--gray-400);
+            font-size: 0.875rem;
+        }
+
+        .btn-login {
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--white);
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+            color: var(--white);
+        }
+
+        .login-hint {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .login-hint small {
+            color: var(--gray-500);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .login-footer a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .login-footer a:hover {
+            color: var(--accent);
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            margin-top: 1rem;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .back-home {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .back-home a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.875rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home a:hover {
+            color: var(--white);
+            border-color: var(--primary);
         }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <div class="login-title">
-            <i class="fas fa-rocket"></i>
-            <h2 class="mt-3">OpenClaw 部署管理系统</h2>
-            <p class="text-muted">请登录</p>
-        </div>
-        
-        <form id="loginForm">
-            <div class="mb-3">
-                <label class="form-label"><i class="fas fa-user"></i> 用户名</label>
-                <input type="text" class="form-control" id="username" placeholder="请输入用户名" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label"><i class="fas fa-lock"></i> 密码</label>
-                <input type="password" class="form-control" id="password" placeholder="请输入密码" required>
-            </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="remember">
-                <label class="form-check-label" for="remember">记住我</label>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">
-                <i class="fas fa-sign-in-alt"></i> 登录
-            </button>
-        </form>
-        
-        <div class="mt-4 text-center">
-            <small class="text-muted">默认账号：admin / admin</small>
-        </div>
-        
-        <div id="alertPlaceholder"></div>
+    <div class="bg-gradient bg-gradient-1"></div>
+    <div class="bg-gradient bg-gradient-2"></div>
+
+    <div class="back-home">
+        <a href="/">
+            <i class="fas fa-arrow-left"></i> 返回首页
+        </a>
     </div>
 
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h1 class="login-title">CloudMesh</h1>
+                <p class="login-subtitle">登录您的账户</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-user me-2"></i>用户名
+                    </label>
+                    <input type="text" class="form-control" id="username" placeholder="请输入用户名" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-lock me-2"></i>密码
+                    </label>
+                    <input type="password" class="form-control" id="password" placeholder="请输入密码" required>
+                </div>
+                <div class="mb-4 form-check">
+                    <input type="checkbox" class="form-check-input" id="remember">
+                    <label class="form-check-label" for="remember">记住我</label>
+                </div>
+                <button type="submit" class="btn btn-login">
+                    <i class="fas fa-sign-in-alt me-2"></i>登 录
+                </button>
+            </form>
+
+            <div class="login-hint">
+                <small>演示账号：admin / admin</small>
+            </div>
+
+            <div id="alertPlaceholder"></div>
+
+            <div class="login-footer">
+                <a href="/">返回首页</a>
+                <span class="mx-2" style="color: var(--gray-500);">|</span>
+                <a href="/contact/">需要帮助？</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            
-            try {
-                // 简单验证（实际应该调用后端 API）
-                if (username === 'admin' && password === 'admin') {
-                    localStorage.setItem('token', 'admin-token-' + Date.now());
-                    localStorage.setItem('username', username);
-                    showAlert('登录成功，正在跳转...', 'success');
-                    setTimeout(() => {
-                        window.location.href = '/';
-                    }, 1000);
-                } else {
-                    showAlert('用户名或密码错误', 'danger');
-                }
-            } catch (error) {
-                showAlert('登录失败：' + error.message, 'danger');
+
+            // 简单验证
+            if (username === 'admin' && password === 'admin') {
+                localStorage.setItem('token', 'admin-token-' + Date.now());
+                localStorage.setItem('username', username);
+                showAlert('登录成功，正在跳转...', 'success');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            } else {
+                showAlert('用户名或密码错误', 'danger');
             }
         });
 
@@ -92,17 +310,12 @@
             const placeholder = document.getElementById('alertPlaceholder');
             placeholder.innerHTML = `
                 <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
                     ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
                 </div>
             `;
         }
-
-        // 检查是否已登录
-        if (localStorage.getItem('token')) {
-            window.location.href = '/';
-        }
     </script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

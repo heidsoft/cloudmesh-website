@@ -12,61 +12,9 @@
     <meta property="og:description" content="让一个人也能像大公司一样高效运维">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cloudmesh.top/">
-    <meta property="og:image" content="https://cloudmesh.top/icons/apple-touch-icon.png">
-    <meta property="og:site_name" content="CloudMesh">
-    <meta property="og:locale" content="zh_CN">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="CloudMesh - AI 驱动的智能 IT 管理平台">
-    <meta name="twitter:description" content="让一个人也能像大公司一样高效运维">
-    <meta name="twitter:image" content="https://cloudmesh.top/icons/apple-touch-icon.png">
     
     <!-- Canonical -->
     <link rel="canonical" href="https://cloudmesh.top/">
-    
-    <!-- Schema.org Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "CloudMesh",
-      "alternateName": "云格科技",
-      "url": "https://cloudmesh.top",
-      "logo": "https://cloudmesh.top/icons/apple-touch-icon.png",
-      "description": "CloudMesh 是 AI 驱动的智能 IT 管理平台，整合 ClawOps DevOps 和 ITSM 工单系统",
-      "foundingDate": "2024",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "availableLanguage": ["Chinese", "English"]
-      },
-      "sameAs": [
-        "https://github.com/heidsoft/itsm",
-        "https://space.bilibili.com/349309176"
-      ]
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "CloudMesh",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web-based",
-      "description": "AI 驱动的智能 IT 管理平台，整合 ClawOps DevOps 和 ITSM 工单系统",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "CNY"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "156"
-      }
-    }
-    </script>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
@@ -111,11 +59,6 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html, body {
-            overflow-x: hidden;
-            max-width: 100vw;
-        }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -382,7 +325,7 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 32px;
         }
 
@@ -497,7 +440,7 @@
 
         .solutions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 32px;
         }
 
@@ -579,10 +522,6 @@
             gap: 40px;
         }
 
-        #skills-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
         .feature-card {
             text-align: center;
             padding: 32px;
@@ -631,7 +570,7 @@
 
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 40px;
             margin-bottom: 40px;
         }
@@ -692,14 +631,11 @@
                 max-height: 80vh;
                 overflow-y: auto;
             }
-            .features-grid, #skills-grid {
+            .features-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             .footer-grid {
                 grid-template-columns: repeat(3, 1fr);
-            }
-            .trust-grid {
-                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -707,7 +643,7 @@
             .hero-title {
                 font-size: 2.5rem;
             }
-            .features-grid, #skills-grid {
+            .features-grid {
                 grid-template-columns: 1fr;
             }
             .products-grid, .solutions-grid {
@@ -715,24 +651,6 @@
             }
             .footer-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .trust-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .trusted-logos {
-                gap: 30px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            .trust-number {
-                font-size: 2rem;
-            }
-            .container {
-                padding: 0 15px;
             }
         }
 
@@ -750,81 +668,6 @@
 
         .fade-in-up {
             animation: fadeInUp 0.8s ease-out;
-        }
-
-        /* ===== Trust Section ===== */
-        .trust-section {
-            padding: 60px 0;
-            background: var(--dark-700);
-        }
-
-        .trust-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            text-align: center;
-        }
-
-        .trust-item {
-            padding: 20px;
-        }
-
-        .trust-number {
-            font-size: 3rem;
-            font-weight: 800;
-            background: var(--gradient-cyber);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-
-        .trust-number span {
-            font-size: 1.5rem;
-        }
-
-        .trust-label {
-            color: var(--gray-500);
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        /* ===== Trusted By Section ===== */
-        .trusted-section {
-            padding: 60px 0;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .trusted-title {
-            text-align: center;
-            color: var(--gray-500);
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-        }
-
-        .trusted-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 60px;
-            flex-wrap: wrap;
-            opacity: 0.6;
-        }
-
-        .trusted-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--gray-400);
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .trusted-logo i {
-            font-size: 1.5rem;
-            color: var(--gray-500);
         }
     </style>
 </head>
@@ -907,44 +750,6 @@
                     <a onclick="showSection('products')" class="btn-hero btn-hero-outline">
                         <i class="fas fa-play"></i> 了解产品
                     </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trust Stats -->
-        <section class="trust-section">
-            <div class="container">
-                <div class="trust-grid">
-                    <div class="trust-item">
-                        <div class="trust-number">1000<span>+</span></div>
-                        <div class="trust-label">企业用户</div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-number">50<span>万+</span></div>
-                        <div class="trust-label">处理工单</div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-number">99.9<span>%</span></div>
-                        <div class="trust-label">系统可用性</div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-number">7×24</div>
-                        <div class="trust-label">技术支持</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trusted By -->
-        <section class="trusted-section">
-            <div class="container">
-                <p class="trusted-title">受到众多企业信赖</p>
-                <div class="trusted-logos">
-                    <div class="trusted-logo"><i class="fas fa-building"></i> 某科技公司</div>
-                    <div class="trusted-logo"><i class="fas fa-hospital"></i> 某医疗机构</div>
-                    <div class="trusted-logo"><i class="fas fa-university"></i> 某教育集团</div>
-                    <div class="trusted-logo"><i class="fas fa-industry"></i> 某制造企业</div>
-                    <div class="trusted-logo"><i class="fas fa-store"></i> 某零售连锁</div>
                 </div>
             </div>
         </section>
@@ -1077,7 +882,7 @@
                     <h2>🧩 Skill 技能市场</h2>
                     <p>像安装 App 一样扩展你的 AI 助手能力</p>
                 </div>
-                <div class="features-grid" id="skills-grid">
+                <div class="features-grid" style="grid-template-columns: repeat(4, 1fr);">
                     <div class="feature-card" style="background: var(--glass-bg); border-radius: 16px; border: 1px solid var(--glass-border);">
                         <span class="feature-icon" style="font-size: 3rem;">💬</span>
                         <h4 style="margin: 16px 0 8px;">钉钉机器人</h4>
@@ -1139,83 +944,7 @@
                 <p>AI 驱动的企业级 IT 管理解决方案</p>
             </div>
             <div class="products-grid">
-                <!-- ClawOps -->
-                    <div class="product-card">
-                        <div class="product-header clawops">
-                            <div class="product-icon">🤖</div>
-                            <h3>ClawOps</h3>
-                            <p>一个人的 DevOps 团队</p>
-                        </div>
-                        <div class="product-body">
-                            <ul class="product-features">
-                                <li><i class="fas fa-check-circle"></i> AI 对话运维，自然语言交互</li>
-                                <li><i class="fas fa-check-circle"></i> 多平台支持（钉钉/飞书/企微）</li>
-                                <li><i class="fas fa-check-circle"></i> 多云管理，统一运维</li>
-                                <li><i class="fas fa-check-circle"></i> 监控告警，自动化运维</li>
-                                <li><i class="fas fa-check-circle"></i> Skill 扩展系统</li>
-                            </ul>
-                        </div>
-                        <div class="product-actions">
-                            <a href="/products/clawops.html" class="btn-product btn-product-primary">
-                                <i class="fas fa-info-circle"></i> 了解详情
-                            </a>
-                            <a href="/deploy/" class="btn-product btn-product-outline">
-                                <i class="fas fa-play"></i> 立即体验
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- ITSM -->
-                    <div class="product-card">
-                        <div class="product-header itsm">
-                            <div class="product-icon">📋</div>
-                            <h3>ITSM</h3>
-                            <p>企业级 IT 服务管理平台</p>
-                        </div>
-                        <div class="product-body">
-                            <ul class="product-features">
-                                <li><i class="fas fa-check-circle"></i> 完整的 ITIL 流程支持</li>
-                                <li><i class="fas fa-check-circle"></i> 智能工单管理与分配</li>
-                                <li><i class="fas fa-check-circle"></i> SLA 服务级别管理</li>
-                                <li><i class="fas fa-check-circle"></i> CMDB 配置管理数据库</li>
-                                <li><i class="fas fa-check-circle"></i> 知识库与自助服务</li>
-                            </ul>
-                        </div>
-                        <div class="product-actions">
-                            <a href="/products/itsm.html" class="btn-product btn-product-primary">
-                                <i class="fas fa-info-circle"></i> 了解详情
-                            </a>
-                            <a href="/tickets/" class="btn-product btn-product-outline">
-                                <i class="fas fa-play"></i> 立即体验
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- GEO -->
-                    <div class="product-card">
-                        <div class="product-header geo">
-                            <div class="product-icon">🔍</div>
-                            <h3>GEO 服务</h3>
-                            <p>让品牌在 AI 时代被看见</p>
-                        </div>
-                        <div class="product-body">
-                            <ul class="product-features">
-                                <li><i class="fas fa-check-circle"></i> AI 引擎品牌曝光诊断</li>
-                                <li><i class="fas fa-check-circle"></i> ChatGPT/Perplexity 优化</li>
-                                <li><i class="fas fa-check-circle"></i> 内容结构化改造</li>
-                                <li><i class="fas fa-check-circle"></i> 权威来源建设</li>
-                                <li><i class="fas fa-check-circle"></i> GEO 综合评分报告</li>
-                            </ul>
-                        </div>
-                        <div class="product-actions">
-                            <a href="/solutions/geo.html" class="btn-product btn-product-primary">
-                                <i class="fas fa-info-circle"></i> 了解详情
-                            </a>
-                            <a href="/contact/" class="btn-product btn-product-outline">
-                                <i class="fas fa-search"></i> 免费诊断
-                            </a>
-                        </div>
-                    </div>
+                <!-- 同首页产品卡片 -->
             </div>
         </div>
     </section>
@@ -1336,7 +1065,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-grid" style="grid-template-columns: repeat(5, 1fr);">
                 <div class="footer-col">
                     <h4>产品</h4>
                     <ul>
