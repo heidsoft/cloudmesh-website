@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合同审核助手 - AI智能合同审核与风险管理 | CloudMesh</title>
+    <meta name="description" content="合同审核助手让一人公司也能享受专业法务服务。AI智能审核、风险预警、到期提醒，节省80%法务成本，3分钟出审核报告。">
+    <meta name="keywords" content="合同审核,AI法务,合同管理,电子签约,风险预警,合同到期提醒">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="合同审核助手 - AI智能合同审核与风险管理">
+    <meta property="og:description" content="让一人公司也能享受专业法务服务">
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://cloudmesh.top/products/contract-review.html">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://cloudmesh.top/products/contract-review.html">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "合同审核助手",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web-based",
+      "description": "AI智能合同审核与风险管理系统，自动识别风险条款、霸王条款、漏洞，3分钟出审核报告",
+      "url": "https://cloudmesh.top/products/contract-review.html",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "189"
+      }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    <style>
+        :root {
+            --contract-blue: #3b82f6;
+            --contract-indigo: #6366f1;
+        }
+        
+        .hero-contract {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #4f46e5 100%);
+        }
+        
+        .risk-high { color: #ef4444; }
+        .risk-medium { color: #f59e0b; }
+        .risk-low { color: #10b981; }
+        
+        .review-demo {
+            background: var(--dark-700);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .review-item {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        
+        .review-item.high {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .review-item.medium {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .review-item.low {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .upload-zone {
+            border: 2px dashed var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-zone:hover {
+            border-color: var(--contract-blue);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="bg-gradient bg-gradient-1"></div>
+        <div class="bg-gradient bg-gradient-2"></div>
+        <div class="bg-gradient bg-gradient-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-cloud"></i>
+                CloudMesh
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">产品</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/products/clawops.html"><i class="fas fa-rocket"></i> ClawOps</a></li>
+                            <li><a class="dropdown-item" href="/products/itsm.html"><i class="fas fa-ticket-alt"></i> ITSM</a></li>
+                            <li><a class="dropdown-item" href="/products/smart-replenishment.html"><i class="fas fa-boxes"></i> 智能补货助手</a></li>
+                            <li><a class="dropdown-item active" href="/products/contract-review.html"><i class="fas fa-file-contract"></i> 合同审核助手</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/openclaw-generator/"><i class="fas fa-wrench"></i> 配置生成器 <span class="badge bg-success text-dark ms-1">免费</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/solutions/">解决方案</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog/">博客</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pricing.html">定价</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/docs/quickstart.html">文档</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login.html">登录</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-trial ms-2" href="/contact/">
+                            <i class="fas fa-rocket"></i> 免费试用
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
+                    <li class="breadcrumb-item"><a href="/">产品</a></li>
+                    <li class="breadcrumb-item active">合同审核助手</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Hero -->
+    <section class="product-hero hero-contract">
+        <div class="container text-center">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                <span>AI-Powered Contract Review</span>
+            </div>
+            <h1>📝 合同审核助手</h1>
+            <p class="subtitle">让一人公司也能享受专业法务服务</p>
+            <p class="lead opacity-75 mb-4">AI 智能审核 · 风险预警 · 到期提醒 · 3分钟出报告</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-light btn-lg">
+                    <i class="fas fa-play"></i> 免费试用
+                </a>
+                <a href="#demo" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-eye"></i> 查看演示
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section" style="background: var(--dark-700);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);">
+                            <i class="fas fa-clock text-white"></i>
+                        </div>
+                        <div class="h3 text-white">3分钟</div>
+                        <div class="text-muted">快速审核</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            <i class="fas fa-shield-alt text-white"></i>
+                        </div>
+                        <div class="h3 text-white">80%</div>
+                        <div class="text-muted">风险识别率</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                            <i class="fas fa-piggy-bank text-white"></i>
+                        </div>
+                        <div class="h3 text-white">节省90%</div>
+                        <div class="text-muted">法务成本</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">
+                            <i class="fas fa-file-alt text-white"></i>
+                        </div>
+                        <div class="h3 text-white">50万+</div>
+                        <div class="text-muted">合同已审核</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">PAIN POINTS</span>
+                <h2>传统合同审核的痛点</h2>
+                <p>一人公司法务难题</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4" style="border-color: rgba(239,68,68,0.3);">
+                        <div class="card-body">
+                            <h3 class="text-danger mb-4"><i class="fas fa-exclamation-triangle me-2"></i>风险难发现</h3>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">❌ 合同条款看不懂，不知道有没有坑</li>
+                                <li class="mb-3">❌ 霸王条款、隐藏陷阱难以识别</li>
+                                <li class="mb-3">❌ 签了才发现问题，为时已晚</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4" style="border-color: rgba(245,158,11,0.3);">
+                        <div class="card-body">
+                            <h3 class="text-warning mb-4"><i class="fas fa-user-tie me-2"></i>法务太贵</h3>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">❌ 请法务审核一份合同 ￥500-2000</li>
+                                <li class="mb-3">❌ 专职法务年薪 ￥10万+，请不起</li>
+                                <li class="mb-3">❌ 找律师咨询，按小时收费更贵</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4" style="border-color: rgba(107,114,128,0.3);">
+                        <div class="card-body">
+                            <h3 class="text-gray-400 mb-4"><i class="fas fa-hourglass-half me-2"></i>审核太慢</h3>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">❌ 法务审核要等 1-3 天</li>
+                                <li class="mb-3">❌ 业务等不起，影响签约进度</li>
+                                <li class="mb-3">❌ 紧急合同来不及审核就签了</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4" style="border-color: rgba(107,114,128,0.3);">
+                        <div class="card-body">
+                            <h3 class="text-gray-400 mb-4"><i class="fas fa-folder-open me-2"></i>管理混乱</h3>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">❌ 合同到处都是，找不到</li>
+                                <li class="mb-3">❌ 到期忘记续签/终止</li>
+                                <li class="mb-3">❌ 版本混乱，不知道哪个是最新的</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo -->
+    <section class="section" id="demo" style="background: var(--dark-700);">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">DEMO</span>
+                <h2>AI 审核报告示例</h2>
+                <p>上传合同，3分钟出报告</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="review-demo">
+                        <!-- Header -->
+                        <div class="d-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 1px solid var(--glass-border);">
+                            <div>
+                                <h4 class="mb-1">📄 采购合同审核报告</h4>
+                                <small class="text-muted">审核时间：2026-03-19 10:25:30</small>
+                            </div>
+                            <div class="text-end">
+                                <div class="badge bg-danger fs-6">发现 5 项风险</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contract Info -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <small class="text-muted">合同类型</small>
+                                <div class="text-white">采购合同</div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted">合同金额</small>
+                                <div class="text-white">￥50,000</div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted">合同期限</small>
+                                <div class="text-white">2026.04.01 - 2027.03.31</div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted">付款方式</small>
+                                <div class="text-white">预付30%，到货70%</div>
+                            </div>
+                        </div>
+                        
+                        <!-- High Risk -->
+                        <h5 class="risk-high mb-3"><i class="fas fa-exclamation-circle me-2"></i>高风险条款（3项）</h5>
+                        
+                        <div class="review-item high">
+                            <div class="d-flex justify-content-between">
+                                <strong>第8条：违约责任</strong>
+                                <span class="badge bg-danger">高风险</span>
+                            </div>
+                            <p class="text-muted mb-2 mt-2">"任何一方违约，应向守约方支付合同金额50%的违约金"</p>
+                            <div class="small text-danger">
+                                <i class="fas fa-lightbulb me-1"></i> <strong>建议：</strong>违约金比例过高，建议降至合同金额的20%以内
+                            </div>
+                        </div>
+                        
+                        <div class="review-item high">
+                            <div class="d-flex justify-content-between">
+                                <strong>第12条：争议解决</strong>
+                                <span class="badge bg-danger">高风险</span>
+                            </div>
+                            <p class="text-muted mb-2 mt-2">"争议由乙方所在地人民法院管辖"</p>
+                            <div class="small text-danger">
+                                <i class="fas fa-lightbulb me-1"></i> <strong>建议：</strong>管辖权不对等，建议改为被告所在地或仲裁
+                            </div>
+                        </div>
+                        
+                        <div class="review-item high">
+                            <div class="d-flex justify-content-between">
+                                <strong>第15条：解除权</strong>
+                                <span class="badge bg-danger">高风险</span>
+                            </div>
+                            <p class="text-muted mb-2 mt-2">"乙方有权单方解除合同，甲方无权解除"</p>
+                            <div class="small text-danger">
+                                <i class="fas fa-lightbulb me-1"></i> <strong>建议：</strong>条款不对等，应增加甲方解除权条款
+                            </div>
+                        </div>
+                        
+                        <!-- Medium Risk -->
+                        <h5 class="risk-medium mb-3 mt-4"><i class="fas fa-exclamation-triangle me-2"></i>中风险条款（2项）</h5>
+                        
+                        <div class="review-item medium">
+                            <div class="d-flex justify-content-between">
+                                <strong>第5条：付款期限</strong>
+                                <span class="badge bg-warning text-dark">中风险</span>
+                            </div>
+                            <p class="text-muted mb-2 mt-2">"甲方应在收到发票后3日内付款"</p>
+                            <div class="small text-warning">
+                                <i class="fas fa-lightbulb me-1"></i> <strong>建议：</strong>付款期限过短，建议延长至15日
+                            </div>
+                        </div>
+                        
+                        <div class="review-item medium">
+                            <div class="d-flex justify-content-between">
+                                <strong>第6条：质保期</strong>
+                                <span class="badge bg-warning text-dark">中风险</span>
+                            </div>
+                            <p class="text-muted mb-2 mt-2">"产品质量保证期为6个月"</p>
+                            <div class="small text-warning">
+                                <i class="fas fa-lightbulb me-1"></i> <strong>建议：</strong>质保期偏短，建议延长至12个月
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="mt-4 pt-3" style="border-top: 1px solid var(--glass-border);">
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-download me-1"></i> 导出报告
+                                </button>
+                                <button class="btn btn-outline-light">
+                                    <i class="fas fa-edit me-1"></i> 发起修改
+                                </button>
+                                <button class="btn btn-outline-light">
+                                    <i class="fas fa-user-tie me-1"></i> 转人工法务
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">FEATURES</span>
+                <h2>核心功能</h2>
+                <p>一站式解决合同管理难题</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-search"></i></div>
+                        <h3>AI 智能审核</h3>
+                        <p>自动识别风险条款、霸王条款、漏洞，3分钟出审核报告</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 风险条款识别</li>
+                            <li><i class="fas fa-check text-cyan"></i> 霸王条款检测</li>
+                            <li><i class="fas fa-check text-cyan"></i> 漏洞提示</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-balance-scale"></i></div>
+                        <h3>条款对比</h3>
+                        <p>对比合同修改前后差异，一键定位变更条款</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 版本对比</li>
+                            <li><i class="fas fa-check text-cyan"></i> 差异高亮</li>
+                            <li><i class="fas fa-check text-cyan"></i> 变更追溯</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-bell"></i></div>
+                        <h3>到期提醒</h3>
+                        <p>合同到期自动提醒续签/终止，避免遗漏</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 到期预警</li>
+                            <li><i class="fas fa-check text-cyan"></i> 续签提醒</li>
+                            <li><i class="fas fa-check text-cyan"></i> 付款提醒</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-file-signature"></i></div>
+                        <h3>合同生成</h3>
+                        <p>基于模板自动生成合同，规范高效</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 模板库</li>
+                            <li><i class="fas fa-check text-cyan"></i> 一键生成</li>
+                            <li><i class="fas fa-check text-cyan"></i> 自定义模板</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-pen-fancy"></i></div>
+                        <h3>电子签章</h3>
+                        <p>在线签署，法律效力，无需见面</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 在线签署</li>
+                            <li><i class="fas fa-check text-cyan"></i> 法律效力</li>
+                            <li><i class="fas fa-check text-cyan"></i> 签署记录</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-folder"></i></div>
+                        <h3>合同归档</h3>
+                        <p>云端存储，分类管理，快速检索</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 云端存储</li>
+                            <li><i class="fas fa-check text-cyan"></i> 分类管理</li>
+                            <li><i class="fas fa-check text-cyan"></i> 全文检索</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported Contract Types -->
+    <section class="section" style="background: var(--dark-700);">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">CONTRACT TYPES</span>
+                <h2>支持合同类型</h2>
+                <p>覆盖常见商业合同场景</p>
+            </div>
+            
+            <div class="row g-3 justify-content-center">
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">采购合同</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">销售合同</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">租赁合同</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">劳动合同</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">服务合同</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">保密协议</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">合作协议</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">借款合同</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">加盟合同</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">工程合同</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">运输合同</span>
+                </div>
+                <div class="col-auto">
+                    <span class="badge bg-secondary fs-6 m-1 p-2">更多...</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">PRICING</span>
+                <h2>简单透明的定价</h2>
+                <p>一人公司也能用得起</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="card text-center p-4" style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px;">
+                        <h3>免费版</h3>
+                        <div class="h1 text-cyan">￥0</div>
+                        <div class="text-muted mb-4">永久免费</div>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 3份合同/月</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 基础风险检测</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 合同存储</li>
+                            <li class="mb-2 text-muted"><i class="fas fa-times text-muted me-2"></i> 详细审核报告</li>
+                        </ul>
+                        <a href="/contact/" class="btn btn-outline-light w-100">开始使用</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center p-4" style="background: var(--glass-bg); border: 2px solid #3b82f6; border-radius: 24px; position: relative;">
+                        <span class="badge bg-primary position-absolute" style="top: -10px; left: 50%; transform: translateX(-50%);">推荐</span>
+                        <h3>专业版</h3>
+                        <div class="h1" style="color: #3b82f6;">￥99</div>
+                        <div class="text-muted mb-4">/月</div>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 不限合同份数</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 详细审核报告</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 到期提醒</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 合同模板库</li>
+                        </ul>
+                        <a href="/contact/" class="btn btn-primary w-100">立即订阅</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center p-4" style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px;">
+                        <h3>企业版</h3>
+                        <div class="h1 text-cyan">￥299</div>
+                        <div class="text-muted mb-4">/月</div>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 所有专业版功能</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 电子签章</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 团队协作</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 专属法务支持</li>
+                        </ul>
+                        <a href="/contact/" class="btn btn-outline-light w-100">联系我们</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="section" style="background: var(--dark-700);">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">COMPARISON</span>
+                <h2>与传统方式对比</h2>
+                <p>为什么选择合同审核助手</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-borderless">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <th>对比项</th>
+                                    <th class="text-center">传统法务</th>
+                                    <th class="text-center">合同审核助手</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td>审核费用</td>
+                                    <td class="text-center text-muted">￥500-2000/份</td>
+                                    <td class="text-center text-success">免费起</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td>审核时间</td>
+                                    <td class="text-center text-muted">1-3 天</td>
+                                    <td class="text-center text-success">3 分钟</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td>风险识别</td>
+                                    <td class="text-center text-muted">依赖法务经验</td>
+                                    <td class="text-center text-success">AI 智能识别</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td>到期提醒</td>
+                                    <td class="text-center text-muted">手动管理</td>
+                                    <td class="text-center text-success">自动提醒</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td>合同存储</td>
+                                    <td class="text-center text-muted">纸质/本地</td>
+                                    <td class="text-center text-success">云端存储</td>
+                                </tr>
+                                <tr>
+                                    <td>适合一人公司</td>
+                                    <td class="text-center text-muted">⭐⭐</td>
+                                    <td class="text-center text-success">⭐⭐⭐⭐</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);">
+        <div class="container">
+            <h2>准备好告别合同审核烦恼了吗？</h2>
+            <p class="lead mb-4">免费试用 30 天，无需信用卡</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-light btn-lg">
+                    <i class="fas fa-play"></i> 立即开始
+                </a>
+                <a href="/contact/" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-phone"></i> 预约演示
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <div class="footer-brand">
+                        <i class="fas fa-cloud"></i>
+                        <span>CloudMesh</span>
+                    </div>
+                    <p class="footer-text">智能 IT 管理平台，让 IT 管理更简单高效</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">产品</h4>
+                    <ul class="footer-links">
+                        <li><a href="/products/clawops.html">ClawOps</a></li>
+                        <li><a href="/products/itsm.html">ITSM</a></li>
+                        <li><a href="/products/smart-replenishment.html">智能补货助手</a></li>
+                        <li><a href="/products/contract-review.html">合同审核助手</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">开源</h4>
+                    <ul class="footer-links">
+                        <li><a href="/open-source/">开源社区</a></li>
+                        <li><a href="https://github.com/heidsoft/itsm" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">联系</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact/">联系我们</a></li>
+                        <li><a href="mailto:heidsoft@qq.com">heidsoft@qq.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
