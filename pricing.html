@@ -3,80 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>定价 - ClawOps | 简单透明的企业级定价</title>
-    <meta name="description" content="选择适合你的 ClawOps 方案，个人版免费，企业版 ¥999/年起">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>定价 - CloudMesh | 简单透明的定价方案</title>
+    <meta name="description" content="选择适合你的 CloudMesh 方案，个人版免费，专业版 ¥99/月起">
+    <meta name="keywords" content="CloudMesh, 定价, ClawOps, ITSM, 价格">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* ===== CSS Variables ===== */
         :root {
             --primary: #667eea;
-            --primary-dark: #5a67d8;
             --secondary: #764ba2;
-            --accent: #f59e0b;
+            --accent: #00d9ff;
             --success: #10b981;
+            --warning: #f59e0b;
             --danger: #ef4444;
-            --bg-dark: #0f0f1a;
-            --bg-card: rgba(255,255,255,0.03);
-            --bg-hover: rgba(255,255,255,0.05);
-            --border: rgba(255,255,255,0.08);
-            --text-primary: #fff;
-            --text-secondary: #a0aec0;
-            --text-muted: #718096;
+            --dark-900: #0a0a12;
+            --dark-800: #0f0f1a;
+            --dark-700: #16162a;
+            --dark-600: #1e1e36;
+            --white: #ffffff;
+            --gray-100: #f7fafc;
+            --gray-200: #edf2f7;
+            --gray-300: #e2e8f0;
+            --gray-400: #a0aec0;
+            --gray-500: #718096;
+            --gray-600: #4a5568;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(20px);
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-cyber: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.15);
+            --shadow-glow-lg: 0 0 60px rgba(102, 126, 234, 0.2);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.6;
+
+        html, body {
             overflow-x: hidden;
+            max-width: 100vw;
         }
 
-        /* Background Gradient */
-        body::before {
-            content: '';
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-800);
+            color: var(--white);
+            line-height: 1.7;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+        /* ===== Navigation ===== */
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(102,126,234,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(118,75,162,0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
+            right: 0;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: var(--transition-smooth);
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 80px 20px 40px; }
-        
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 80px;
-            animation: fadeInUp 0.8s ease-out;
+        .navbar.scrolled {
+            padding: 0.75rem 0;
+            background: rgba(15, 15, 35, 0.95);
+            box-shadow: var(--shadow-glow);
         }
 
-        .header h1 {
-            font-size: 56px;
+        .navbar-brand {
+            font-size: 1.5rem;
             font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            transition: var(--transition-smooth);
         }
 
-        .header p {
-            color: var(--text-secondary);
-            font-size: 20px;
-            max-width: 600px;
-            margin: 0 auto;
+        .navbar-brand:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
         }
 
-        .header-badge {
+        .navbar-brand i {
+            font-size: 1.75rem;
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            color: var(--gray-400) !important;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem !important;
+            transition: var(--transition-smooth);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-cyber);
+            transition: var(--transition-smooth);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--white) !important;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 80%;
+        }
+
+        .btn-trial {
+            background: var(--gradient-primary);
+            color: var(--white) !important;
+            border-radius: 50px;
+            padding: 0.625rem 1.75rem !important;
+            font-weight: 700;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-trial:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .dropdown-menu {
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-glow-lg);
+            border-radius: 16px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-item {
+            border-radius: 10px;
+            padding: 0.875rem 1.25rem;
+            transition: var(--transition-smooth);
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: var(--glass-bg);
+            color: var(--white);
+            padding-left: 1.5rem;
+        }
+
+        /* ===== Pricing Styles ===== */
+        .pricing-header {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .pricing-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pricing-header p {
+            color: var(--gray-400);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-badge {
             display: inline-block;
             padding: 8px 20px;
             background: rgba(102,126,234,0.15);
@@ -88,425 +210,235 @@
             margin-bottom: 20px;
         }
 
-        /* Pricing Cards */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 32px;
-            margin-bottom: 80px;
+            padding-bottom: 60px;
         }
 
         .pricing-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 48px 40px;
+            padding: 2.5rem;
+            transition: var(--transition-smooth);
             position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: fadeInUp 0.8s ease-out backwards;
-            backdrop-filter: blur(10px);
         }
-
-        .pricing-card:nth-child(1) { animation-delay: 0.1s; }
-        .pricing-card:nth-child(2) { animation-delay: 0.2s; }
-        .pricing-card:nth-child(3) { animation-delay: 0.3s; }
 
         .pricing-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            border-color: rgba(102,126,234,0.4);
-            box-shadow: 
-                0 20px 60px rgba(102,126,234,0.15),
-                0 0 0 1px rgba(102,126,234,0.1);
+            transform: translateY(-8px);
+            border-color: rgba(102,126,234,0.3);
+            box-shadow: 0 12px 40px rgba(102,126,234,0.15);
         }
 
-        .pricing-card.popular {
+        .pricing-card.featured {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(102,126,234,0.08) 0%, rgba(118,75,162,0.08) 100%);
+            box-shadow: 0 0 40px rgba(102, 126, 234, 0.2);
         }
 
-        .pricing-card.popular::before {
-            content: '🔥 最受欢迎';
+        .pricing-card.featured::before {
+            content: '推荐';
             position: absolute;
-            top: -14px;
-            right: 32px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
         }
 
         .pricing-card h3 {
-            font-size: 28px;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            margin-bottom: 0.5rem;
+            color: var(--white);
         }
 
         .pricing-card .price {
-            font-size: 64px;
+            font-size: 3rem;
             font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
+            margin: 1rem 0;
         }
 
         .pricing-card .price span {
-            font-size: 18px;
-            color: var(--text-muted);
-            font-weight: 400;
-            -webkit-text-fill-color: var(--text-muted);
+            font-size: 1rem;
+            color: var(--gray-500);
+            -webkit-text-fill-color: var(--gray-500);
         }
 
-        .pricing-card .desc {
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-            font-size: 15px;
+        .pricing-card .price-note {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* Feature List */
-        .feature-list {
+        .pricing-card ul {
             list-style: none;
-            margin-bottom: 40px;
+            margin-bottom: 2rem;
         }
 
-        .feature-list li {
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
+        .pricing-card li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--gray-400);
             display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            color: var(--text-primary);
-            font-size: 15px;
-            transition: all 0.3s;
+            align-items: center;
+            gap: 0.75rem;
         }
 
-        .feature-list li:last-child {
+        .pricing-card li:last-child {
             border-bottom: none;
         }
 
-        .feature-list li:hover {
-            padding-left: 8px;
+        .pricing-card li i {
+            color: var(--success);
+        }
+
+        .pricing-card li.disabled {
+            color: var(--gray-600);
+        }
+
+        .pricing-card li.disabled i {
+            color: var(--gray-600);
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            transition: var(--transition-smooth);
+        }
+
+        .pricing-card .btn-primary {
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+        }
+
+        .pricing-card .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .pricing-card .btn-outline-light {
+            border: 1px solid var(--glass-border);
+            color: var(--gray-400);
+        }
+
+        .pricing-card .btn-outline-light:hover {
+            background: var(--glass-bg);
+            color: var(--white);
             border-color: rgba(102,126,234,0.3);
         }
 
-        .feature-list li i {
-            font-size: 18px;
-            margin-top: 2px;
-            flex-shrink: 0;
+        /* ===== Footer ===== */
+        footer {
+            background: var(--dark-900);
+            border-top: 1px solid var(--glass-border);
+            padding: 60px 0 30px;
         }
 
-        .feature-list li .fa-check-circle {
-            color: var(--success);
-            filter: drop-shadow(0 0 8px rgba(16,185,129,0.4));
-        }
-
-        .feature-list li .fa-times-circle {
-            color: var(--text-muted);
-            opacity: 0.5;
-        }
-
-        .feature-list li.unavailable {
-            color: var(--text-muted);
-            opacity: 0.6;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 18px 36px;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            width: 100%;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            box-shadow: 0 4px 20px rgba(102,126,234,0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(102,126,234,0.5);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .btn-outline:hover {
-            background: var(--bg-hover);
-            border-color: rgba(102,126,234,0.4);
-        }
-
-        .btn-pro {
-            background: linear-gradient(135deg, var(--accent) 0%, #d97706 100%);
-            color: white;
-            box-shadow: 0 4px 20px rgba(245,158,11,0.3);
-        }
-
-        .btn-pro:hover {
-            box-shadow: 0 8px 30px rgba(245,158,11,0.5);
-        }
-
-        /* Comparison Table */
-        .comparison-section {
-            margin-bottom: 80px;
-            animation: fadeInUp 0.8s ease-out 0.4s backwards;
-        }
-
-        .comparison-section h2 {
-            text-align: center;
-            font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 48px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--bg-card);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .comparison-table th {
-            background: rgba(102,126,234,0.15);
-            padding: 24px;
-            text-align: left;
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--primary);
-            border-bottom: 2px solid rgba(102,126,234,0.3);
-        }
-
-        .comparison-table td {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            font-size: 15px;
-            color: var(--text-primary);
-            transition: all 0.3s;
-        }
-
-        .comparison-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .comparison-table tr:hover td {
-            background: var(--bg-hover);
-        }
-
-        .comparison-table .check {
-            color: var(--success);
-            font-size: 20px;
-            filter: drop-shadow(0 0 8px rgba(16,185,129,0.4));
-        }
-
-        .comparison-table .cross {
-            color: var(--text-muted);
-            opacity: 0.4;
-            font-size: 20px;
-        }
-
-        .comparison-table .feature-name {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        /* Contact Form */
-        .contact-section {
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(102,126,234,0.05) 100%);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 60px;
-            max-width: 900px;
-            margin: 0 auto;
-            animation: fadeInUp 0.8s ease-out 0.6s backwards;
-        }
-
-        .contact-section h2 {
-            text-align: center;
-            font-size: 38px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .contact-section > p {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            font-size: 16px;
-        }
-
-        .form-row {
+        .footer-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
-        .form-group {
-            margin-bottom: 24px;
+        .footer-col h4 {
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
+        .footer-col ul {
+            list-style: none;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 16px 20px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 15px;
-            transition: all 0.3s;
-            font-family: inherit;
+        .footer-col li {
+            margin-bottom: 0.75rem;
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(255,255,255,0.05);
-            box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
+        .footer-col a {
+            color: var(--gray-500);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            font-size: 0.9rem;
         }
 
-        .form-group select {
-            cursor: pointer;
+        .footer-col a:hover {
+            color: var(--white);
         }
 
-        .form-group textarea {
-            min-height: 140px;
-            resize: vertical;
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--gray-500);
+            font-size: 0.875rem;
         }
 
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            padding: 20px 32px;
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            color: white;
-            border-radius: 14px;
-            box-shadow: 0 10px 40px rgba(16,185,129,0.4);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
+        /* ===== Responsive ===== */
+        @media (max-width: 991px) {
+            .navbar-toggler {
+                display: block !important;
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 8px 12px;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            }
+            .navbar-collapse {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 15, 35, 0.98);
+                padding: 20px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .container { padding: 60px 16px 30px; }
-            .header h1 { font-size: 40px; }
-            .header p { font-size: 17px; }
-            .pricing-grid { grid-template-columns: 1fr; gap: 24px; }
-            .pricing-card { padding: 36px 28px; }
-            .pricing-card .price { font-size: 48px; }
-            .comparison-table { font-size: 14px; }
-            .comparison-table th, .comparison-table td { padding: 16px; }
-            .form-row { grid-template-columns: 1fr; }
-            .contact-section { padding: 40px 28px; }
-            .toast { left: 20px; right: 20px; bottom: 20px; }
+            .pricing-header h1 {
+                font-size: 2rem;
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
         }
-        /* Navbar 样式 */
-        .navbar { background: rgba(15,15,26,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 16px 0; position: sticky; top: 0; z-index: 1000; }
-        .navbar-brand { font-size: 20px; font-weight: 700; color: #fff !important; display: flex; align-items: center; gap: 10px; }
-        .navbar-brand i { color: #667eea; }
-        .nav-link { color: #a0aec0 !important; font-weight: 500; padding: 8px 16px !important; transition: all 0.3s; }
-        .nav-link:hover, .nav-link.active { color: #fff !important; }
-        .btn-trial { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff !important; border-radius: 8px; }
-        .btn-trial:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102,126,234,0.4); }
-        .dropdown-menu { background: rgba(15,15,26,0.98); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
-        .dropdown-item { color: #a0aec0; padding: 10px 20px; }
-        .dropdown-item:hover { background: rgba(102,126,234,0.1); color: #fff; }
-        .dropdown-divider { border-color: rgba(255,255,255,0.08); }
     </style>
 </head>
 <body>
-    <!-- 统一导航栏 -->
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" id="navbar">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <i class="fas fa-cloud"></i>
-                <span>CloudMesh</span>
+                CloudMesh
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -542,263 +474,146 @@
         </div>
     </nav>
 
-    <div class="container" style="padding-top: 40px;">
-        <div class="header">
-            <div class="header-badge">💎 简单透明 · 无隐藏费用</div>
+    <!-- Pricing Content -->
+    <div class="container">
+        <div class="pricing-header">
+            <span class="pricing-badge">💎 简单透明 · 无隐藏费用</span>
             <h1>选择适合你的方案</h1>
             <p>灵活定价，满足个人开发者到大型企业的所有需求</p>
         </div>
 
-        <!-- Pricing Cards -->
         <div class="pricing-grid">
-            <!-- Personal -->
+            <!-- 个人版 -->
             <div class="pricing-card">
                 <h3>👤 个人版</h3>
                 <div class="price">免费</div>
-                <div class="desc">适合个人开发者和小团队快速上手</div>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> 配置生成器完整功能</li>
-                    <li><i class="fas fa-check-circle"></i> 支持 6 大通讯平台</li>
-                    <li><i class="fas fa-check-circle"></i> 一键安装脚本</li>
-                    <li><i class="fas fa-check-circle"></i> 本地文件配置</li>
-                    <li><i class="fas fa-check-circle"></i> 社区支持</li>
-                    <li class="unavailable"><i class="fas fa-times-circle"></i> 配置中心集成</li>
-                    <li class="unavailable"><i class="fas fa-times-circle"></i> 密钥管理系统</li>
-                    <li class="unavailable"><i class="fas fa-times-circle"></i> 专业技术支持</li>
+                <p class="price-note">永久免费</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> 5 个 Skill 安装</li>
+                    <li><i class="fas fa-check"></i> 基础 AI 对话能力</li>
+                    <li><i class="fas fa-check"></i> 钉钉/飞书/企微接入</li>
+                    <li><i class="fas fa-check"></i> 社区支持</li>
+                    <li class="disabled"><i class="fas fa-times"></i> 高级 Skill</li>
+                    <li class="disabled"><i class="fas fa-times"></i> API 访问</li>
                 </ul>
-                <a href="/openclaw-generator/" class="btn btn-outline">
-                    <i class="fas fa-rocket"></i> 立即开始
-                </a>
+                <a href="/deploy/" class="btn btn-outline-light">开始使用</a>
             </div>
 
-            <!-- Pro -->
-            <div class="pricing-card popular">
-                <h3>🏢 企业版</h3>
-                <div class="price">¥999<span>/年起</span></div>
-                <div class="desc">适合中大型企业和专业团队</div>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> <strong>个人版所有功能</strong></li>
-                    <li><i class="fas fa-check-circle"></i> Apollo/Nacos 配置中心</li>
-                    <li><i class="fas fa-check-circle"></i> HashiCorp Vault 集成</li>
-                    <li><i class="fas fa-check-circle"></i> Kubernetes 原生支持</li>
-                    <li><i class="fas fa-check-circle"></i> GitOps 工作流</li>
-                    <li><i class="fas fa-check-circle"></i> 多环境管理</li>
-                    <li><i class="fas fa-check-circle"></i> 审计日志</li>
-                    <li><i class="fas fa-check-circle"></i> 专业技术支持</li>
+            <!-- 专业版 -->
+            <div class="pricing-card featured">
+                <h3>🚀 专业版</h3>
+                <div class="price">¥99<span>/月</span></div>
+                <p class="price-note">按年付费享 8 折</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> 50 个 Skill 安装</li>
+                    <li><i class="fas fa-check"></i> 高级 AI 模型</li>
+                    <li><i class="fas fa-check"></i> 多平台接入</li>
+                    <li><i class="fas fa-check"></i> 优先技术支持</li>
+                    <li><i class="fas fa-check"></i> API 访问</li>
+                    <li><i class="fas fa-check"></i> 自定义 Skill 开发</li>
                 </ul>
-                <a href="#contact" class="btn btn-pro">
-                    <i class="fas fa-envelope"></i> 联系销售
-                </a>
+                <a href="/contact/" class="btn btn-primary">立即订阅</a>
             </div>
 
-            <!-- Enterprise -->
+            <!-- 企业版 -->
             <div class="pricing-card">
-                <h3>🏛️ 定制版</h3>
-                <div class="price">面议</div>
-                <div class="desc">超大规模企业专属定制方案</div>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> <strong>企业版所有功能</strong></li>
-                    <li><i class="fas fa-check-circle"></i> 私有化部署</li>
-                    <li><i class="fas fa-check-circle"></i> 定制开发</li>
-                    <li><i class="fas fa-check-circle"></i> 专属技术支持</li>
-                    <li><i class="fas fa-check-circle"></i> SLA 服务保障</li>
-                    <li><i class="fas fa-check-circle"></i> 现场培训</li>
-                    <li><i class="fas fa-check-circle"></i> 源码授权（可选）</li>
-                    <li><i class="fas fa-check-circle"></i> 联合品牌</li>
+                <h3>🏢 企业版</h3>
+                <div class="price">¥299<span>/月</span></div>
+                <p class="price-note">按年付费享 8 折</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> 不限 Skill 安装</li>
+                    <li><i class="fas fa-check"></i> 企业级 AI 模型</li>
+                    <li><i class="fas fa-check"></i> 私有化部署</li>
+                    <li><i class="fas fa-check"></i> 专属客户成功经理</li>
+                    <li><i class="fas fa-check"></i> SLA 服务保障</li>
+                    <li><i class="fas fa-check"></i> 定制化开发</li>
                 </ul>
-                <a href="#contact" class="btn btn-outline">
-                    <i class="fas fa-handshake"></i> 联系洽谈
-                </a>
+                <a href="/contact/" class="btn btn-outline-light">联系我们</a>
             </div>
         </div>
 
-        <!-- Comparison Table -->
-        <div class="comparison-section">
-            <h2>功能详细对比</h2>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th style="width: 35%;">功能特性</th>
-                        <th style="width: 21.6%;">👤 个人版</th>
-                        <th style="width: 21.6%;">🏢 企业版</th>
-                        <th style="width: 21.6%;">🏛️ 定制版</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="feature-name">配置生成器</td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">多平台支持（6 个）</td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">配置中心集成</td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">密钥管理（Vault）</td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Kubernetes 支持</td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">GitOps 工作流</td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">多环境管理</td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">审计日志</td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">私有化部署</td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">定制开发</td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">SLA 保障</td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-times cross"></i></td>
-                        <td><i class="fas fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">技术支持</td>
-                        <td style="color: var(--text-secondary);">社区</td>
-                        <td style="color: var(--text-primary);">专业团队</td>
-                        <td style="color: var(--text-primary);">专属团队</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Contact Form -->
-        <div class="contact-section" id="contact">
-            <h2>联系销售团队</h2>
-            <p>填写以下信息，我们的销售专家会在 24 小时内与您联系，提供免费咨询和演示</p>
-            <form onsubmit="submitForm(event)">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">姓名 <span style="color: var(--danger);">*</span></label>
-                        <input type="text" id="name" name="name" required placeholder="您的姓名">
-                    </div>
-                    <div class="form-group">
-                        <label for="company">公司名称 <span style="color: var(--danger);">*</span></label>
-                        <input type="text" id="company" name="company" required placeholder="公司全称">
-                    </div>
+        <!-- FAQ -->
+        <div style="padding-bottom: 60px;">
+            <h2 style="text-align: center; margin-bottom: 40px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">常见问题</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem;">
+                    <h4 style="color: var(--white); margin-bottom: 0.5rem;">免费版有使用限制吗？</h4>
+                    <p style="color: var(--gray-400); margin: 0;">免费版支持 5 个 Skill 安装，基础 AI 对话能力，适合个人用户试用和轻量使用场景。</p>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="email">工作邮箱 <span style="color: var(--danger);">*</span></label>
-                        <input type="email" id="email" name="email" required placeholder="name@company.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">联系电话</label>
-                        <input type="tel" id="phone" name="phone" placeholder="手机号码">
-                    </div>
+                <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem;">
+                    <h4 style="color: var(--white); margin-bottom: 0.5rem;">可以随时升级或降级吗？</h4>
+                    <p style="color: var(--gray-400); margin: 0;">是的，您可以随时升级或降级您的订阅计划，费用将按比例计算。</p>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="product">感兴趣的产品 <span style="color: var(--danger);">*</span></label>
-                        <select id="product" name="product" required>
-                            <option value="">请选择</option>
-                            <option value="pro">🏢 企业版（¥999/年起）</option>
-                            <option value="enterprise">🏛️ 定制版（面议）</option>
-                            <option value="both">都想了解</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="team_size">团队规模</label>
-                        <select id="team_size" name="team_size">
-                            <option value="">请选择</option>
-                            <option value="1-10">1-10 人</option>
-                            <option value="11-50">11-50 人</option>
-                            <option value="51-200">51-200 人</option>
-                            <option value="200+">200 人以上</option>
-                        </select>
-                    </div>
+                <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem;">
+                    <h4 style="color: var(--white); margin-bottom: 0.5rem;">支持哪些支付方式？</h4>
+                    <p style="color: var(--gray-400); margin: 0;">支持支付宝、微信支付、银行转账等多种支付方式。</p>
                 </div>
-                <div class="form-group">
-                    <label for="message">具体需求</label>
-                    <textarea id="message" name="message" placeholder="请描述您的具体需求，如部署方式、集成需求、特殊功能等"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> 提交咨询
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i> 提交成功！我们会尽快联系您
-    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>产品</h4>
+                    <ul>
+                        <li><a href="/products/clawops.html">ClawOps</a></li>
+                        <li><a href="/products/itsm.html">ITSM</a></li>
+                        <li><a href="/products/smart-replenishment.html">智能补货助手</a></li>
+                        <li><a href="/products/contract-review.html">合同审核助手</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>解决方案</h4>
+                    <ul>
+                        <li><a href="/solutions/">医疗知识库</a></li>
+                        <li><a href="/solutions/">智能排队</a></li>
+                        <li><a href="/solutions/geo.html">GEO 服务</a></li>
+                        <li><a href="/solutions/">弱电工程</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>开源</h4>
+                    <ul>
+                        <li><a href="/open-source/">开源社区</a></li>
+                        <li><a href="https://github.com/heidsoft/itsm" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>资源</h4>
+                    <ul>
+                        <li><a href="/docs/quickstart.html">文档中心</a></li>
+                        <li><a href="/blog/">博客</a></li>
+                        <li><a href="/pricing.html">定价</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>关于</h4>
+                    <ul>
+                        <li><a href="/contact/">联系我们</a></li>
+                        <li><a href="/trust.html">安全与信任</a></li>
+                        <li><a href="https://space.bilibili.com/349309176" target="_blank">B站</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        function submitForm(event) {
-            event.preventDefault();
-            const form = event.target;
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
-            
-            console.log('Form submitted:', data);
-            
-            // 显示成功提示
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            
-            // 3 秒后隐藏
-            setTimeout(() => toast.classList.remove('show'), 3000);
-            
-            // 重置表单
-            form.reset();
-            
-            // TODO: 实际使用时发送到后端
-            // fetch('/api/contact', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(data)
-            // })
-        }
-
-        // 平滑滚动到锚点
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         });
     </script>
 </body>
