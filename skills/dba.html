@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBA Skill - AI 驱动的数据库运维助手 | ClawOps</title>
+    <meta name="description" content="ClawOps DBA Skill 提供 AI 驱动的数据库运维能力，包括 SQL 分析、性能优化、容量预测、备份恢复等，支持 MySQL、PostgreSQL、Oracle 等主流数据库。">
+    <meta name="keywords" content="DBA, 数据库运维, SQL优化, 慢查询, 容量预测, ClawOps Skill">
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    <style>
+        .skill-hero {
+            background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(102,126,234,0.1) 100%);
+            padding: 100px 0 60px;
+        }
+        
+        .skill-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981 0%, var(--primary) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+        }
+        
+        .skill-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; }
+        .skill-hero .desc { font-size: 1.2rem; color: var(--gray-400); max-width: 600px; }
+        
+        .skill-nav {
+            display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px;
+        }
+        
+        .skill-nav a {
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .skill-nav a:hover, .skill-nav a.active {
+            background: rgba(16,185,129,0.15);
+            border-color: var(--success);
+            color: var(--white);
+        }
+        
+        .capability-section { padding: 80px 0; background: var(--dark-900); }
+        
+        .capability-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px;
+            height: 100%;
+        }
+        
+        .capability-card .icon {
+            width: 50px; height: 50px;
+            background: rgba(16,185,129,0.15);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+        
+        .capability-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--white); }
+        .capability-card p { color: var(--gray-400); font-size: 0.95rem; line-height: 1.7; }
+        
+        .capability-card ul { list-style: none; padding: 0; margin: 16px 0 0; }
+        .capability-card li { padding: 6px 0; color: var(--gray-500); font-size: 0.9rem; }
+        .capability-card li i { color: var(--success); margin-right: 8px; font-size: 0.8rem; }
+        
+        .scenario-section { padding: 80px 0; background: var(--dark-800); }
+        
+        .scenario-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        
+        .scenario-header {
+            background: rgba(16,185,129,0.1);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .scenario-header h4 { font-size: 1rem; font-weight: 700; color: var(--white); margin: 0; }
+        .scenario-header .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(16,185,129,0.15);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--success);
+            margin-left: 12px;
+        }
+        
+        .scenario-body { padding: 24px; }
+        
+        .chat-demo {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .chat-message { margin-bottom: 16px; }
+        .chat-message:last-child { margin-bottom: 0; }
+        .chat-user { color: var(--accent); }
+        .chat-ai { color: var(--success); }
+        .chat-message .label { opacity: 0.6; margin-right: 8px; }
+        
+        .db-support { padding: 60px 0; background: var(--dark-900); }
+        
+        .db-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+        
+        .db-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .db-item:hover {
+            border-color: var(--success);
+            transform: translateY(-3px);
+        }
+        
+        .db-item i { font-size: 2rem; margin-bottom: 8px; }
+        .db-item span { display: block; font-size: 0.85rem; color: var(--gray-400); }
+        
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(102,126,234,0.1) 100%);
+        }
+        
+        .sql-highlight {
+            background: rgba(16,185,129,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-gradient bg-gradient-1"></div>
+        <div class="bg-gradient bg-gradient-2"></div>
+        <div class="bg-gradient bg-gradient-3"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-cloud"></i> CloudMesh</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/products/clawops-enterprise.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="skill-hero">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
+                    <li class="breadcrumb-item"><a href="/products/clawops-enterprise.html">ClawOps 企业版</a></li>
+                    <li class="breadcrumb-item active">DBA Skill</li>
+                </ol>
+            </nav>
+            
+            <div class="skill-icon"><i class="fas fa-database"></i></div>
+            <h1>DBA Skill</h1>
+            <p class="desc">AI 驱动的智能数据库运维，覆盖 SQL 分析、性能优化、容量预测、备份恢复全流程</p>
+            
+            <div class="skill-nav">
+                <a href="#capabilities">核心能力</a>
+                <a href="#scenarios">使用场景</a>
+                <a href="#databases">支持数据库</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="capability-section" id="capabilities">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">CAPABILITIES</span>
+                <h2>核心能力</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-search"></i></div>
+                        <h4>SQL 性能分析</h4>
+                        <p>智能分析 SQL 执行计划，识别性能瓶颈，提供优化建议。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 执行计划解析</li>
+                            <li><i class="fas fa-check"></i> 全表扫描检测</li>
+                            <li><i class="fas fa-check"></i> 索引使用分析</li>
+                            <li><i class="fas fa-check"></i> 自动优化建议</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <h4>慢查询分析</h4>
+                        <p>自动捕获慢查询，智能分类和根因分析，生成优化方案。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 慢查询自动捕获</li>
+                            <li><i class="fas fa-check"></i> TOP N 分析</li>
+                            <li><i class="fas fa-check"></i> 相似 SQL 聚合</li>
+                            <li><i class="fas fa-check"></i> 优化 SQL 生成</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-chart-line"></i></div>
+                        <h4>容量预测</h4>
+                        <p>基于历史数据预测数据库容量需求，提前预警扩容时机。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 存储空间预测</li>
+                            <li><i class="fas fa-check"></i> 连接数预测</li>
+                            <li><i class="fas fa-check"></i> QPS 趋势分析</li>
+                            <li><i class="fas fa-check"></i> 扩容建议</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                        <h4>备份与恢复</h4>
+                        <p>自动化备份管理，定期恢复演练验证备份有效性。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 自动备份调度</li>
+                            <li><i class="fas fa-check"></i> 备份完整性校验</li>
+                            <li><i class="fas fa-check"></i> 恢复演练自动化</li>
+                            <li><i class="fas fa-check"></i> PITR 支持</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-lock"></i></div>
+                        <h4>安全审计</h4>
+                        <p>数据库访问审计，敏感数据发现，合规检查。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> SQL 审计日志</li>
+                            <li><i class="fas fa-check"></i> 敏感数据扫描</li>
+                            <li><i class="fas fa-check"></i> 权限审计</li>
+                            <li><i class="fas fa-check"></i> 合规报告</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-exchange-alt"></i></div>
+                        <h4>变更管理</h4>
+                        <p>DDL/DML 变更审核，影响评估，自动生成回滚方案。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 变更审核流程</li>
+                            <li><i class="fas fa-check"></i> 影响范围评估</li>
+                            <li><i class="fas fa-check"></i> 锁风险预警</li>
+                            <li><i class="fas fa-check"></i> 回滚方案生成</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="scenario-section" id="scenarios">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">SCENARIOS</span>
+                <h2>使用场景</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景一：慢查询优化</h4>
+                            <span class="tag">性能优化</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 生产库 order 表查询变慢了，帮我分析下</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在分析 order 表慢查询...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+📊 慢查询 TOP 3：
+
+1️⃣ <span class="sql-highlight">SELECT * FROM order WHERE create_time > ?</span>
+   执行时间：3.2s | 扫描行数：850万
+   问题：无索引，全表扫描
+   建议：添加索引 idx_create_time
+
+2️⃣ <span class="sql-highlight">SELECT * FROM order WHERE user_id = ? AND status = ?</span>
+   执行时间：2.8s | 扫描行数：420万
+   问题：单字段索引效率低
+   建议：联合索引 idx_user_status
+
+💡 预计优化后查询时间 &lt; 100ms
+
+需要我生成 ALTER 语句吗？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景二：容量预警</h4>
+                            <span class="tag">容量管理</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 检查生产数据库容量</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在分析数据库容量...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+📊 生产数据库容量报告
+
+存储空间：
+• 已用：1.2TB / 2TB (60%)
+• 日均增长：15GB
+• 预计满载：53 天后
+
+⚠️ 预警：
+• order_log 表占比 45%（可归档）
+• binlog 保留 7 天（可减少至 3 天）
+
+💡 建议：
+1. 归档 30 天前日志，释放约 400GB
+2. 调整 binlog 保留策略
+3. 计划 Q2 扩容
+
+需要我执行归档操作吗？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景三：DDL 变更审核</h4>
+                            <span class="tag">变更管理</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 审核这个 DDL：ALTER TABLE user ADD COLUMN phone VARCHAR(20)</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在审核 DDL 语句...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+📋 DDL 变更审核报告
+
+表：user（用户表）
+当前行数：1200万
+表大小：8.5GB
+
+✅ 语法检查：通过
+✅ 字段命名：符合规范
+⚠️ 风险评估：中等风险
+
+风险点：
+• 大表 DDL 可能锁表 5-10 分钟
+• 业务高峰期影响用户
+
+建议：
+1. 使用 pt-online-schema-change 在线变更
+2. 在业务低峰期（02:00-04:00）执行
+3. 提前通知业务方
+
+已生成在线变更脚本，是否需要执行？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景四：连接数异常处理</h4>
+                            <span class="tag">故障处理</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 数据库连接数报警了，帮我看看</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在分析连接数异常...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+🔍 连接数分析报告
+
+当前连接数：450 / 500 (90%)
+最大连接数：500
+
+来源 TOP 3：
+1. 10.0.1.23 (支付服务)：180 连接
+2. 10.0.1.45 (订单服务)：150 连接
+3. 10.0.1.67 (用户服务)：80 连接
+
+🔴 异常发现：
+• 支付服务连接池配置错误（max=200, 但实际用了180）
+• 存在 45 个 Sleep 超过 60s 的空闲连接
+
+💡 建议操作：
+1. Kill 空闲连接（释放 45 个）
+2. 检查支付服务连接池配置
+
+是否执行清理？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="db-support" id="databases">
+        <div class="container">
+            <div class="section-title text-center">
+                <span class="section-tag">SUPPORT</span>
+                <h2>支持数据库</h2>
+            </div>
+            
+            <div class="db-grid">
+                <div class="db-item">
+                    <i class="fas fa-database" style="color: #00758f;"></i>
+                    <span>MySQL</span>
+                </div>
+                <div class="db-item">
+                    <i class="fas fa-database" style="color: #336791;"></i>
+                    <span>PostgreSQL</span>
+                </div>
+                <div class="db-item">
+                    <i class="fas fa-database" style="color: #f80000;"></i>
+                    <span>Oracle</span>
+                </div>
+                <div class="db-item">
+                    <i class="fas fa-database" style="color: #cc2927;"></i>
+                    <span>SQL Server</span>
+                </div>
+                <div class="db-item">
+                    <i class="fas fa-database" style="color: #4db33d;"></i>
+                    <span>MongoDB</span>
+                </div>
+                <div class="db-item">
+                    <i class="fas fa-database" style="color: #dc382d;"></i>
+                    <span>Redis</span>
+                </div>
+                <div class="db-item">
+                    <i class="fas fa-database" style="color: #47a248;"></i>
+                    <span>TiDB</span>
+                </div>
+                <div class="db-item">
+                    <i class="fas fa-database" style="color: #ffb13b;"></i>
+                    <span>达梦</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2>立即体验 DBA Skill</h2>
+            <p class="lead text-muted mb-4">让 AI 帮你搞定数据库运维</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-primary btn-lg"><i class="fas fa-calendar"></i> 预约演示</a>
+                <a href="/products/clawops-enterprise.html" class="btn btn-outline-light btn-lg"><i class="fas fa-arrow-left"></i> 返回企业版</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html>

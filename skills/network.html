@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网络 Skill - AI 驱动的网络运维助手 | ClawOps</title>
+    <meta name="description" content="ClawOps 网络 Skill 提供 AI 驱动的网络运维能力，包括拓扑发现、故障诊断、配置审计、变更管理等，支持华为、思科、华三等主流厂商。">
+    <meta name="keywords" content="网络运维, AI网络, 网络故障诊断, 网络拓扑, 配置管理, ClawOps Skill">
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    <style>
+        .skill-hero {
+            background: linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(0,217,255,0.1) 100%);
+            padding: 100px 0 60px;
+        }
+        
+        .skill-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+        }
+        
+        .skill-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        
+        .skill-hero .desc {
+            font-size: 1.2rem;
+            color: var(--gray-400);
+            max-width: 600px;
+        }
+        
+        .skill-nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 32px;
+        }
+        
+        .skill-nav a {
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .skill-nav a:hover, .skill-nav a.active {
+            background: rgba(102,126,234,0.15);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+        
+        /* Capability Cards */
+        .capability-section {
+            padding: 80px 0;
+            background: var(--dark-900);
+        }
+        
+        .capability-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px;
+            height: 100%;
+        }
+        
+        .capability-card .icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(102,126,234,0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .capability-card h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--white);
+        }
+        
+        .capability-card p {
+            color: var(--gray-400);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        .capability-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0 0;
+        }
+        
+        .capability-card li {
+            padding: 6px 0;
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+        
+        .capability-card li i {
+            color: var(--success);
+            margin-right: 8px;
+            font-size: 0.8rem;
+        }
+        
+        /* Scenario Section */
+        .scenario-section {
+            padding: 80px 0;
+            background: var(--dark-800);
+        }
+        
+        .scenario-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        
+        .scenario-header {
+            background: rgba(102,126,234,0.1);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .scenario-header h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin: 0;
+        }
+        
+        .scenario-header .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(0,217,255,0.15);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            margin-left: 12px;
+        }
+        
+        .scenario-body {
+            padding: 24px;
+        }
+        
+        .chat-demo {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .chat-message {
+            margin-bottom: 16px;
+        }
+        
+        .chat-message:last-child {
+            margin-bottom: 0;
+        }
+        
+        .chat-user {
+            color: var(--accent);
+        }
+        
+        .chat-ai {
+            color: var(--success);
+        }
+        
+        .chat-message .label {
+            opacity: 0.6;
+            margin-right: 8px;
+        }
+        
+        /* Vendor Support */
+        .vendor-section {
+            padding: 60px 0;
+            background: var(--dark-900);
+        }
+        
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        
+        .vendor-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .vendor-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .vendor-item img {
+            height: 40px;
+            margin-bottom: 8px;
+            filter: grayscale(100%) brightness(0.8);
+            opacity: 0.7;
+        }
+        
+        .vendor-item:hover img {
+            filter: none;
+            opacity: 1;
+        }
+        
+        .vendor-item span {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+        
+        /* Integration */
+        .integration-section {
+            padding: 80px 0;
+            background: var(--dark-800);
+        }
+        
+        .integration-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .integration-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--gray-300);
+        }
+        
+        .integration-item i {
+            color: var(--primary);
+        }
+        
+        /* CTA */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="bg-gradient bg-gradient-1"></div>
+        <div class="bg-gradient bg-gradient-2"></div>
+        <div class="bg-gradient bg-gradient-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-cloud"></i>
+                CloudMesh
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/products/clawops-enterprise.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Skill Hero -->
+    <section class="skill-hero">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
+                    <li class="breadcrumb-item"><a href="/products/clawops-enterprise.html">ClawOps 企业版</a></li>
+                    <li class="breadcrumb-item active">网络 Skill</li>
+                </ol>
+            </nav>
+            
+            <div class="skill-icon">
+                <i class="fas fa-network-wired"></i>
+            </div>
+            <h1>网络 Skill</h1>
+            <p class="desc">AI 驱动的智能网络运维，覆盖拓扑发现、故障诊断、配置审计、变更管理全流程</p>
+            
+            <div class="skill-nav">
+                <a href="#capabilities">核心能力</a>
+                <a href="#scenarios">使用场景</a>
+                <a href="#vendors">支持厂商</a>
+                <a href="#integration">系统集成</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Capabilities -->
+    <section class="capability-section" id="capabilities">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">CAPABILITIES</span>
+                <h2>核心能力</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-project-diagram"></i></div>
+                        <h4>网络拓扑自动发现</h4>
+                        <p>自动扫描和发现网络设备，构建完整的网络拓扑图，实时更新设备状态和连接关系。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 支持 SNMP/LLDP/CDP 协议</li>
+                            <li><i class="fas fa-check"></i> 自动识别设备类型和型号</li>
+                            <li><i class="fas fa-check"></i> 实时拓扑可视化</li>
+                            <li><i class="fas fa-check"></i> 变更历史追踪</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-stethoscope"></i></div>
+                        <h4>智能故障诊断</h4>
+                        <p>基于 AI 的网络故障智能诊断，快速定位问题根因，提供修复建议。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 连通性自动检测</li>
+                            <li><i class="fas fa-check"></i> 多跳路径追踪</li>
+                            <li><i class="fas fa-check"></i> 性能瓶颈识别</li>
+                            <li><i class="fas fa-check"></i> 历史故障关联分析</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-file-code"></i></div>
+                        <h4>配置审计与管理</h4>
+                        <p>统一管理网络设备配置，自动审计配置合规性，支持配置回滚。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 配置自动备份</li>
+                            <li><i class="fas fa-check"></i> 配置差异对比</li>
+                            <li><i class="fas fa-check"></i> 合规规则检查</li>
+                            <li><i class="fas fa-check"></i> 一键配置回滚</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-exchange-alt"></i></div>
+                        <h4>变更风险管理</h4>
+                        <p>网络变更前自动风险评估，变更中实时监控，变更后自动验证。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 变更影响范围分析</li>
+                            <li><i class="fas fa-check"></i> 自动生成回滚方案</li>
+                            <li><i class="fas fa-check"></i> 变更窗口建议</li>
+                            <li><i class="fas fa-check"></i> 变更审批流程集成</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-chart-area"></i></div>
+                        <h4>性能监控与分析</h4>
+                        <p>全方位网络性能监控，智能分析流量趋势，预测容量需求。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 流量实时监控</li>
+                            <li><i class="fas fa-check"></i> 带宽利用率分析</li>
+                            <li><i class="fas fa-check"></i> 延迟与丢包监控</li>
+                            <li><i class="fas fa-check"></i> 容量预测预警</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                        <h4>安全策略管理</h4>
+                        <p>统一管理防火墙、ACL 等安全策略，自动检测策略冲突和安全风险。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 防火墙策略可视化</li>
+                            <li><i class="fas fa-check"></i> 策略冲突检测</li>
+                            <li><i class="fas fa-check"></i> 暴露面分析</li>
+                            <li><i class="fas fa-check"></i> 策略优化建议</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Scenarios -->
+    <section class="scenario-section" id="scenarios">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">SCENARIOS</span>
+                <h2>使用场景</h2>
+                <p>看看网络 Skill 如何解决实际问题</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景一：跨机房连通性检查</h4>
+                            <span class="tag">故障排查</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 帮我检查北京机房到上海机房的连通性</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在检查北京→上海网络链路...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+✓ 主链路（电信）：延迟 12ms，带宽利用率 78%
+✓ 备链路（联通）：延迟 45ms，带宽利用率 23%
+
+⚠️ 发现问题：
+• 主链路带宽利用率偏高（78%）
+• 备链路延迟较上周上升 15ms
+
+建议：关注主链路流量，必要时启用备链路分流
+需要我生成详细报告或创建工单吗？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景二：设备配置审计</h4>
+                            <span class="tag">日常运维</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 审计所有核心交换机的 SSH 配置</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在扫描核心交换机 SSH 配置...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+✓ 已审计 12 台核心交换机
+
+🔴 高风险问题（2 台）：
+• SW-BJ-01: SSH v1 未禁用
+• SW-SH-03: 允许 root 登录
+
+🟡 中风险问题（4 台）：
+• 空闲超时未设置（SW-BJ-02, SW-BJ-03...）
+• 登录失败锁定未启用
+
+已生成详细报告，是否需要自动修复？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景三：变更风险评估</h4>
+                            <span class="tag">变更管理</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 明晚要对 SW-BJ-01 做端口配置变更，帮我评估风险</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在分析变更影响...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+📋 变更风险评估报告
+
+设备：SW-BJ-01 (华为 S12700)
+影响范围：
+• 下联服务器：8 台
+• 涉及业务：支付系统、订单系统
+• 预估影响用户：约 5000 人
+
+建议：
+1. 变更窗口：22:00-23:00（业务低峰期）
+2. 预先通知业务方
+3. 准备回滚方案（已自动生成）
+
+是否需要我创建变更工单并通知相关人员？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景四：网络故障定位</h4>
+                            <span class="tag">故障处理</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 支付系统无法访问数据库，帮我排查网络问题</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在排查支付系统→数据库网络链路...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+🔍 故障定位结果
+
+路径：支付服务器 → FW-01 → SW-Core → DB服务器
+
+🔴 故障点：FW-01 防火墙
+原因：端口 3306 流量被阻断（策略变更）
+
+根因：今晨安全策略更新时误封禁
+
+✅ 建议操作：
+修改防火墙策略 ID: 10234
+命令已生成，是否需要立即执行？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vendor Support -->
+    <section class="vendor-section" id="vendors">
+        <div class="container">
+            <div class="section-title text-center">
+                <span class="section-tag">VENDORS</span>
+                <h2>支持厂商</h2>
+                <p>覆盖主流网络设备厂商</p>
+            </div>
+            
+            <div class="vendor-grid">
+                <div class="vendor-item">
+                    <i class="fas fa-network-wired fa-2x mb-2" style="color: #e63946;"></i>
+                    <span>华为 Huawei</span>
+                </div>
+                <div class="vendor-item">
+                    <i class="fas fa-network-wired fa-2x mb-2" style="color: #4cc9f0;"></i>
+                    <span>思科 Cisco</span>
+                </div>
+                <div class="vendor-item">
+                    <i class="fas fa-network-wired fa-2x mb-2" style="color: #f72585;"></i>
+                    <span>华三 H3C</span>
+                </div>
+                <div class="vendor-item">
+                    <i class="fas fa-network-wired fa-2x mb-2" style="color: #4361ee;"></i>
+                    <span>锐捷 Ruijie</span>
+                </div>
+                <div class="vendor-item">
+                    <i class="fas fa-network-wired fa-2x mb-2" style="color: #3a0ca3;"></i>
+                    <span>瞻博 Juniper</span>
+                </div>
+                <div class="vendor-item">
+                    <i class="fas fa-network-wired fa-2x mb-2" style="color: #7209b7;"></i>
+                    <span>阿里云</span>
+                </div>
+                <div class="vendor-item">
+                    <i class="fas fa-network-wired fa-2x mb-2" style="color: #ff6b35;"></i>
+                    <span>腾讯云</span>
+                </div>
+                <div class="vendor-item">
+                    <i class="fas fa-network-wired fa-2x mb-2" style="color: #ff9f1c;"></i>
+                    <span>AWS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration -->
+    <section class="integration-section" id="integration">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">INTEGRATION</span>
+                <h2>系统集成</h2>
+                <p>与企业现有系统无缝对接</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="text-white mb-3"><i class="fas fa-plug text-cyan me-2"></i>监控系统</h5>
+                    <div class="integration-list">
+                        <span class="integration-item"><i class="fas fa-chart-line"></i> Zabbix</span>
+                        <span class="integration-item"><i class="fas fa-chart-line"></i> Prometheus</span>
+                        <span class="integration-item"><i class="fas fa-chart-line"></i> Grafana</span>
+                        <span class="integration-item"><i class="fas fa-chart-line"></i> 阿里云监控</span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="text-white mb-3 mt-4 mt-lg-0"><i class="fas fa-ticket-alt text-cyan me-2"></i>工单系统</h5>
+                    <div class="integration-list">
+                        <span class="integration-item"><i class="fas fa-ticket-alt"></i> ServiceNow</span>
+                        <span class="integration-item"><i class="fas fa-ticket-alt"></i> Jira</span>
+                        <span class="integration-item"><i class="fas fa-ticket-alt"></i> 蓝鲸</span>
+                        <span class="integration-item"><i class="fas fa-ticket-alt"></i> 自研系统</span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="text-white mb-3 mt-4"><i class="fas fa-comments text-cyan me-2"></i>消息平台</h5>
+                    <div class="integration-list">
+                        <span class="integration-item"><i class="fas fa-comments"></i> 钉钉</span>
+                        <span class="integration-item"><i class="fas fa-comments"></i> 飞书</span>
+                        <span class="integration-item"><i class="fas fa-comments"></i> 企业微信</span>
+                        <span class="integration-item"><i class="fas fa-comments"></i> Slack</span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="text-white mb-3 mt-4"><i class="fas fa-database text-cyan me-2"></i>配置管理</h5>
+                    <div class="integration-list">
+                        <span class="integration-item"><i class="fas fa-database"></i> CMDB</span>
+                        <span class="integration-item"><i class="fas fa-database"></i> Git</span>
+                        <span class="integration-item"><i class="fas fa-database"></i> NetBox</span>
+                        <span class="integration-item"><i class="fas fa-database"></i> Nautobot</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2>立即体验网络 Skill</h2>
+            <p class="lead text-muted mb-4">让 AI 帮你搞定网络运维</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-primary btn-lg">
+                    <i class="fas fa-calendar"></i> 预约演示
+                </a>
+                <a href="/products/clawops-enterprise.html" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-arrow-left"></i> 返回企业版
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

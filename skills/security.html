@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全 Skill - AI 驱动的安全运维助手 | ClawOps</title>
+    <meta name="description" content="ClawOps 安全 Skill 提供 AI 驱动的安全运维能力，包括漏洞扫描、合规检查、入侵检测、资产发现等，满足等保合规要求。">
+    <meta name="keywords" content="安全运维, 漏洞扫描, 合规检查, 等保, 入侵检测, ClawOps Skill">
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    <style>
+        .skill-hero {
+            background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(102,126,234,0.1) 100%);
+            padding: 100px 0 60px;
+        }
+        
+        .skill-icon {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #ef4444 0%, var(--primary) 100%);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+        }
+        
+        .skill-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; }
+        .skill-hero .desc { font-size: 1.2rem; color: var(--gray-400); max-width: 600px; }
+        
+        .skill-nav { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+        .skill-nav a {
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .skill-nav a:hover, .skill-nav a.active {
+            background: rgba(239,68,68,0.15);
+            border-color: var(--danger);
+            color: var(--white);
+        }
+        
+        .capability-section { padding: 80px 0; background: var(--dark-900); }
+        .capability-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px;
+            height: 100%;
+        }
+        .capability-card .icon {
+            width: 50px; height: 50px;
+            background: rgba(239,68,68,0.15);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+            color: var(--danger);
+            margin-bottom: 20px;
+        }
+        .capability-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--white); }
+        .capability-card p { color: var(--gray-400); font-size: 0.95rem; line-height: 1.7; }
+        .capability-card ul { list-style: none; padding: 0; margin: 16px 0 0; }
+        .capability-card li { padding: 6px 0; color: var(--gray-500); font-size: 0.9rem; }
+        .capability-card li i { color: var(--danger); margin-right: 8px; font-size: 0.8rem; }
+        
+        .scenario-section { padding: 80px 0; background: var(--dark-800); }
+        .scenario-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .scenario-header {
+            background: rgba(239,68,68,0.1);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .scenario-header h4 { font-size: 1rem; font-weight: 700; color: var(--white); margin: 0; }
+        .scenario-header .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(239,68,68,0.15);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--danger);
+            margin-left: 12px;
+        }
+        .scenario-body { padding: 24px; }
+        .chat-demo {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+        .chat-message { margin-bottom: 16px; }
+        .chat-message:last-child { margin-bottom: 0; }
+        .chat-user { color: var(--accent); }
+        .chat-ai { color: var(--success); }
+        .chat-message .label { opacity: 0.6; margin-right: 8px; }
+        
+        .compliance-section { padding: 60px 0; background: var(--dark-900); }
+        .compliance-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+        .compliance-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .compliance-item i { font-size: 2rem; margin-bottom: 8px; color: var(--danger); }
+        .compliance-item h5 { font-size: 1rem; color: var(--white); margin-bottom: 4px; }
+        .compliance-item p { font-size: 0.8rem; color: var(--gray-500); margin: 0; }
+        
+        .risk-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
+        .risk-high { background: rgba(239,68,68,0.2); color: #ef4444; }
+        .risk-medium { background: rgba(245,158,11,0.2); color: #f59e0b; }
+        .risk-low { background: rgba(16,185,129,0.2); color: #10b981; }
+        
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(102,126,234,0.1) 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-gradient bg-gradient-1"></div>
+        <div class="bg-gradient bg-gradient-2"></div>
+        <div class="bg-gradient bg-gradient-3"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-cloud"></i> CloudMesh</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/products/clawops-enterprise.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="skill-hero">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
+                    <li class="breadcrumb-item"><a href="/products/clawops-enterprise.html">ClawOps 企业版</a></li>
+                    <li class="breadcrumb-item active">安全 Skill</li>
+                </ol>
+            </nav>
+            
+            <div class="skill-icon"><i class="fas fa-shield-alt"></i></div>
+            <h1>安全 Skill</h1>
+            <p class="desc">AI 驱动的智能安全运维，覆盖漏洞扫描、合规检查、入侵检测、应急响应全流程</p>
+            
+            <div class="skill-nav">
+                <a href="#capabilities">核心能力</a>
+                <a href="#scenarios">使用场景</a>
+                <a href="#compliance">合规支持</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="capability-section" id="capabilities">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">CAPABILITIES</span>
+                <h2>核心能力</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-search"></i></div>
+                        <h4>资产自动发现</h4>
+                        <p>自动发现和分类企业 IT 资产，建立完整的资产清单。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 网络资产扫描</li>
+                            <li><i class="fas fa-check"></i> 云资产同步</li>
+                            <li><i class="fas fa-check"></i> 资产分类标签</li>
+                            <li><i class="fas fa-check"></i> 资产变更追踪</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-bug"></i></div>
+                        <h4>漏洞扫描与修复</h4>
+                        <p>自动化漏洞扫描，智能修复建议，漏洞生命周期管理。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 系统漏洞扫描</li>
+                            <li><i class="fas fa-check"></i> Web 漏洞检测</li>
+                            <li><i class="fas fa-check"></i> 自动修复建议</li>
+                            <li><i class="fas fa-check"></i> 漏洞闭环管理</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-clipboard-check"></i></div>
+                        <h4>合规检查</h4>
+                        <p>自动化安全合规检查，支持等保、ISO27001、SOC2 等标准。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 等保 2.0 检查</li>
+                            <li><i class="fas fa-check"></i> ISO27001 合规</li>
+                            <li><i class="fas fa-check"></i> SOC2 合规</li>
+                            <li><i class="fas fa-check"></i> 行业定制规则</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-user-secret"></i></div>
+                        <h4>入侵检测</h4>
+                        <p>实时监测异常行为，智能识别入侵行为和威胁。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 异常登录检测</li>
+                            <li><i class="fas fa-check"></i> 暴力破解识别</li>
+                            <li><i class="fas fa-check"></i> 横向移动检测</li>
+                            <li><i class="fas fa-check"></i> 威胁情报关联</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-fire-extinguisher"></i></div>
+                        <h4>应急响应</h4>
+                        <p>安全事件快速响应，自动化处置流程，降低影响范围。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 事件自动分级</li>
+                            <li><i class="fas fa-check"></i> 预案自动执行</li>
+                            <li><i class="fas fa-check"></i> 隔离与封禁</li>
+                            <li><i class="fas fa-check"></i> 事件报告生成</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-key"></i></div>
+                        <h4>密钥与权限管理</h4>
+                        <p>统一管理 API 密钥、证书、权限，定期轮换提醒。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 密钥生命周期管理</li>
+                            <li><i class="fas fa-check"></i> 证书过期预警</li>
+                            <li><i class="fas fa-check"></i> 权限最小化检查</li>
+                            <li><i class="fas fa-check"></i> 敏感权限审计</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="scenario-section" id="scenarios">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">SCENARIOS</span>
+                <h2>使用场景</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景一：漏洞扫描与修复</h4>
+                            <span class="tag">日常运维</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 扫描生产服务器漏洞</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在扫描 156 台生产服务器...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+🔒 漏洞扫描报告
+
+扫描资产：156 台服务器
+扫描时间：15 分钟
+
+🔴 高危漏洞 <span class="risk-badge risk-high">12</span> 个
+• CVE-2024-1234 (OpenSSH) - 8 台
+• CVE-2024-5678 (OpenSSL) - 4 台
+
+🟡 中危漏洞 <span class="risk-badge risk-medium">34</span> 个
+• 系统补丁缺失 - 20 台
+• 弱密码策略 - 14 台
+
+💡 修复建议：
+1. 升级 OpenSSH 到 9.8+
+2. 升级 OpenSSL 到 3.0.13+
+3. 部署补丁并更新密码策略
+
+是否生成修复脚本？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景二：异常行为检测</h4>
+                            <span class="tag">安全监控</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">🚨 ClawOps 安全告警:</span>
+检测到异常登录行为！
+
+用户：admin
+来源 IP：185.234.xx.xx（境外）
+时间：14:32:15
+行为：SSH 登录失败 15 次后成功
+
+风险分析：
+• 该 IP 在威胁情报中标记为恶意
+• 非工作时间登录
+• 多次失败后成功 = 暴力破解成功
+
+建议操作：
+1. 立即锁定账户
+2. 断开当前会话
+3. 重置密码
+4. 启动应急响应流程
+
+是否立即执行？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景三：等保合规检查</h4>
+                            <span class="tag">合规审计</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-user"><span class="label">你:</span>@ClawOps 检查等保三级合规情况</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">ClawOps:</span>正在执行等保三级检查项...</span>
+                                </div>
+                                <div class="chat-message">
+                                    <span class="chat-ai">
+📋 等保三级合规报告
+
+检查项：211 项
+通过：186 项 (88%)
+待整改：25 项
+
+🔴 必须整改项（5 项）：
+• 未启用双因素认证
+• 日志保留不足 6 个月
+• 备份未异地存储
+• 未部署 WAF
+• 安全域划分不清晰
+
+🟡 建议整改项（20 项）：
+• 密码复杂度策略
+• 会话超时设置
+• ...
+
+已生成整改计划，预计完成时间 30 天。
+需要我创建整改工单吗？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <h4>场景四：证书过期预警</h4>
+                            <span class="tag">日常运维</span>
+                        </div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message">
+                                    <span class="chat-ai"><span class="label">⚠️ ClawOps 证书预警:</span>
+以下证书即将过期：
+
+🔴 7 天内过期：
+• api.example.com - 3 天后过期
+• pay.example.com - 5 天后过期
+
+🟡 30 天内过期：
+• www.example.com - 28 天后过期
+• admin.example.com - 29 天后过期
+
+💡 建议操作：
+1. 立即续签 api.example.com
+2. 安排 pay.example.com 续签
+3. 批量续签其他证书
+
+已检测到证书来自 Let's Encrypt，是否自动续签？</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="compliance-section" id="compliance">
+        <div class="container">
+            <div class="section-title text-center">
+                <span class="section-tag">COMPLIANCE</span>
+                <h2>支持合规标准</h2>
+            </div>
+            
+            <div class="compliance-grid">
+                <div class="compliance-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h5>等保 2.0</h5>
+                    <p>三级/二级检查</p>
+                </div>
+                <div class="compliance-item">
+                    <i class="fas fa-certificate"></i>
+                    <h5>ISO 27001</h5>
+                    <p>信息安全管理</p>
+                </div>
+                <div class="compliance-item">
+                    <i class="fas fa-check-circle"></i>
+                    <h5>SOC 2</h5>
+                    <p>服务组织控制</p>
+                </div>
+                <div class="compliance-item">
+                    <i class="fas fa-lock"></i>
+                    <h5>PCI DSS</h5>
+                    <p>支付卡安全</p>
+                </div>
+                <div class="compliance-item">
+                    <i class="fas fa-hospital"></i>
+                    <h5>医疗等保</h5>
+                    <p>医疗行业</p>
+                </div>
+                <div class="compliance-item">
+                    <i class="fas fa-university"></i>
+                    <h5>金融合规</h5>
+                    <p>金融行业</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2>立即体验安全 Skill</h2>
+            <p class="lead text-muted mb-4">让 AI 帮你搞定安全运维</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-primary btn-lg"><i class="fas fa-calendar"></i> 预约演示</a>
+                <a href="/products/clawops-enterprise.html" class="btn btn-outline-light btn-lg"><i class="fas fa-arrow-left"></i> 返回企业版</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html>
