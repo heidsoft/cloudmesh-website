@@ -123,4 +123,4 @@ window.deployService = new DeployService();
 window.monitorService = new MonitorService();
 window.userService = new UserService();
 
-console.log('OpenClaw Deploy API initialized');
+console.log('ClawOps Deploy API initialized');
