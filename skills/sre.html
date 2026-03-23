@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRE Skill - AI 驱动的站点可靠性工程师助手 | ClawOps</title>
+    <meta name="description" content="ClawOps SRE Skill 提供 AI 驱动的站点可靠性工程能力，包括智能告警、根因分析、SLA 管理、容量规划等。">
+    <meta name="keywords" content="SRE, 站点可靠性, 告警降噪, 根因分析, SLA, ClawOps Skill">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    <style>
+        .skill-hero { background: linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(102,126,234,0.1) 100%); padding: 100px 0 60px; }
+        .skill-icon { width: 80px; height: 80px; background: linear-gradient(135deg, #f59e0b 0%, var(--primary) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin-bottom: 24px; }
+        .skill-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; }
+        .skill-hero .desc { font-size: 1.2rem; color: var(--gray-400); max-width: 600px; }
+        .skill-nav { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+        .skill-nav a { padding: 10px 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--gray-400); text-decoration: none; font-size: 0.9rem; transition: all 0.3s; }
+        .skill-nav a:hover { background: rgba(245,158,11,0.15); border-color: var(--warning); color: var(--white); }
+        .capability-section { padding: 80px 0; background: var(--dark-900); }
+        .capability-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 32px; height: 100%; }
+        .capability-card .icon { width: 50px; height: 50px; background: rgba(245,158,11,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: var(--warning); margin-bottom: 20px; }
+        .capability-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--white); }
+        .capability-card p { color: var(--gray-400); font-size: 0.95rem; line-height: 1.7; }
+        .capability-card ul { list-style: none; padding: 0; margin: 16px 0 0; }
+        .capability-card li { padding: 6px 0; color: var(--gray-500); font-size: 0.9rem; }
+        .capability-card li i { color: var(--warning); margin-right: 8px; font-size: 0.8rem; }
+        .scenario-section { padding: 80px 0; background: var(--dark-800); }
+        .scenario-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; margin-bottom: 24px; }
+        .scenario-header { background: rgba(245,158,11,0.1); padding: 20px 24px; border-bottom: 1px solid var(--glass-border); }
+        .scenario-header h4 { font-size: 1rem; font-weight: 700; color: var(--white); margin: 0; }
+        .scenario-header .tag { display: inline-block; padding: 4px 12px; background: rgba(245,158,11,0.15); border-radius: 20px; font-size: 0.75rem; color: var(--warning); margin-left: 12px; }
+        .scenario-body { padding: 24px; }
+        .chat-demo { background: #1a1a2e; border-radius: 12px; padding: 20px; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.85rem; }
+        .chat-message { margin-bottom: 16px; }
+        .chat-message:last-child { margin-bottom: 0; }
+        .chat-user { color: var(--accent); }
+        .chat-ai { color: var(--success); }
+        .chat-message .label { opacity: 0.6; margin-right: 8px; }
+        .cta-section { padding: 80px 0; background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(102,126,234,0.1) 100%); }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"><div class="bg-gradient bg-gradient-1"></div><div class="bg-gradient bg-gradient-2"></div><div class="bg-gradient bg-gradient-3"></div></div>
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-cloud"></i> CloudMesh</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/products/clawops-enterprise.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="skill-hero">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
+                    <li class="breadcrumb-item"><a href="/products/clawops-enterprise.html">ClawOps 企业版</a></li>
+                    <li class="breadcrumb-item active">SRE Skill</li>
+                </ol>
+            </nav>
+            <div class="skill-icon"><i class="fas fa-server"></i></div>
+            <h1>SRE Skill</h1>
+            <p class="desc">AI 驱动的站点可靠性工程，覆盖智能告警、根因分析、SLA 管理、容量规划、故障自愈全流程</p>
+            <div class="skill-nav">
+                <a href="#capabilities">核心能力</a>
+                <a href="#scenarios">使用场景</a>
+                <a href="#api">API 文档</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="capability-section" id="capabilities">
+        <div class="container">
+            <div class="section-title"><span class="section-tag">CAPABILITIES</span><h2>核心能力</h2></div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-bell"></i></div>
+                        <h4>智能告警降噪</h4>
+                        <p>告警智能聚合与降噪，减少 90% 无效告警，让 SRE 专注真正重要的问题。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 告警自动聚合</li>
+                            <li><i class="fas fa-check"></i> 相关性分析</li>
+                            <li><i class="fas fa-check"></i> 降噪规则学习</li>
+                            <li><i class="fas fa-check"></i> 分级通知策略</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-search-location"></i></div>
+                        <h4>自动根因分析</h4>
+                        <p>基于 AI 的故障根因自动定位，秒级找出问题根源，缩短 MTTR。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 多维度关联分析</li>
+                            <li><i class="fas fa-check"></i> 拓扑感知定位</li>
+                            <li><i class="fas fa-check"></i> 历史案例匹配</li>
+                            <li><i class="fas fa-check"></i> 根因置信度评分</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-chart-line"></i></div>
+                        <h4>SLA/SLO 管理</h4>
+                        <p>自动化 SLA/SLO 定义、监控和报告，让可靠性目标可量化可追踪。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> SLO 自动计算</li>
+                            <li><i class="fas fa-check"></i> 错误预算追踪</li>
+                            <li><i class="fas fa-check"></i> 燃尽率预测</li>
+                            <li><i class="fas fa-check"></i> SLA 报告生成</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                        <h4>容量规划</h4>
+                        <p>基于历史趋势和业务预测，智能规划容量需求，避免资源浪费或不足。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 趋势预测分析</li>
+                            <li><i class="fas fa-check"></i> 业务关联建模</li>
+                            <li><i class="fas fa-check"></i> 扩容建议生成</li>
+                            <li><i class="fas fa-check"></i> 成本优化建议</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-magic"></i></div>
+                        <h4>故障自愈</h4>
+                        <p>常见故障自动检测与修复，无需人工干预，大幅提升系统可用性。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 故障模式识别</li>
+                            <li><i class="fas fa-check"></i> 自愈剧本执行</li>
+                            <li><i class="fas fa-check"></i> 效果验证反馈</li>
+                            <li><i class="fas fa-check"></i> 失败回滚机制</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="capability-card">
+                        <div class="icon"><i class="fas fa-book"></i></div>
+                        <h4>事故复盘</h4>
+                        <p>自动化事故复盘报告生成，提炼经验教训，持续改进系统可靠性。</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 时间线自动生成</li>
+                            <li><i class="fas fa-check"></i> 影响范围评估</li>
+                            <li><i class="fas fa-check"></i> 改进项提取</li>
+                            <li><i class="fas fa-check"></i> 复盘报告生成</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="scenario-section" id="scenarios">
+        <div class="container">
+            <div class="section-title"><span class="section-tag">SCENARIOS</span><h2>使用场景</h2></div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header"><h4>场景一：告警风暴处理</h4><span class="tag">告警管理</span></div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message"><span class="chat-user"><span class="label">你:</span>@ClawOps 收到 100+ 条告警，帮我分析下</span></div>
+                                <div class="chat-message"><span class="chat-ai"><span class="label">ClawOps:</span>正在分析告警关联性...</span></div>
+                                <div class="chat-message"><span class="chat-ai">
+📊 告警聚合分析结果
+
+原始告警：127 条
+聚合后：3 个问题组
+
+🔴 P0 - 数据库连接池耗尽（根因）
+影响：支付服务、订单服务
+关联告警：89 条
+
+🟡 P1 - Redis 连接超时
+影响：缓存服务
+关联告警：28 条
+
+🟢 P2 - 日志磁盘空间不足
+影响：日志服务
+关联告警：10 条
+
+💡 建议优先处理 P0 问题
+已自动执行数据库连接池重置，服务恢复中...</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="scenario-card">
+                        <div class="scenario-header"><h4>场景二：SLA 报告生成</h4><span class="tag">日常运维</span></div>
+                        <div class="scenario-body">
+                            <div class="chat-demo">
+                                <div class="chat-message"><span class="chat-user"><span class="label">你:</span>@ClawOps 生成上月 SLA 报告</span></div>
+                                <div class="chat-message"><span class="chat-ai"><span class="label">ClawOps:</span>正在生成 SLA 月度报告...</span></div>
+                                <div class="chat-message"><span class="chat-ai">
+📊 SLA 月度报告（2026年2月）
+
+核心服务可用性：
+• 支付服务：99.95%（目标 99.9% ✅）
+• 订单服务：99.87%（目标 99.9% ⚠️）
+• 用户服务：99.98%（目标 99.9% ✅）
+
+错误预算消耗：
+• 订单服务已用 130%（超支）
+• 其他服务均未超支
+
+故障统计：
+• 总计 4 次，累计影响 52 分钟
+• 主要原因：数据库连接池（2次）
+
+改进建议：
+1. 增加订单服务数据库连接数
+2. 添加连接池耗尽自动恢复机制
+
+📄 完整报告已发送到邮箱</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="capability-section" id="api">
+        <div class="container">
+            <div class="section-title"><span class="section-tag">API</span><h2>API 接口</h2></div>
+            <div class="capability-card">
+                <h4><i class="fas fa-code text-warning me-2"></i>告警聚合 API</h4>
+                <p class="text-muted mb-3">POST /api/v1/sre/alerts/aggregate</p>
+                <pre class="bg-dark p-3 rounded"><code class="text-light">{
+  "timeRange": "1h",
+  "groupBy": ["service", "alertName"],
+  "correlationThreshold": 0.8
+}</code></pre>
+            </div>
+            <div class="capability-card mt-4">
+                <h4><i class="fas fa-code text-warning me-2"></i>根因分析 API</h4>
+                <p class="text-muted mb-3">POST /api/v1/sre/rca/analyze</p>
+                <pre class="bg-dark p-3 rounded"><code class="text-light">{
+  "incidentId": "INC-20260323-001",
+  "depth": "deep",
+  "includeSuggestions": true
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2>立即体验 SRE Skill</h2>
+            <p class="lead text-muted mb-4">让 AI 帮你搞定站点可靠性</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-primary btn-lg"><i class="fas fa-calendar"></i> 预约演示</a>
+                <a href="/products/clawops-enterprise.html" class="btn btn-outline-light btn-lg"><i class="fas fa-arrow-left"></i> 返回企业版</a>
+            </div>
+        </div>
+    </section>
+
+    <footer><div class="container"><div class="footer-bottom"><p>&copy; 2026 CloudMesh. All rights reserved.</p></div></div></footer>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));</script>
+</body>
+</html>
