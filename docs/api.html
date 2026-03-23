@@ -3,62 +3,541 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API 文档 - ITSM</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>ClawOps API 文档 - 企业级 AI 运维平台接口</title>
+    <meta name="description" content="ClawOps 企业版 API 文档，提供网络、DBA、SRE、安全等 Skill 的完整接口说明。">
+    <meta name="keywords" content="ClawOps API, 运维 API, AI Agent API, 开发者文档">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    <style>
+        .api-hero { padding: 100px 0 60px; background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%); }
+        .api-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; }
+        .api-sidebar { position: sticky; top: 100px; }
+        .api-nav { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; }
+        .api-nav a { display: block; padding: 10px 16px; color: var(--gray-400); text-decoration: none; border-radius: 8px; margin-bottom: 4px; }
+        .api-nav a:hover, .api-nav a.active { background: rgba(102,126,234,0.15); color: var(--white); }
+        .api-nav .section-title { font-size: 0.8rem; text-transform: uppercase; color: var(--gray-500); margin-top: 16px; margin-bottom: 8px; letter-spacing: 1px; }
+        .api-content { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+        .api-endpoint { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+        .api-method { padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; }
+        .api-method.get { background: rgba(34,197,94,0.2); color: #22c55e; }
+        .api-method.post { background: rgba(59,130,246,0.2); color: #3b82f6; }
+        .api-method.put { background: rgba(245,158,11,0.2); color: #f59e0b; }
+        .api-method.delete { background: rgba(239,68,68,0.2); color: #ef4444; }
+        .api-path { font-family: 'Monaco', 'Consolas', monospace; font-size: 1rem; color: var(--white); }
+        .code-block { background: #1a1a2e; border-radius: 12px; padding: 20px; margin: 16px 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.9rem; }
+        .code-block .comment { color: #6b7280; }
+        .code-block .key { color: #f472b6; }
+        .code-block .string { color: #a5d6ff; }
+        .code-block .number { color: #79c0ff; }
+        .param-table { width: 100%; margin: 16px 0; }
+        .param-table th, .param-table td { padding: 12px 16px; border-bottom: 1px solid var(--glass-border); text-align: left; }
+        .param-table th { background: rgba(102,126,234,0.1); color: var(--primary); font-weight: 600; }
+        .param-table td { color: var(--gray-400); }
+        .param-name { font-family: 'Monaco', monospace; color: var(--accent); }
+        .param-required { color: #ef4444; font-size: 0.75rem; }
+        .response-example { margin-top: 16px; }
+        .auth-section { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 12px; padding: 20px; margin-bottom: 32px; }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
+    <div class="bg-animation"><div class="bg-gradient bg-gradient-1"></div><div class="bg-gradient bg-gradient-2"></div><div class="bg-gradient bg-gradient-3"></div></div>
+    
+    <nav class="navbar navbar-expand-lg" id="navbar">
         <div class="container">
-            <div class="logo"><h1>ITSM</h1></div>
-            <ul class="nav-links">
-                <li><a href="/">首页</a></li>
-                <li><a href="/docs/">文档</a></li>
-            </ul>
+            <a class="navbar-brand" href="/"><i class="fas fa-cloud"></i> CloudMesh</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/clawops-enterprise.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/docs/api.html">API 文档</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 
-    <section class="doc-content">
+    <section class="api-hero">
         <div class="container">
-            <h1>🔧 API 文档</h1>
-            
-            <div class="doc-section">
-                <h2>认证方式</h2>
-                <pre><code>Authorization: Bearer {token}</code></pre>
-            </div>
+            <h1>📖 ClawOps API 文档</h1>
+            <p class="lead text-muted">企业级 AI 运维平台完整接口文档</p>
+        </div>
+    </section>
 
-            <div class="doc-section">
-                <h2>工单 API</h2>
-                <h3>创建工单</h3>
-                <pre><code>POST /api/v1/tickets
-{
-  "title": "工单标题",
-  "description": "问题描述",
-  "priority": "high",
-  "type": "incident"
-}</code></pre>
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-lg-3">
+                    <div class="api-sidebar">
+                        <div class="api-nav">
+                            <div class="section-title">快速开始</div>
+                            <a href="#overview" class="active">概述</a>
+                            <a href="#authentication">认证</a>
+                            <a href="#quickstart">快速上手</a>
+                            
+                            <div class="section-title">Skill API</div>
+                            <a href="#network-api">网络 Skill</a>
+                            <a href="#dba-api">DBA Skill</a>
+                            <a href="#sre-api">SRE Skill</a>
+                            <a href="#security-api">安全 Skill</a>
+                            <a href="#devops-api">DevOps Skill</a>
+                            <a href="#audit-api">审计 Skill</a>
+                            
+                            <div class="section-title">公共接口</div>
+                            <a href="#common-api">公共接口</a>
+                            <a href="#error-codes">错误码</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <!-- Overview -->
+                    <div class="api-content" id="overview">
+                        <h2 class="mb-4">概述</h2>
+                        <p class="text-muted">ClawOps API 提供了完整的运维自动化接口，支持通过 RESTful API 调用所有 Skill 能力。</p>
+                        
+                        <h4 class="mt-4 mb-3">基础 URL</h4>
+                        <div class="code-block">
+                            <pre><span class="comment"># 生产环境</span>
+https://api.clawops.cloudmesh.top/v1
 
-                <h3>获取工单列表</h3>
-                <pre><code>GET /api/v1/tickets</code></pre>
-
-                <h3>更新工单</h3>
-                <pre><code>PUT /api/v1/tickets/{id}</code></pre>
-            </div>
-
-            <div class="doc-section">
-                <h2>事件 API</h2>
-                <h3>创建事件</h3>
-                <pre><code>POST /api/v1/incidents</code></pre>
-
-                <h3>获取事件列表</h3>
-                <pre><code>GET /api/v1/incidents</code></pre>
-            </div>
-
-            <div class="doc-section">
-                <h2>完整 API 文档</h2>
-                <p>访问 Swagger UI 查看完整 API 文档：</p>
-                <a href="http://localhost:8080/swagger" class="btn btn-primary">查看 Swagger</a>
+<span class="comment"># 测试环境</span>
+https://api-staging.clawops.cloudmesh.top/v1</pre>
+                        </div>
+                        
+                        <h4 class="mt-4 mb-3">请求格式</h4>
+                        <ul class="text-muted">
+                            <li>Content-Type: application/json</li>
+                            <li>编码: UTF-8</li>
+                            <li>认证: Bearer Token</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Authentication -->
+                    <div class="api-content" id="authentication">
+                        <h2 class="mb-4">认证</h2>
+                        
+                        <div class="auth-section">
+                            <h5><i class="fas fa-shield-alt text-warning me-2"></i>API Key 认证</h5>
+                            <p class="mb-0 text-muted">所有 API 请求需要在 Header 中携带 API Key</p>
+                        </div>
+                        
+                        <div class="code-block">
+                            <pre>curl -X GET "https://api.clawops.cloudmesh.top/v1/servers" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"</pre>
+                        </div>
+                        
+                        <h4 class="mt-4 mb-3">获取 API Key</h4>
+                        <ol class="text-muted">
+                            <li>登录 ClawOps 控制台</li>
+                            <li>进入「设置」→「API 管理」</li>
+                            <li>点击「创建 API Key」</li>
+                            <li>设置权限范围和过期时间</li>
+                        </ol>
+                    </div>
+                    
+                    <!-- Network API -->
+                    <div class="api-content" id="network-api">
+                        <h2 class="mb-4"><i class="fas fa-network-wired text-primary me-2"></i>网络 Skill API</h2>
+                        
+                        <!-- Get Network Topology -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method get">GET</span>
+                                <span class="api-path">/network/topology</span>
+                            </div>
+                            <p class="text-muted">获取网络拓扑结构</p>
+                            
+                            <h5>请求参数</h5>
+                            <table class="param-table">
+                                <tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                                <tr><td><span class="param-name">region</span></td><td>string</td><td><span class="param-required">是</span></td><td>区域标识</td></tr>
+                                <tr><td><span class="param-name">depth</span></td><td>integer</td><td>否</td><td>拓扑深度，默认 3</td></tr>
+                                <tr><td><span class="param-name">format</span></td><td>string</td><td>否</td><td>输出格式：json/graphml，默认 json</td></tr>
+                            </table>
+                            
+                            <h5>响应示例</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"code"</span>: <span class="number">200</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"nodes"</span>: [
+      {
+        <span class="key">"id"</span>: <span class="string">"sw-001"</span>,
+        <span class="key">"type"</span>: <span class="string">"switch"</span>,
+        <span class="key">"name"</span>: <span class="string">"核心交换机-01"</span>,
+        <span class="key">"ip"</span>: <span class="string">"192.168.1.1"</span>,
+        <span class="key">"vendor"</span>: <span class="string">"huawei"</span>,
+        <span class="key">"status"</span>: <span class="string">"online"</span>
+      }
+    ],
+    <span class="key">"edges"</span>: [
+      {
+        <span class="key">"source"</span>: <span class="string">"sw-001"</span>,
+        <span class="key">"target"</span>: <span class="string">"sw-002"</span>,
+        <span class="key">"bandwidth"</span>: <span class="string">"10G"</span>
+      }
+    ]
+  }
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Network Diagnose -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/network/diagnose</span>
+                            </div>
+                            <p class="text-muted">网络故障诊断</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"source"</span>: <span class="string">"192.168.1.100"</span>,
+  <span class="key">"target"</span>: <span class="string">"192.168.2.100"</span>,
+  <span class="key">"checks"</span>: [<span class="string">"ping"</span>, <span class="string">"traceroute"</span>, <span class="string">"port"</span>],
+  <span class="key">"ports"</span>: [<span class="number">80</span>, <span class="number">443</span>, <span class="number">3306</span>]
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Config Audit -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/network/config/audit</span>
+                            </div>
+                            <p class="text-muted">设备配置审计</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"devices"</span>: [<span class="string">"sw-001"</span>, <span class="string">"sw-002"</span>],
+  <span class="key">"rules"</span>: [<span class="string">"ssh-version"</span>, <span class="string">"password-policy"</span>, <span class="string">"acl-compliance"</span>],
+  <span class="key">"autoFix"</span>: <span class="number">false</span>
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- DBA API -->
+                    <div class="api-content" id="dba-api">
+                        <h2 class="mb-4"><i class="fas fa-database text-success me-2"></i>DBA Skill API</h2>
+                        
+                        <!-- Slow Query Analysis -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/dba/slow-query/analyze</span>
+                            </div>
+                            <p class="text-muted">慢查询分析</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"instanceId"</span>: <span class="string">"mysql-prod-01"</span>,
+  <span class="key">"timeRange"</span>: {
+    <span class="key">"start"</span>: <span class="string">"2026-03-20T00:00:00Z"</span>,
+    <span class="key">"end"</span>: <span class="string">"2026-03-23T00:00:00Z"</span>
+  },
+  <span class="key">"topN"</span>: <span class="number">10</span>,
+  <span class="key">"minExecutionTime"</span>: <span class="number">1</span>
+}</pre>
+                            </div>
+                            
+                            <h5>响应示例</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"code"</span>: <span class="number">200</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"total"</span>: <span class="number">156</span>,
+    <span class="key">"queries"</span>: [
+      {
+        <span class="key">"fingerprint"</span>: <span class="string">"SELECT * FROM orders WHERE ..."</span>,
+        <span class="key">"count"</span>: <span class="number">1234</span>,
+        <span class="key">"avgTime"</span>: <span class="number">3.2</span>,
+        <span class="key">"maxTime"</span>: <span class="number">15.6</span>,
+        <span class="key">"suggestion"</span>: <span class="string">"添加索引 idx_create_time"</span>
+      }
+    ]
+  }
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- SQL Optimize -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/dba/sql/optimize</span>
+                            </div>
+                            <p class="text-muted">SQL 优化建议</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"instanceId"</span>: <span class="string">"mysql-prod-01"</span>,
+  <span class="key">"sql"</span>: <span class="string">"SELECT * FROM orders WHERE user_id = ? AND status = ?"</span>,
+  <span class="key">"analyzeExecutionPlan"</span>: <span class="number">true</span>
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Capacity Predict -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method get">GET</span>
+                                <span class="api-path">/dba/capacity/predict</span>
+                            </div>
+                            <p class="text-muted">容量预测</p>
+                            
+                            <h5>请求参数</h5>
+                            <table class="param-table">
+                                <tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                                <tr><td><span class="param-name">instanceId</span></td><td>string</td><td><span class="param-required">是</span></td><td>实例 ID</td></tr>
+                                <tr><td><span class="param-name">days</span></td><td>integer</td><td>否</td><td>预测天数，默认 30</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- SRE API -->
+                    <div class="api-content" id="sre-api">
+                        <h2 class="mb-4"><i class="fas fa-server text-warning me-2"></i>SRE Skill API</h2>
+                        
+                        <!-- Alert Aggregate -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/sre/alerts/aggregate</span>
+                            </div>
+                            <p class="text-muted">告警聚合分析</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"timeRange"</span>: <span class="string">"1h"</span>,
+  <span class="key">"groupBy"</span>: [<span class="string">"service"</span>, <span class="string">"alertName"</span>],
+  <span class="key">"correlationThreshold"</span>: <span class="number">0.8</span>,
+  <span class="key">"includeSuggestions"</span>: <span class="number">true</span>
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- RCA -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/sre/rca/analyze</span>
+                            </div>
+                            <p class="text-muted">根因分析</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"incidentId"</span>: <span class="string">"INC-20260323-001"</span>,
+  <span class="key">"depth"</span>: <span class="string">"deep"</span>,
+  <span class="key">"includeTimeline"</span>: <span class="number">true</span>,
+  <span class="key">"includeSuggestions"</span>: <span class="number">true</span>
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- SLA Report -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method get">GET</span>
+                                <span class="api-path">/sre/sla/report</span>
+                            </div>
+                            <p class="text-muted">SLA 报告</p>
+                            
+                            <h5>请求参数</h5>
+                            <table class="param-table">
+                                <tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                                <tr><td><span class="param-name">service</span></td><td>string</td><td>否</td><td>服务名称，不传则返回全部</td></tr>
+                                <tr><td><span class="param-name">period</span></td><td>string</td><td>否</td><td>时间周期：day/week/month</td></tr>
+                                <tr><td><span class="param-name">format</span></td><td>string</td><td>否</td><td>输出格式：json/pdf</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Security API -->
+                    <div class="api-content" id="security-api">
+                        <h2 class="mb-4"><i class="fas fa-shield-alt text-danger me-2"></i>安全 Skill API</h2>
+                        
+                        <!-- Vulnerability Scan -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/security/vulnerability/scan</span>
+                            </div>
+                            <p class="text-muted">漏洞扫描</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"targets"</span>: [<span class="string">"192.168.1.0/24"</span>],
+  <span class="key">"scanType"</span>: [<span class="string">"system"</span>, <span class="string">"web"</span>, <span class="string">"database"</span>],
+  <span class="key">"severity"</span>: [<span class="string">"critical"</span>, <span class="string">"high"</span>, <span class="string">"medium"</span>],
+  <span class="key">"notifyOnComplete"</span>: <span class="number">true</span>
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Compliance Check -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/security/compliance/check</span>
+                            </div>
+                            <p class="text-muted">合规检查</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"standard"</span>: <span class="string">"mlps-level3"</span>,
+  <span class="key">"scope"</span>: <span class="string">"all"</span>,
+  <span class="key">"generateReport"</span>: <span class="number">true</span>
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- DevOps API -->
+                    <div class="api-content" id="devops-api">
+                        <h2 class="mb-4"><i class="fas fa-code-branch text-primary me-2"></i>DevOps Skill API</h2>
+                        
+                        <!-- Deploy -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/devops/deploy</span>
+                            </div>
+                            <p class="text-muted">应用部署</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"service"</span>: <span class="string">"pay-service"</span>,
+  <span class="key">"version"</span>: <span class="string">"v2.3.1"</span>,
+  <span class="key">"environment"</span>: <span class="string">"staging"</span>,
+  <span class="key">"strategy"</span>: <span class="string">"rolling"</span>,
+  <span class="key">"replicas"</span>: <span class="number">3</span>,
+  <span class="key">"healthCheck"</span>: {
+    <span class="key">"enabled"</span>: <span class="number">true</span>,
+    <span class="key">"path"</span>: <span class="string">"/health"</span>,
+    <span class="key">"timeout"</span>: <span class="number">30</span>
+  }
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Rollback -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/devops/rollback</span>
+                            </div>
+                            <p class="text-muted">应用回滚</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"service"</span>: <span class="string">"pay-service"</span>,
+  <span class="key">"environment"</span>: <span class="string">"production"</span>,
+  <span class="key">"targetVersion"</span>: <span class="string">"v2.2.5"</span>,
+  <span class="key">"reason"</span>: <span class="string">"性能问题"</span>
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Audit API -->
+                    <div class="api-content" id="audit-api">
+                        <h2 class="mb-4"><i class="fas fa-clipboard-check me-2" style="color: #8b5cf6;"></i>审计 Skill API</h2>
+                        
+                        <!-- Query Logs -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/audit/logs/query</span>
+                            </div>
+                            <p class="text-muted">审计日志查询</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"timeRange"</span>: {
+    <span class="key">"start"</span>: <span class="string">"2026-03-20T00:00:00Z"</span>,
+    <span class="key">"end"</span>: <span class="string">"2026-03-23T00:00:00Z"</span>
+  },
+  <span class="key">"filters"</span>: {
+    <span class="key">"user"</span>: <span class="string">"admin"</span>,
+    <span class="key">"action"</span>: <span class="string">"ssh_login"</span>,
+    <span class="key">"result"</span>: <span class="string">"success"</span>
+  },
+  <span class="key">"pagination"</span>: {
+    <span class="key">"page"</span>: <span class="number">1</span>,
+    <span class="key">"pageSize"</span>: <span class="number">100</span>
+  }
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Generate Report -->
+                        <div class="mb-5">
+                            <div class="api-endpoint">
+                                <span class="api-method post">POST</span>
+                                <span class="api-path">/audit/report/generate</span>
+                            </div>
+                            <p class="text-muted">生成审计报告</p>
+                            
+                            <h5>请求体</h5>
+                            <div class="code-block">
+                                <pre>{
+  <span class="key">"template"</span>: <span class="string">"monthly-audit"</span>,
+  <span class="key">"period"</span>: <span class="string">"2026-03"</span>,
+  <span class="key">"format"</span>: <span class="string">"pdf"</span>,
+  <span class="key">"includeRawData"</span>: <span class="number">false</span>
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Error Codes -->
+                    <div class="api-content" id="error-codes">
+                        <h2 class="mb-4">错误码</h2>
+                        
+                        <table class="param-table">
+                            <tr><th>错误码</th><th>说明</th><th>解决方案</th></tr>
+                            <tr><td><span class="param-name">401</span></td><td>认证失败</td><td>检查 API Key 是否正确</td></tr>
+                            <tr><td><span class="param-name">403</span></td><td>权限不足</td><td>检查 API Key 权限范围</td></tr>
+                            <tr><td><span class="param-name">404</span></td><td>资源不存在</td><td>检查请求的资源 ID</td></tr>
+                            <tr><td><span class="param-name">429</span></td><td>请求频率超限</td><td>降低请求频率或联系客服</td></tr>
+                            <tr><td><span class="param-name">500</span></td><td>服务器内部错误</td><td>重试或联系技术支持</td></tr>
+                            <tr><td><span class="param-name">503</span></td><td>服务暂时不可用</td><td>稍后重试</td></tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <footer>
+        <div class="container text-center py-4">
+            <p class="text-muted mb-0">&copy; 2026 CloudMesh. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
 </body>
 </html>
