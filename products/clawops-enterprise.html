@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClawOps 企业版 - 大型企业的 AI 运维平台 | CloudMesh</title>
+    <meta name="description" content="ClawOps 企业版，AI 驱动的智能运维平台，覆盖网络、DBA、SRE、安全、审计等全角色，支持钉钉、飞书、企业微信，助力大型企业实现运维自动化与智能化。">
+    <meta name="keywords" content="ClawOps 企业版, AI运维, 智能运维, AIOps, 企业DevOps, 运维自动化, 多角色运维">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="ClawOps 企业版 - 大型企业的 AI 运维平台">
+    <meta property="og:description" content="一个平台连接所有运维角色，让跨部门协作像对话一样简单">
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://cloudmesh.top/products/clawops-enterprise.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    <style>
+        /* Enterprise Specific Styles */
+        .enterprise-hero {
+            background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enterprise-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,217,255,0.05) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .enterprise-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .enterprise-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .enterprise-hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--gray-400);
+            margin-bottom: 40px;
+        }
+        
+        /* Role Cards */
+        .role-section {
+            padding: 80px 0;
+            background: var(--dark-900);
+        }
+        
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 40px;
+        }
+        
+        .role-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(102,126,234,0.2);
+        }
+        
+        .role-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+        
+        .role-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--white);
+        }
+        
+        .role-card p {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            margin: 0;
+        }
+        
+        /* Tech Roles */
+        .role-card.tech { border-left: 3px solid var(--primary); }
+        .role-card.tech .icon { color: var(--primary); }
+        
+        /* Business Roles */
+        .role-card.biz { border-left: 3px solid var(--success); }
+        .role-card.biz .icon { color: var(--success); }
+        
+        /* Architecture */
+        .architecture-section {
+            padding: 80px 0;
+            background: var(--dark-800);
+        }
+        
+        .arch-diagram {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+        
+        .arch-layer {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .arch-layer:last-child { margin-bottom: 0; }
+        
+        .arch-layer h5 {
+            color: var(--accent);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .arch-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .arch-item {
+            background: rgba(102,126,234,0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--gray-300);
+        }
+        
+        .arch-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        /* Comparison Section */
+        .comparison-section {
+            padding: 80px 0;
+            background: var(--dark-900);
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .comparison-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px;
+            position: relative;
+        }
+        
+        .comparison-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .comparison-card.featured::before {
+            content: '推荐';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 4px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .comparison-card h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--white);
+        }
+        
+        .comparison-card .price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .comparison-card .price span {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            font-weight: 400;
+        }
+        
+        .comparison-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+        }
+        
+        .comparison-card li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--gray-400);
+            font-size: 0.95rem;
+        }
+        
+        .comparison-card li:last-child { border-bottom: none; }
+        
+        .comparison-card li i {
+            color: var(--success);
+            margin-right: 8px;
+        }
+        
+        /* Stats */
+        .stats-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: var(--gray-400);
+            font-size: 1rem;
+            margin-top: 8px;
+        }
+        
+        /* Case Study */
+        .case-section {
+            padding: 80px 0;
+            background: var(--dark-800);
+        }
+        
+        .case-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 24px;
+        }
+        
+        .case-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .case-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .case-info h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+        
+        .case-info p {
+            color: var(--gray-500);
+            margin: 0;
+        }
+        
+        .case-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .case-metric {
+            text-align: center;
+        }
+        
+        .case-metric .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+        
+        .case-metric .label {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+        
+        /* Feature Highlights */
+        .feature-section {
+            padding: 80px 0;
+            background: var(--dark-900);
+        }
+        
+        .feature-highlight {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            height: 100%;
+        }
+        
+        .feature-highlight .icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-highlight h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+        
+        .feature-highlight p {
+            color: var(--gray-400);
+            line-height: 1.8;
+        }
+        
+        @media (max-width: 992px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+            .comparison-card.featured { transform: none; }
+            .case-metrics { grid-template-columns: repeat(2, 1fr); }
+            .enterprise-hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="bg-gradient bg-gradient-1"></div>
+        <div class="bg-gradient bg-gradient-2"></div>
+        <div class="bg-gradient bg-gradient-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-cloud"></i>
+                CloudMesh
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">产品</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/products/clawops.html">ClawOps 个人版</a></li>
+                            <li><a class="dropdown-item active" href="/products/clawops-enterprise.html">ClawOps 企业版</a></li>
+                            <li><a class="dropdown-item" href="/products/itsm.html">ITSM</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#pricing">定价</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-trial ms-2" href="/contact/">
+                            <i class="fas fa-calendar"></i> 预约演示
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Enterprise Hero -->
+    <section class="enterprise-hero">
+        <div class="container position-relative">
+            <div class="enterprise-badge">
+                <i class="fas fa-building"></i>
+                Enterprise Edition
+            </div>
+            <h1>ClawOps 企业版</h1>
+            <p class="subtitle">一个 AI Agent 平台，连接企业所有运维角色</p>
+            <p class="text-muted mb-4">让跨部门协作像对话一样简单</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-primary btn-lg">
+                    <i class="fas fa-calendar"></i> 预约演示
+                </a>
+                <a href="#pricing" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-file-alt"></i> 获取报价
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number">16+</div>
+                        <div class="stat-label">覆盖角色</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number">50%</div>
+                        <div class="stat-label">人力成本降低</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number">10x</div>
+                        <div class="stat-label">故障响应效率</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number">5x</div>
+                        <div class="stat-label">审计效率提升</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Role Coverage -->
+    <section class="role-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <span class="section-tag">ROLE COVERAGE</span>
+                <h2>覆盖企业全部运维角色</h2>
+                <p>每个角色都有专属 AI Skill，专业问题专业解决</p>
+            </div>
+            
+            <div class="role-grid">
+                <!-- Tech Roles -->
+                <div class="role-card tech">
+                    <div class="icon"><i class="fas fa-network-wired"></i></div>
+                    <h4>网络</h4>
+                    <p>拓扑发现·故障诊断·配置审计</p>
+                </div>
+                <div class="role-card tech">
+                    <div class="icon"><i class="fas fa-database"></i></div>
+                    <h4>DBA</h4>
+                    <p>SQL分析·容量预测·备份验证</p>
+                </div>
+                <div class="role-card tech">
+                    <div class="icon"><i class="fas fa-server"></i></div>
+                    <h4>SRE</h4>
+                    <p>告警降噪·根因分析·SLA报告</p>
+                </div>
+                <div class="role-card tech">
+                    <div class="icon"><i class="fas fa-code-branch"></i></div>
+                    <h4>DevOps</h4>
+                    <p>CI/CD·容器编排·自动部署</p>
+                </div>
+                <div class="role-card tech">
+                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                    <h4>安全</h4>
+                    <p>漏洞扫描·合规检查·入侵检测</p>
+                </div>
+                <div class="role-card tech">
+                    <div class="icon"><i class="fas fa-clipboard-check"></i></div>
+                    <h4>审计</h4>
+                    <p>操作审计·合规报告·追溯查询</p>
+                </div>
+                <div class="role-card tech">
+                    <div class="icon"><i class="fas fa-vial"></i></div>
+                    <h4>测试</h4>
+                    <p>环境管理·用例生成·性能测试</p>
+                </div>
+                <div class="role-card tech">
+                    <div class="icon"><i class="fas fa-code"></i></div>
+                    <h4>研发</h4>
+                    <p>代码审查·技术债务·环境拉起</p>
+                </div>
+                
+                <!-- Business Roles -->
+                <div class="role-card biz">
+                    <div class="icon"><i class="fas fa-lightbulb"></i></div>
+                    <h4>产品</h4>
+                    <p>需求追踪·版本规划·用户反馈</p>
+                </div>
+                <div class="role-card biz">
+                    <div class="icon"><i class="fas fa-tasks"></i></div>
+                    <h4>项目经理</h4>
+                    <p>进度追踪·资源协调·风险预警</p>
+                </div>
+                <div class="role-card biz">
+                    <div class="icon"><i class="fas fa-handshake"></i></div>
+                    <h4>业务 BP</h4>
+                    <p>需求翻译·跨团队协调·文档生成</p>
+                </div>
+                <div class="role-card biz">
+                    <div class="icon"><i class="fas fa-file-contract"></i></div>
+                    <h4>售前</h4>
+                    <p>方案推荐·竞品分析·标书生成</p>
+                </div>
+                <div class="role-card biz">
+                    <div class="icon"><i class="fas fa-chart-bar"></i></div>
+                    <h4>运营</h4>
+                    <p>数据报表·活动分析·异常检测</p>
+                </div>
+                <div class="role-card biz">
+                    <div class="icon"><i class="fas fa-ad"></i></div>
+                    <h4>投流</h4>
+                    <p>多平台整合·ROI监控·策略建议</p>
+                </div>
+                <div class="role-card biz">
+                    <div class="icon"><i class="fas fa-coins"></i></div>
+                    <h4>财务</h4>
+                    <p>成本归集·预算监控·资产台账</p>
+                </div>
+                <div class="role-card biz">
+                    <div class="icon"><i class="fas fa-balance-scale"></i></div>
+                    <h4>法务</h4>
+                    <p>合同审核·风险评估·合规检查</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture -->
+    <section class="architecture-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <span class="section-tag">ARCHITECTURE</span>
+                <h2>企业级架构设计</h2>
+                <p>安全、可靠、可扩展</p>
+            </div>
+            
+            <div class="arch-diagram">
+                <div class="arch-layer">
+                    <h5>统一交互层 (IM Native)</h5>
+                    <div class="arch-items">
+                        <span class="arch-item">钉钉</span>
+                        <span class="arch-item">飞书</span>
+                        <span class="arch-item">企业微信</span>
+                        <span class="arch-item">Slack</span>
+                        <span class="arch-item">Web Portal</span>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow"><i class="fas fa-chevron-down"></i></div>
+                
+                <div class="arch-layer">
+                    <h5>AI Agent 编排层</h5>
+                    <div class="arch-items">
+                        <span class="arch-item">对话 Agent</span>
+                        <span class="arch-item">路由 Agent</span>
+                        <span class="arch-item">执行 Agent</span>
+                        <span class="arch-item">审计 Agent</span>
+                        <span class="arch-item">知识 Agent</span>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow"><i class="fas fa-chevron-down"></i></div>
+                
+                <div class="arch-layer">
+                    <h5>角色 Skill 层</h5>
+                    <div class="arch-items">
+                        <span class="arch-item">网络 Skill</span>
+                        <span class="arch-item">DBA Skill</span>
+                        <span class="arch-item">SRE Skill</span>
+                        <span class="arch-item">安全 Skill</span>
+                        <span class="arch-item">+ 12 更多</span>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow"><i class="fas fa-chevron-down"></i></div>
+                
+                <div class="arch-layer">
+                    <h5>集成与执行层</h5>
+                    <div class="arch-items">
+                        <span class="arch-item">CMDB</span>
+                        <span class="arch-item">监控系统</span>
+                        <span class="arch-item">CI/CD</span>
+                        <span class="arch-item">日志平台</span>
+                        <span class="arch-item">云厂商 API</span>
+                        <span class="arch-item">内部系统</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enterprise Features -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <span class="section-tag">ENTERPRISE FEATURES</span>
+                <h2>企业级能力</h2>
+                <p>为大型企业量身打造</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-highlight">
+                        <div class="icon"><i class="fas fa-users-cog"></i></div>
+                        <h4>多租户架构</h4>
+                        <p>支持多部门、多子公司独立管理，数据隔离，权限分离，满足集团企业需求。</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-highlight">
+                        <div class="icon"><i class="fas fa-lock"></i></div>
+                        <h4>细粒度权限</h4>
+                        <p>RBAC 权限模型，支持角色、部门、资源多维度权限控制，满足安全合规要求。</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-highlight">
+                        <div class="icon"><i class="fas fa-file-signature"></i></div>
+                        <h4>审计合规</h4>
+                        <p>全链路操作审计，支持等保、SOC2、ISO27001 等合规要求，一键生成审计报告。</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-highlight">
+                        <div class="icon"><i class="fas fa-plug"></i></div>
+                        <h4>深度集成</h4>
+                        <p>对接 AD/LDAP、ServiceNow、Jira、Zabbix、Prometheus 等企业系统。</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-highlight">
+                        <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <h4>私有化部署</h4>
+                        <p>支持公有云、私有云、混合云部署，数据完全自主可控，满足数据安全要求。</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="feature-highlight">
+                        <div class="icon"><i class="fas fa-headset"></i></div>
+                        <h4>专属支持</h4>
+                        <p>专属技术顾问、7x24 响应、定制开发、培训服务，SLA 保障。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study -->
+    <section class="case-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <span class="section-tag">CASE STUDY</span>
+                <h2>客户案例</h2>
+                <p>他们选择了 ClawOps 企业版</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <div class="case-logo">🏦</div>
+                            <div class="case-info">
+                                <h4>某大型银行</h4>
+                                <p>金融行业 · 5000+ 员工</p>
+                            </div>
+                        </div>
+                        <p class="text-muted">该银行 IT 部门面临多角色协作困难、故障响应慢、审计压力大等问题。部署 ClawOps 后，实现了运维全流程自动化。</p>
+                        <div class="case-metrics">
+                            <div class="case-metric">
+                                <div class="value">-60%</div>
+                                <div class="label">故障响应时间</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="value">-40%</div>
+                                <div class="label">人力成本</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="value">5x</div>
+                                <div class="label">审计效率</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="value">99.9%</div>
+                                <div class="label">系统可用性</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <div class="case-logo">🏭</div>
+                            <div class="case-info">
+                                <h4>某制造集团</h4>
+                                <p>制造业 · 10000+ 员工</p>
+                            </div>
+                        </div>
+                        <p class="text-muted">集团拥有多个子公司，IT 系统分散、标准不统一。ClawOps 帮助集团实现了统一运维平台，打通了信息孤岛。</p>
+                        <div class="case-metrics">
+                            <div class="case-metric">
+                                <div class="value">100%</div>
+                                <div class="label">系统接入率</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="value">-50%</div>
+                                <div class="label">运维成本</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="value">3x</div>
+                                <div class="label">部署效率</div>
+                            </div>
+                            <div class="case-metric">
+                                <div class="value">0</div>
+                                <div class="label">合规风险项</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="comparison-section" id="pricing">
+        <div class="container">
+            <div class="section-title text-center">
+                <span class="section-tag">PRICING</span>
+                <h2>企业版定价</h2>
+                <p>灵活的定价方案，满足不同规模企业需求</p>
+            </div>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h4>专业版</h4>
+                    <div class="price">¥299<span>/用户/月</span></div>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 全部 Skill 能力</li>
+                        <li><i class="fas fa-check"></i> 不限用户数</li>
+                        <li><i class="fas fa-check"></i> 工单系统</li>
+                        <li><i class="fas fa-check"></i> 优先技术支持</li>
+                        <li><i class="fas fa-check"></i> 钉钉/飞书/企微接入</li>
+                        <li><i class="fas fa-check"></i> 基础培训</li>
+                    </ul>
+                    <a href="/contact/" class="btn btn-outline-primary w-100">咨询购买</a>
+                </div>
+                
+                <div class="comparison-card featured">
+                    <h4>企业版</h4>
+                    <div class="price">定制<span>报价</span></div>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 专业版全部功能</li>
+                        <li><i class="fas fa-check"></i> 多租户架构</li>
+                        <li><i class="fas fa-check"></i> 细粒度权限控制</li>
+                        <li><i class="fas fa-check"></i> 私有化部署</li>
+                        <li><i class="fas fa-check"></i> 定制开发</li>
+                        <li><i class="fas fa-check"></i> 专属技术顾问</li>
+                        <li><i class="fas fa-check"></i> SLA 保障</li>
+                    </ul>
+                    <a href="/contact/" class="btn btn-primary w-100">预约演示</a>
+                </div>
+                
+                <div class="comparison-card">
+                    <h4>旗舰版</h4>
+                    <div class="price">定制<span>报价</span></div>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 企业版全部功能</li>
+                        <li><i class="fas fa-check"></i> 集团多组织管理</li>
+                        <li><i class="fas fa-check"></i> 自建 Skill 能力</li>
+                        <li><i class="fas fa-check"></i> 源码授权</li>
+                        <li><i class="fas fa-check"></i> 现场部署支持</li>
+                        <li><i class="fas fa-check"></i> 驻场运维服务</li>
+                        <li><i class="fas fa-check"></i> 战略合作</li>
+                    </ul>
+                    <a href="/contact/" class="btn btn-outline-primary w-100">联系我们</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>准备好让企业运维进入 AI 时代了吗？</h2>
+            <p class="lead mb-4">预约演示，了解 ClawOps 如何帮助您的企业</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-primary btn-lg">
+                    <i class="fas fa-calendar"></i> 预约演示
+                </a>
+                <a href="mailto:heidsoft@qq.com" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-envelope"></i> heidsoft@qq.com
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <div class="footer-brand">
+                        <i class="fas fa-cloud"></i>
+                        <span>CloudMesh</span>
+                    </div>
+                    <p class="footer-text">智能 IT 管理平台，让 IT 管理更简单高效</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">产品</h4>
+                    <ul class="footer-links">
+                        <li><a href="/products/clawops.html">ClawOps 个人版</a></li>
+                        <li><a href="/products/clawops-enterprise.html">ClawOps 企业版</a></li>
+                        <li><a href="/products/itsm.html">ITSM</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">资源</h4>
+                    <ul class="footer-links">
+                        <li><a href="/docs/">文档中心</a></li>
+                        <li><a href="/blog/">博客</a></li>
+                        <li><a href="/open-source/">开源</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">联系</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact/">联系我们</a></li>
+                        <li><a href="mailto:heidsoft@qq.com">heidsoft@qq.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
