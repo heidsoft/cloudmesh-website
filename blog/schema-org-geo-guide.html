@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema.org 入门指南：让你的内容被 AI 看见 | CloudMesh 博客</title>
+    <meta name="description" content="深入了解 Schema.org 结构化数据，学习如何让 AI 和搜索引擎更好地理解你的内容，提升 GEO 优化效果。">
+    <meta name="keywords" content="Schema.org, 结构化数据, GEO, SEO, JSON-LD, AI 优化">
+    <meta name="author" content="CloudMesh">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Schema.org 入门指南：让你的内容被 AI 看见">
+    <meta property="og:description" content="深入了解 Schema.org 结构化数据，学习如何让 AI 和搜索引擎更好地理解你的内容。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://cloudmesh.top/blog/schema-org-geo-guide.html">
+    <meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    
+    <!-- Schema.org Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Schema.org 入门指南：让你的内容被 AI 看见",
+      "description": "深入了解 Schema.org 结构化数据，学习如何让 AI 和搜索引擎更好地理解你的内容，提升 GEO 优化效果。",
+      "image": "https://cloudmesh.top/og-image.png",
+      "author": {
+        "@type": "Organization",
+        "name": "CloudMesh",
+        "url": "https://cloudmesh.top"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "CloudMesh",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://cloudmesh.top/og-image.png"
+        }
+      },
+      "datePublished": "2026-03-25",
+      "dateModified": "2026-03-25",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://cloudmesh.top/blog/schema-org-geo-guide.html"
+      }
+    }
+    </script>
+    
+    <!-- HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "如何在网页中添加 Schema.org 结构化数据",
+      "description": "学习如何在 HTML 中添加 JSON-LD 格式的 Schema.org 代码",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "确定内容类型",
+          "text": "分析你的页面内容，确定最适合的 Schema 类型（Article、FAQPage、HowTo 等）"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "编写 JSON-LD 代码",
+          "text": "根据 Schema.org 规范编写 JSON 格式的结构化数据"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "嵌入 HTML",
+          "text": "将代码放入 <script type=\"application/ld+json\"> 标签中，放在 <head> 或 <body> 内"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "验证效果",
+          "text": "使用 Google Rich Results Test 或 Schema Validator 验证代码正确性"
+        }
+      ]
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    
+    <style>
+        .blog-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .blog-content h2 {
+            color: var(--accent-cyan);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .blog-content h3 {
+            color: var(--gray-300);
+            margin-top: 2rem;
+        }
+        .blog-content p {
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+        }
+        .blog-content pre {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        .blog-content code {
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+        }
+        .blog-content ul, .blog-content ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+        .blog-content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+        .blog-content blockquote {
+            border-left: 4px solid var(--accent-cyan);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: var(--gray-400);
+        }
+        .blog-content table {
+            width: 100%;
+            margin: 1.5rem 0;
+            border-collapse: collapse;
+        }
+        .blog-content th, .blog-content td {
+            padding: 0.8rem;
+            border: 1px solid var(--glass-border);
+            text-align: left;
+        }
+        .blog-content th {
+            background: var(--glass-bg);
+            color: var(--accent-cyan);
+        }
+        .tip-box {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(138, 43, 226, 0.1));
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .tip-box h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            margin-top: 3rem;
+        }
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-cyber);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="bg-gradient bg-gradient-1"></div>
+        <div class="bg-gradient bg-gradient-2"></div>
+        <div class="bg-gradient bg-gradient-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-cloud"></i>
+                CloudMesh
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/clawops.html">产品</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/solutions/">解决方案</a></li>
+                    <li class="nav-item active"><a class="nav-link active" href="/blog/">博客</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/docs/quickstart.html">文档</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
+                    <li class="breadcrumb-item"><a href="/blog/">博客</a></li>
+                    <li class="breadcrumb-item active">Schema.org 入门指南</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <article class="blog-content">
+        <header>
+            <span class="badge bg-primary mb-3">技术教程</span>
+            <h1>Schema.org 入门指南：让你的内容被 AI 看见</h1>
+            <p class="text-muted">
+                <i class="far fa-calendar"></i> 2026年3月25日 · 
+                <i class="far fa-clock"></i> 阅读约 8 分钟
+            </p>
+        </header>
+
+        <section>
+            <h2>什么是 Schema.org？</h2>
+            <p>
+                <strong>Schema.org 是一种结构化数据标准，用于帮助搜索引擎和 AI 更好地理解网页内容。</strong>
+            </p>
+            <p>
+                简单来说，普通的 HTML 只是告诉浏览器"怎么显示"，而 Schema.org 则告诉 AI 和搜索引擎"这是什么内容"。
+            </p>
+            
+            <blockquote>
+                <p>传统 SEO：让搜索引擎找到你的页面</p>
+                <p>GEO（生成式引擎优化）：让 AI 理解并引用你的内容</p>
+            </blockquote>
+            
+            <p>Schema.org 正是连接两者的桥梁。</p>
+        </section>
+
+        <section>
+            <h2>为什么 Schema.org 对 GEO 至关重要？</h2>
+            
+            <h3>没有 Schema.org 的情况</h3>
+            <pre><code>&lt;h1&gt;如何部署 OpenClaw&lt;/h1&gt;
+&lt;p&gt;第一步，下载安装包...&lt;/p&gt;</code></pre>
+            <p>AI 看到的只是一段文字，无法理解内容的结构和含义。</p>
+            
+            <h3>有 Schema.org 的情况</h3>
+            <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@type": "HowTo",
+  "name": "如何部署 OpenClaw",
+  "step": [
+    {"name": "下载安装包", "text": "访问官网下载..."},
+    {"name": "运行安装", "text": "执行安装命令..."}
+  ]
+}
+&lt;/script&gt;</code></pre>
+            <p>AI 现在知道：这是一个教程，有两个步骤，内容分别是...</p>
+            
+            <div class="tip-box">
+                <h4><i class="fas fa-lightbulb"></i> 核心价值</h4>
+                <p>结构化数据让 AI 更容易理解和引用你的内容，从而提升在 AI 时代的曝光率。</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>常用 Schema 类型一览</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Schema 类型</th>
+                        <th>适用场景</th>
+                        <th>典型应用</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Organization</code></td>
+                        <td>公司/组织信息</td>
+                        <td>关于我们、首页</td>
+                    </tr>
+                    <tr>
+                        <td><code>SoftwareApplication</code></td>
+                        <td>软件产品</td>
+                        <td>产品介绍页</td>
+                    </tr>
+                    <tr>
+                        <td><code>Article</code></td>
+                        <td>文章/博客</td>
+                        <td>博客文章</td>
+                    </tr>
+                    <tr>
+                        <td><code>FAQPage</code></td>
+                        <td>问答页面</td>
+                        <td>常见问题、帮助中心</td>
+                    </tr>
+                    <tr>
+                        <td><code>HowTo</code></td>
+                        <td>教程/步骤</td>
+                        <td>操作指南、使用教程</td>
+                    </tr>
+                    <tr>
+                        <td><code>Product</code></td>
+                        <td>商品信息</td>
+                        <td>产品详情页</td>
+                    </tr>
+                    <tr>
+                        <td><code>LocalBusiness</code></td>
+                        <td>本地商家</td>
+                        <td>门店信息、服务网点</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>如何添加 Schema.org？</h2>
+            
+            <h3>方法一：直接嵌入 HTML（推荐）</h3>
+            <p>在网页的 <code>&lt;head&gt;</code> 或 <code>&lt;body&gt;</code> 中添加 JSON-LD 格式的代码：</p>
+            
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;常见问题 - CloudMesh&lt;/title&gt;
+  
+  &lt;!-- Schema.org 结构化数据 --&gt;
+  &lt;script type="application/ld+json"&gt;
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "什么是 GEO？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GEO 是生成式引擎优化，让品牌在 AI 回答中被引用。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Schema.org 有什么用？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Schema.org 帮助 AI 和搜索引擎理解网页内容，提高被引用的概率。"
+        }
+      }
+    ]
+  }
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- 页面内容 --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section>
+            <h2>实战案例：不同类型的 Schema</h2>
+            
+            <h3>案例一：Organization（公司信息）</h3>
+            <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CloudMesh",
+  "alternateName": "云格科技",
+  "url": "https://cloudmesh.top",
+  "logo": "https://cloudmesh.top/og-image.png",
+  "description": "AI 驱动的智能 IT 管理平台",
+  "foundingDate": "2024",
+  "sameAs": [
+    "https://github.com/heidsoft/itsm",
+    "https://space.bilibili.com/349309176"
+  ]
+}</code></pre>
+
+            <h3>案例二：SoftwareApplication（软件产品）</h3>
+            <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "CloudMesh",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web-based",
+  "description": "AI 驱动的智能 IT 管理平台",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "156"
+  }
+}</code></pre>
+
+            <h3>案例三：HowTo（教程步骤）</h3>
+            <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "如何部署 OpenClaw",
+  "description": "完整的 OpenClaw 部署教程",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "下载安装包",
+      "text": "访问官网下载最新版本安装包"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "运行安装命令",
+      "text": "执行 ./install.sh 进行安装"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "配置并启动",
+      "text": "修改配置文件并启动服务"
+    }
+  ]
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>如何验证 Schema.org 是否正确？</h2>
+            <p>添加 Schema 后，使用以下工具验证：</p>
+            <ol>
+                <li><strong>Google Rich Results Test</strong> - <a href="https://search.google.com/test/rich-results" target="_blank">search.google.com/test/rich-results</a></li>
+                <li><strong>Schema.org Validator</strong> - <a href="https://validator.schema.org/" target="_blank">validator.schema.org</a></li>
+            </ol>
+            <p>输入页面 URL 或粘贴代码，即可检测 Schema 是否正确解析。</p>
+        </section>
+
+        <section>
+            <h2>最佳实践建议</h2>
+            <ul>
+                <li><strong>一个页面可以有多个 Schema</strong> - 比如同时使用 Organization + SoftwareApplication</li>
+                <li><strong>保持数据准确</strong> - Schema 中的信息要与页面可见内容一致</li>
+                <li><strong>优先使用 JSON-LD 格式</strong> - Google 推荐的格式，最易维护</li>
+                <li><strong>添加 sameAs 属性</strong> - 链接到权威平台（GitHub、知乎、B站等），提升可信度</li>
+                <li><strong>定期更新</strong> - 内容变化时同步更新 Schema 中的信息</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>总结</h2>
+            <p>Schema.org 是 GEO 优化的基础设施。它让 AI 能够"读懂"你的内容，从而在用户提问时更有可能引用你的品牌和内容。</p>
+            
+            <div class="tip-box">
+                <h4><i class="fas fa-rocket"></i> 行动建议</h4>
+                <ol>
+                    <li>检查官网首页是否已有 Organization Schema</li>
+                    <li>为产品页添加 SoftwareApplication 或 Product Schema</li>
+                    <li>为博客文章添加 Article Schema</li>
+                    <li>为 FAQ 页面添加 FAQPage Schema</li>
+                    <li>使用验证工具确保代码正确</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Author Info -->
+        <div class="author-info">
+            <div class="author-avatar">
+                <i class="fas fa-cloud"></i>
+            </div>
+            <div>
+                <h5 class="mb-1">CloudMesh 团队</h5>
+                <p class="text-muted mb-0">专注于 AI 驱动的智能 IT 管理解决方案</p>
+            </div>
+        </div>
+
+        <!-- Related Articles -->
+        <section class="mt-5">
+            <h3>相关文章</h3>
+            <ul>
+                <li><a href="/blog/geo-guide.html">GEO 优化指南：让品牌在 AI 时代被看见</a></li>
+                <li><a href="/blog/one-person-company-ai-ops-2026.html">一人公司如何用 AI 实现 DevOps 自动化</a></li>
+                <li><a href="/docs/quickstart.html">OpenClaw 快速入门</a></li>
+            </ul>
+        </section>
+    </article>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="footer-brand">
+                        <i class="fas fa-cloud"></i>
+                        <span>CloudMesh</span>
+                    </div>
+                    <p class="footer-text">AI 驱动的智能 IT 管理平台</p>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <p class="text-muted">&copy; 2026 CloudMesh. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
