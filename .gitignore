@@ -1,0 +1,40 @@
+# 敏感信息 - 绝不提交
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.p12
+secrets/
+credentials/
+.secrets
+
+# 依赖
+node_modules/
+vendor/
+
+# 构建产物
+dist/
+build/
+out/
+*.tar.gz
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+logs/
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+*.bak
