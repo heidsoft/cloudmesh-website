@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能补货助手 - AI驱动的零售库存管理 | CloudMesh</title>
+    <meta name="description" content="智能补货助手让小店也能用AI管理库存。自动预测销量、智能补货建议、一键下单，节省90%补货时间，降低80%断货率。">
+    <meta name="keywords" content="智能补货,零售库存管理,AI补货系统,进销存,库存预警,销量预测">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="智能补货助手 - AI驱动的零售库存管理">
+    <meta property="og:description" content="让小店也能用AI管理库存，自动预测销量、智能补货建议">
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://cloudmesh.top/products/smart-replenishment.html">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://cloudmesh.top/products/smart-replenishment.html">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "智能补货助手",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web-based, WeChat, DingTalk",
+      "description": "AI驱动的零售库存管理系统，自动预测销量、智能补货建议、一键下单",
+      "url": "https://cloudmesh.top/products/smart-replenishment.html",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "234"
+      }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #00d9ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --retail-orange: #f97316;
+        }
+        
+        .hero-retail {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+        }
+        
+        .feature-icon-retail {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .process-step {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .process-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+        
+        .chat-demo {
+            background: var(--dark-700);
+            border-radius: 20px;
+            padding: 1.5rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .chat-message {
+            padding: 1rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            max-width: 85%;
+        }
+        
+        .chat-bot {
+            background: linear-gradient(135deg, rgba(249,115,22,0.2) 0%, rgba(234,88,12,0.2) 100%);
+            border: 1px solid rgba(249,115,22,0.3);
+            margin-right: auto;
+        }
+        
+        .chat-user {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            margin-left: auto;
+        }
+        
+        .pricing-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(249,115,22,0.5);
+        }
+        
+        .pricing-card.featured {
+            border-color: #f97316;
+            position: relative;
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .price-value {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .comparison-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .comparison-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="bg-gradient bg-gradient-1"></div>
+        <div class="bg-gradient bg-gradient-2"></div>
+        <div class="bg-gradient bg-gradient-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-cloud"></i>
+                CloudMesh
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">产品</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/products/clawops.html"><i class="fas fa-rocket"></i> ClawOps</a></li>
+                            <li><a class="dropdown-item" href="/products/itsm.html"><i class="fas fa-ticket-alt"></i> ITSM</a></li>
+                            <li><a class="dropdown-item active" href="/products/smart-replenishment.html"><i class="fas fa-boxes"></i> 智能补货助手</a></li>
+                            <li><a class="dropdown-item" href="/products/contract-review.html"><i class="fas fa-file-contract"></i> 合同审核助手</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/openclaw-generator/"><i class="fas fa-wrench"></i> 配置生成器 <span class="badge bg-success text-dark ms-1">免费</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/solutions/">解决方案</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/open-source/">开源</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog/">博客</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pricing.html">定价</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/docs/quickstart.html">文档</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">联系</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login.html">登录</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-trial ms-2" href="/contact/">
+                            <i class="fas fa-rocket"></i> 免费试用
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
+                    <li class="breadcrumb-item"><a href="/">产品</a></li>
+                    <li class="breadcrumb-item active">智能补货助手</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Hero -->
+    <section class="product-hero hero-retail">
+        <div class="container text-center">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                <span>AI-Powered Retail Inventory</span>
+            </div>
+            <h1>🛒 智能补货助手</h1>
+            <p class="subtitle">让小店也能用 AI 管理库存</p>
+            <p class="lead opacity-75 mb-4">自动预测销量 · 智能补货建议 · 一键下单</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-light btn-lg">
+                    <i class="fas fa-play"></i> 免费试用
+                </a>
+                <a href="#how-it-works" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-question-circle"></i> 了解更多
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section" style="background: var(--dark-700);">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="stat-number text-cyan">90%</div>
+                    <div class="text-muted">节省补货时间</div>
+                </div>
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="stat-number text-cyan">80%</div>
+                    <div class="text-muted">降低断货率</div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-number text-cyan">50%</div>
+                    <div class="text-muted">减少库存积压</div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-number text-cyan">5分钟</div>
+                    <div class="text-muted">快速上手</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">PAIN POINTS</span>
+                <h2>传统补货的痛点</h2>
+                <p>小店主的日常困扰</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4" style="border-color: rgba(239,68,68,0.3);">
+                        <div class="card-body">
+                            <h3 class="text-danger mb-4"><i class="fas fa-exclamation-triangle me-2"></i>断货损失</h3>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">❌ 顾客问"有货吗" → 没有 → 流失一单</li>
+                                <li class="mb-3">❌ 热销商品突然卖空，不知道要补</li>
+                                <li class="mb-3">❌ 平均每月因断货损失数百元</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4" style="border-color: rgba(245,158,11,0.3);">
+                        <div class="card-body">
+                            <h3 class="text-warning mb-4"><i class="fas fa-clock me-2"></i>时间成本</h3>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">❌ 每天花 2-3 小时盘点、写单子</li>
+                                <li class="mb-3">❌ 打电话订货，供应商不接电话</li>
+                                <li class="mb-3">❌ 月底盘点对账，头疼一整天</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4" style="border-color: rgba(239,68,68,0.3);">
+                        <div class="card-body">
+                            <h3 class="text-danger mb-4"><i class="fas fa-boxes me-2"></i>库存积压</h3>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">❌ 进了太多卖不动的货</li>
+                                <li class="mb-3">❌ 临期品处理，只能打折亏本</li>
+                                <li class="mb-3">❌ 资金周转慢，现金流紧张</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4" style="border-color: rgba(107,114,128,0.3);">
+                        <div class="card-body">
+                            <h3 class="text-gray-400 mb-4"><i class="fas fa-brain me-2"></i>靠经验猜</h3>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3">❌ 凭感觉补货，没有数据支撑</li>
+                                <li class="mb-3">❌ 节假日备货，不知道该备多少</li>
+                                <li class="mb-3">❌ 新品上架，不知道会不会好卖</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="how-it-works" style="background: var(--dark-700);">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">HOW IT WORKS</span>
+                <h2>智能补货工作原理</h2>
+                <p>简单三步，告别库存烦恼</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="process-number">1</div>
+                        <h3>📊 数据采集</h3>
+                        <p class="text-muted">对接现有 POS 机，或扫码录入销售数据</p>
+                        <div class="small text-cyan">支持：美团收银、银豹、客如云等</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="process-number">2</div>
+                        <h3>🤖 AI 分析</h3>
+                        <p class="text-muted">算法分析历史销量，预测未来需求</p>
+                        <div class="small text-cyan">考虑：季节、节假日、促销等因素</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="process-number">3</div>
+                        <h3>📱 智能推送</h3>
+                        <p class="text-muted">每日推送补货建议，一键下单给供应商</p>
+                        <div class="small text-cyan">支持：微信、钉钉、小程序</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Chat Demo -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">AI ASSISTANT</span>
+                <h2>AI 对话补货</h2>
+                <p>像聊天一样管理库存</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="chat-demo">
+                        <div class="chat-message chat-bot">
+                            <strong>🤖 智能补货助手</strong><br>
+                            王老板早安！今日补货建议：<br><br>
+                            🔴 <strong>急需补货</strong>（预计 2 天内断货）：<br>
+                            • 可乐 500ml × 24瓶<br>
+                            • 农夫山泉 × 12瓶<br><br>
+                            🟡 <strong>建议补货</strong>（库存偏低）：<br>
+                            • 红牛 × 6瓶<br><br>
+                            预估金额：￥368<br><br>
+                            <span class="badge bg-success">[一键下单]</span> <span class="badge bg-secondary">[调整]</span>
+                        </div>
+                        <div class="chat-message chat-user">
+                            <strong>👤 王老板</strong><br>
+                            可乐只补 12 瓶吧
+                        </div>
+                        <div class="chat-message chat-bot">
+                            <strong>🤖 智能补货助手</strong><br>
+                            好的，已调整为可乐 12 瓶。需要我下单给张三批发吗？<br><br>
+                            <span class="badge bg-success">[确认下单]</span>
+                        </div>
+                        <div class="chat-message chat-user">
+                            <strong>👤 王老板</strong><br>
+                            好
+                        </div>
+                        <div class="chat-message chat-bot">
+                            <strong>🤖 智能补货助手</strong><br>
+                            ✅ 订单已提交！<br>
+                            • 供货商：张三批发<br>
+                            • 预计明天上午 9 点送达<br>
+                            • 货到付款 ￥268
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" style="background: var(--dark-700);">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">FEATURES</span>
+                <h2>核心功能</h2>
+                <p>一站式解决库存管理难题</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-chart-line"></i></div>
+                        <h3>销量预测</h3>
+                        <p>AI 分析历史数据，精准预测未来 7 天销量，准确率 90%+</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 季节性预测</li>
+                            <li><i class="fas fa-check text-cyan"></i> 节假日预测</li>
+                            <li><i class="fas fa-check text-cyan"></i> 促销预测</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-bell"></i></div>
+                        <h3>库存预警</h3>
+                        <p>实时监控库存水平，提前预警断货风险，避免销售损失</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 断货预警</li>
+                            <li><i class="fas fa-check text-cyan"></i> 滞销预警</li>
+                            <li><i class="fas fa-check text-cyan"></i> 临期预警</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-shopping-cart"></i></div>
+                        <h3>一键补货</h3>
+                        <p>补货建议自动生成，一键下单给供应商，省时省力</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 智能建议</li>
+                            <li><i class="fas fa-check text-cyan"></i> 一键下单</li>
+                            <li><i class="fas fa-check text-cyan"></i> 订单追踪</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-comments"></i></div>
+                        <h3>AI 对话</h3>
+                        <p>微信/钉钉直接对话，自然语言交互，零学习成本</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 语音输入</li>
+                            <li><i class="fas fa-check text-cyan"></i> 智能问答</li>
+                            <li><i class="fas fa-check text-cyan"></i> 主动推送</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-chart-bar"></i></div>
+                        <h3>经营看板</h3>
+                        <p>销售数据可视化，经营状况一目了然，辅助决策</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 销售报表</li>
+                            <li><i class="fas fa-check text-cyan"></i> 利润分析</li>
+                            <li><i class="fas fa-check text-cyan"></i> 趋势分析</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="feature-icon text-cyan"><i class="fas fa-plug"></i></div>
+                        <h3>系统对接</h3>
+                        <p>对接主流收银系统，无需更换设备，数据自动同步</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check text-cyan"></i> 美团收银</li>
+                            <li><i class="fas fa-check text-cyan"></i> 银豹</li>
+                            <li><i class="fas fa-check text-cyan"></i> 客如云</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">PRICING</span>
+                <h2>简单透明的定价</h2>
+                <p>小店也能用得起</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <h3>免费版</h3>
+                        <div class="price-value">￥0</div>
+                        <div class="text-muted mb-4">永久免费</div>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 5 个 SKU</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 基础库存管理</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 微信推送</li>
+                            <li class="mb-2 text-muted"><i class="fas fa-times text-muted me-2"></i> 销量预测</li>
+                            <li class="mb-2 text-muted"><i class="fas fa-times text-muted me-2"></i> AI 对话</li>
+                        </ul>
+                        <a href="/contact/" class="btn btn-outline-light w-100">开始使用</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">推荐</div>
+                        <h3>专业版</h3>
+                        <div class="price-value">￥99</div>
+                        <div class="text-muted mb-4">/月</div>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 50 个 SKU</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 销量预测</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> AI 对话补货</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 一键下单</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 经营看板</li>
+                        </ul>
+                        <a href="/contact/" class="btn btn-primary w-100" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none;">立即订阅</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <h3>企业版</h3>
+                        <div class="price-value">￥299</div>
+                        <div class="text-muted mb-4">/月</div>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 不限 SKU</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 多门店管理</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 供应商管理</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 数据导出</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 专属客服</li>
+                        </ul>
+                        <a href="/contact/" class="btn btn-outline-light w-100">联系我们</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="section" style="background: var(--dark-700);">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">COMPARISON</span>
+                <h2>为什么选择我们</h2>
+                <p>对比传统方案</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="comparison-item">
+                        <div class="col-4"><strong>对比项</strong></div>
+                        <div class="col-4 text-center"><strong>传统收银系统</strong></div>
+                        <div class="col-4 text-center"><strong>智能补货助手</strong></div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="col-4">价格</div>
+                        <div class="col-4 text-center text-muted">￥1999+ /年</div>
+                        <div class="col-4 text-center text-success">免费起</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="col-4">AI 销量预测</div>
+                        <div class="col-4 text-center text-muted">❌</div>
+                        <div class="col-4 text-center text-success">✅</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="col-4">AI 对话补货</div>
+                        <div class="col-4 text-center text-muted">❌</div>
+                        <div class="col-4 text-center text-success">✅</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="col-4">微信/钉钉推送</div>
+                        <div class="col-4 text-center text-muted">❌</div>
+                        <div class="col-4 text-center text-success">✅</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="col-4">上手难度</div>
+                        <div class="col-4 text-center text-muted">需要培训</div>
+                        <div class="col-4 text-center text-success">5 分钟</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="col-4">适合小店</div>
+                        <div class="col-4 text-center text-muted">⭐⭐</div>
+                        <div class="col-4 text-center text-success">⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
+        <div class="container">
+            <h2>准备好告别库存烦恼了吗？</h2>
+            <p class="lead mb-4">免费试用 30 天，无需信用卡</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/contact/" class="btn btn-light btn-lg">
+                    <i class="fas fa-rocket"></i> 立即开始
+                </a>
+                <a href="/contact/" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-phone"></i> 预约演示
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <div class="footer-brand">
+                        <i class="fas fa-cloud"></i>
+                        <span>CloudMesh</span>
+                    </div>
+                    <p class="footer-text">智能 IT 管理平台，让 IT 管理更简单高效</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">产品</h4>
+                    <ul class="footer-links">
+                        <li><a href="/products/clawops.html">ClawOps</a></li>
+                        <li><a href="/products/itsm.html">ITSM</a></li>
+                        <li><a href="/products/smart-replenishment.html">智能补货助手</a></li>
+                        <li><a href="/pricing.html">定价</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">开源</h4>
+                    <ul class="footer-links">
+                        <li><a href="/open-source/">开源社区</a></li>
+                        <li><a href="https://github.com/heidsoft/itsm" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">联系</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact/">联系我们</a></li>
+                        <li><a href="mailto:heidsoft@qq.com">heidsoft@qq.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
