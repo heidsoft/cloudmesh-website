@@ -3,7 +3,7 @@
    全面优化版
    =================================== */
 
-/* CSS 变量系统 */
+/* 浅色主题（默认） */
 :root {
     /* 主色调 */
     --primary-50: #e6f7ff;
@@ -25,13 +25,30 @@
     --warning-color: #faad14;
     --error-color: #f5222d;
     
-    /* 中性色 */
+    /* 中性色 - 浅色主题 */
     --text-primary: #1f1f1f;
     --text-secondary: #595959;
     --text-light: #8c8c8c;
     --bg-light: #f5f5f5;
     --bg-white: #ffffff;
+    --bg-card: #ffffff;
     --border-color: #d9d9d9;
+    
+    /* 阴影 */
+    --shadow-card: var(--shadow-sm);
+}
+
+/* 深色主题 */
+[data-theme="dark"] {
+    --text-primary: #e2e8f0;
+    --text-secondary: #a0aec0;
+    --text-light: #718096;
+    --bg-light: #1a202c;
+    --bg-white: #0f0f23;
+    --bg-card: #1a1a2e;
+    --border-color: #2d3748;
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
     
     /* 阴影系统 */
     --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);

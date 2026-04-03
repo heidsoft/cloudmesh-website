@@ -7,6 +7,9 @@
     <meta name="description" content="CloudMesh 是 AI 驱动的智能 IT 管理平台，整合 ClawOps DevOps 和 ITSM 工单系统，让 IT 管理更简单高效">
     <meta name="keywords" content="CloudMesh, ClawOps, IT 管理平台，DevOps, AI 运维，ITSM, 工单系统，监控告警，自动化运维，数字员工">
     
+    <!-- 主题初始化脚本 - 最早加载避免 FOUC -->
+    <script src="/js/theme.js"></script>
+    
     <!-- Open Graph -->
     <meta property="og:title" content="CloudMesh - AI 驱动的智能 IT 管理平台">
     <meta property="og:description" content="让一个人也能像大公司一样高效运维">
@@ -827,6 +830,29 @@
             color: var(--gray-500);
         }
     </style>
+    <style>
+        /* 主题切换按钮样式 */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: var(--transition-smooth, all 0.3s);
+            cursor: pointer;
+        }
+        .theme-toggle:hover {
+            background: var(--bg-light);
+        }
+        .theme-icon {
+            font-size: 1.2rem;
+        }
+        /* 深色主题适配 */
+        [data-theme="dark"] .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -875,6 +901,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/login.html">登录</a>
+                    </li>
+                    <!-- 主题切换按钮 -->
+                    <li class="nav-item">
+                        <a class="nav-link theme-toggle" href="javascript:void(0)" onclick="toggleTheme()" title="切换主题" data-theme-toggle>
+                            <span class="theme-icon">☀️</span>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn-trial ms-2" href="/deploy/">
