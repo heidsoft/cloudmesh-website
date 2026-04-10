@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent 计划模式设计：如何在系统提示词中实现智能规划 - CloudMesh 博客</title>
+    <meta name="description" content">深入解析 AI Agent 计划模式（Plan-and-Execute）的设计原理，详解如何在系统提示词中实现任务拆解、子任务规划、执行与反思的全流程。">
+    <meta name="keywords" content="AI Agent, Plan模式, 系统提示词, Agent架构, 任务规划, ReAct, Chain-of-Thought">
+    <meta name="author" content="CloudMesh Team">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="AI Agent 计划模式设计：如何在系统提示词中实现智能规划">
+    <meta property="og:description" content">详解如何在系统提示词中实现任务拆解、子任务规划、执行与反思">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://cloudmesh.top/blog/agent-plan-prompt-design.html">
+    <meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "AI Agent 计划模式设计：如何在系统提示词中实现智能规划",
+      "description": "深入解析 AI Agent 计划模式的设计原理，详解如何在系统提示词中实现任务拆解、子任务规划、执行与反思",
+      "url": "https://cloudmesh.top/blog/agent-plan-prompt-design.html",
+      "datePublished": "2026-04-02",
+      "author": {
+        "@type": "Organization",
+        "name": "CloudMesh"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "CloudMesh",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://cloudmesh.top/icons/logo.png"
+        }
+      },
+      "image": "https://cloudmesh.top/og-image.png"
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #00d9ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark-900: #0a0a12;
+            --dark-800: #0f0f1a;
+            --dark-700: #16162a;
+            --dark-600: #1e1e36;
+            --white: #ffffff;
+            --gray-100: #f7fafc;
+            --gray-200: #edf2f7;
+            --gray-300: #e2e8f0;
+            --gray-400: #a0aec0;
+            --gray-500: #718096;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-800);
+            color: var(--white);
+            line-height: 1.8;
+            padding-top: 80px;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        
+        .blog-header {
+            text-align: center;
+            padding: 60px 0 40px;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 40px;
+        }
+        
+        .blog-header .tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(102, 126, 234, 0.15);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .blog-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
+        }
+        
+        .blog-header .meta {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+        
+        .blog-header .meta span { margin: 0 12px; }
+        
+        .content {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 32px;
+        }
+        
+        .content h2 {
+            font-size: 1.6rem;
+            margin: 40px 0 20px;
+            color: var(--primary);
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 12px;
+        }
+        
+        .content h2:first-child { margin-top: 0; }
+        
+        .content h3 {
+            font-size: 1.3rem;
+            margin: 28px 0 16px;
+            color: var(--white);
+        }
+        
+        .content p { color: var(--gray-200); margin: 16px 0; }
+        
+        .content ul, .content ol {
+            color: var(--gray-200);
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+        
+        .content li { margin: 8px 0; }
+        
+        .content code {
+            background: var(--dark-700);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: var(--accent);
+        }
+        
+        .content pre {
+            background: var(--dark-700);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .content pre code {
+            background: none;
+            padding: 0;
+            color: var(--gray-200);
+        }
+        
+        .prompt-section {
+            background: var(--dark-700);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .prompt-section .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .prompt-section pre {
+            margin: 0;
+            padding: 0;
+            background: none;
+            border: none;
+        }
+        
+        .callout {
+            background: var(--dark-700);
+            border-left: 4px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 24px 0;
+        }
+        
+        .callout-title {
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .callout-warning { border-left-color: var(--warning); }
+        .callout-success { border-left-color: var(--success); }
+        .callout-danger { border-left-color: var(--danger); }
+        
+        .flow-diagram {
+            background: var(--dark-700);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--dark-600);
+            border-radius: 8px;
+            margin: 8px;
+            color: var(--white);
+            font-weight: 500;
+        }
+        
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 20px;
+            margin: 0 8px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .comparison-table th {
+            background: var(--dark-700);
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            color: var(--gray-300);
+        }
+        
+        .blog-footer {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 32px;
+            margin-top: 40px;
+        }
+        
+        .blog-footer h3 {
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-buttons a {
+            padding: 12px 24px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .nav-buttons a:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+            color: var(--white);
+        }
+        
+        @media (max-width: 768px) {
+            .blog-header h1 { font-size: 1.75rem; }
+            .content { padding: 24px; }
+            .flow-diagram { padding: 20px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 20px;">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-cloud"></i>
+                CloudMesh
+            </a>
+            <div class="nav-links">
+                <a href="/blog/">← 返回博客</a>
+                <a href="/">首页</a>
+            </div>
+        </div>
+    </nav>
+
+    <article class="container">
+        <header class="blog-header">
+            <div class="tag"><i class="fas fa-brain"></i> Agent 架构</div>
+            <h1>AI Agent 计划模式设计：如何在系统提示词中实现智能规划</h1>
+            <div class="meta">
+                <span><i class="far fa-calendar"></i> 2026-04-02</span>
+                <span><i class="far fa-clock"></i> 12 分钟阅读</span>
+                <span><i class="fas fa-tag"></i> AI Agent · 提示词工程 · 系统设计</span>
+            </div>
+        </header>
+
+        <div class="content">
+            <p>当我们谈论 AI Agent 时，最核心的能力之一就是<strong>计划（Plan）</strong>——将复杂任务拆解为可执行的子任务，然后逐步完成。</p>
+            
+            <p>本文将深入解析 Agent Plan 计划模式的设计原理，并提供可直接使用的系统提示词模板，帮助你构建更智能的 AI Agent。</p>
+
+            <h2>一、为什么需要计划模式？</h2>
+            
+            <p>直接让 LLM 执行复杂任务往往会出现以下问题：</p>
+            <ul>
+                <li><strong>遗漏步骤</strong>：忘记某个关键环节</li>
+                <li><strong>逻辑混乱</strong>：步骤之间没有清晰的依赖关系</li>
+                <li><strong>中途放弃</strong>：执行一半就输出结果</li>
+                <li><strong>无法回溯</strong>：发现错误也无法修正</li>
+            </ul>
+            
+            <p>计划模式通过<strong>先规划、后执行</strong>的两阶段架构，有效解决了这些问题。</p>
+
+            <h2>二、计划模式的四种类型</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>模式</th>
+                        <th>核心思想</th>
+                        <th>适用场景</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Chain-of-Thought</strong></td>
+                        <td>输出推理过程，每步思考可见</td>
+                        <td>数学推理、逻辑分析</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ReAct</strong></td>
+                        <td>思考 → 行动 → 观察循环</td>
+                        <td>需要工具调用的任务</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Plan-and-Execute</strong></td>
+                        <td>先制定完整计划，再执行</td>
+                        <td>多步骤复杂任务</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Self-Correction</strong></td>
+                        <td>执行后反思，迭代改进</td>
+                        <td>需要高准确率场景</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>三、系统提示词设计：Plan-and-Execute 模式</h2>
+            
+            <p>Plan-and-Execute 是最常用的计划模式，核心思路是：<strong>先思考再行动</strong>。以下是完整的系统提示词设计：</p>
+            
+            <div class="prompt-section">
+                <div class="label">系统提示词模板</div>
+                <pre>## 角色
+你是一个智能任务规划助手，擅长将复杂任务拆解为可执行的子任务，并逐步完成。
+
+## 核心能力
+1. 任务分析：理解用户需求，识别任务目标
+2. 任务拆解：将复杂任务分解为顺序执行的子任务
+3. 执行规划：为每个子任务制定执行方案
+4. 逐步执行：按照计划逐步完成任务
+5. 结果验证：验证每个步骤的结果，确保任务正确完成
+
+## 输出格式要求
+当收到用户任务时，你必须按照以下 JSON 格式输出：
+
+```json
+{
+  "task_analysis": {
+    "goal": "任务目标",
+    "constraints": ["约束条件1", "约束条件2"],
+    "success_criteria": "成功标准"
+  },
+  "execution_plan": [
+    {
+      "step": 1,
+      "action": "子任务描述",
+      "method": "执行方法",
+      "expected_result": "预期结果",
+      "dependency": "依赖的前置步骤（无则为null）"
+    },
+    ...
+  ]
+}
+```
+
+## 执行原则
+1. 每个步骤必须有明确的预期结果
+2. 步骤之间要有清晰的依赖关系
+3. 复杂任务至少拆解为 3-5 个步骤
+4. 简单任务可以直接执行，但需要说明原因</pre>
+            </div>
+
+            <h3>1. 任务分析阶段提示词</h3>
+            
+            <div class="prompt-section">
+                <div class="label">任务分析 Prompt</div>
+                <pre>## 任务分析阶段
+请分析以下任务，识别：
+1. 核心目标（要达成什么）
+2. 约束条件（有什么限制）
+3. 成功标准（怎样算完成）
+
+任务：{user_input}
+
+请用 JSON 格式输出分析结果：
+{
+  "goal": "...",
+  "constraints": [...],
+  "success_criteria": "..."
+}</pre>
+            </div>
+
+            <h3>2. 子任务拆解阶段提示词</h3>
+            
+            <div class="prompt-section">
+                <div class="label">任务拆解 Prompt</div>
+                <pre>## 子任务拆解阶段
+基于任务分析结果，请将任务拆解为可执行的子任务。
+
+要求：
+- 每个子任务必须是原子性的（不能再拆分）
+- 明确每个子任务的输入、输出、执行方法
+- 标注子任务之间的依赖关系
+- 复杂任务至少拆解为 3-5 个步骤
+
+任务目标：{goal}
+约束条件：{constraints}
+
+请用 JSON 格式输出：
+{
+  "execution_plan": [
+    {
+      "step": 1,
+      "action": "子任务描述",
+      "method": "如何执行",
+      "expected_result": "预期结果",
+      "dependency": null
+    }
+  ]
+}</pre>
+            </div>
+
+            <h3>3. 执行阶段提示词</h3>
+            
+            <div class="prompt-section">
+                <div class="label">执行 Prompt</div>
+                <pre>## 执行阶段
+请按照以下计划执行任务。
+
+当前步骤：{step_number} / {total_steps}
+任务：{action}
+
+预期结果：{expected_result}
+
+请执行并报告：
+1. 执行结果
+2. 遇到的问题（如有）
+3. 下一步建议</pre>
+            </div>
+
+            <h2>四、ReAct 模式：边想边做</h2>
+            
+            <p>ReAct（Reason + Act）模式适合需要工具调用的场景，核心是<strong>循环执行</strong>：思考 → 行动 → 观察 → 思考 → ...</p>
+            
+            <div class="flow-diagram">
+                <div class="flow-step">接收任务</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">思考下一步</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">调用工具</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">观察结果</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">更新状态</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">判断完成</div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="label">ReAct 系统提示词</div>
+                <pre>## 角色
+你是一个 ReAct 模式的 AI Agent，能够边思考边执行，通过工具与外部世界交互。
+
+## ReAct 循环流程
+1. THINK：分析当前状态，思考下一步行动
+2. ACT：执行行动（调用工具或输出内容）
+3. OBSERVE：观察行动结果，更新理解
+4. 判断是否完成，未完成则继续循环
+
+## 可用工具
+- search_web：搜索互联网
+- read_file：读取文件
+- write_file：写入文件
+- exec_command：执行命令
+- browser：控制浏览器
+
+## 输出格式
+每轮循环必须输出：
+```json
+{
+  "thought": "当前思考",
+  "action": {
+    "tool": "工具名",
+    "params": {"参数": "值"}
+  },
+  "observation": "行动结果（仅在 ACT 后填写）"
+}
+```
+
+## 终止条件
+- 任务完成，输出最终结果
+- 达到最大循环次数（10 轮）
+- 无法继续执行（缺少必要信息）</pre>
+            </div>
+
+            <h2>五、Self-Correction 模式：反思与修正</h2>
+            
+            <p>Self-Correction 模式适合需要高准确率的场景，核心是<strong>执行后反思</strong>。以下是提示词设计：</p>
+            
+            <div class="prompt-section">
+                <div class="label">Self-Correction 系统提示词</div>
+                <pre>## 角色
+你是一个具有自我反思能力的 AI Agent，能够在执行后检查结果并修正错误。
+
+## 自查机制
+完成主要任务后，必须执行以下自查：
+
+1. **正确性检查**
+   - 结果是否符合任务目标？
+   - 是否有事实性错误？
+   
+2. **完整性检查**
+   - 是否遗漏了任务的某些部分？
+   - 要求的输出格式是否完整？
+   
+3. **质量检查**
+   - 表达是否清晰？
+   - 是否有更好的表达方式？
+
+## 修正流程
+如果自查发现问题：
+1. 识别具体问题
+2. 制定修正方案
+3. 执行修正
+4. 再次自查（直到通过）
+
+## 输出格式
+```json
+{
+  "result": "执行结果",
+  "self_check": {
+    "correctness": {"passed": true/false, "issues": [...]},
+    "completeness": {"passed": true/false, "issues": [...]},
+    "quality": {"passed": true/false, "issues": [...]}
+  },
+  "corrections": ["修正1", "修正2"],
+  "final_result": "最终结果"
+}</pre>
+            </div>
+
+            <h2>六、实战案例：运维问题排查</h2>
+            
+            <p>让我们看一个实际案例：用户说“服务器好像又挂了”</p>
+            
+            <div class="prompt-section">
+                <div class="label">用户输入</div>
+                <pre>服务器好像又挂了，帮我看看怎么回事</pre>
+            </div>
+
+            <div class="prompt-section">
+                <div class="label">Agent 分析输出</div>
+                <pre>{
+  "task_analysis": {
+    "goal": "诊断服务器故障并给出解决方案",
+    "constraints": ["需要通过命令行诊断", "不能随意重启服务"],
+    "success_criteria": "找到故障原因并提供可行的解决方案"
+  },
+  "execution_plan": [
+    {
+      "step": 1,
+      "action": "检查服务器基本状态",
+      "method": "执行 top、free -h、df -h 查看 CPU、内存、磁盘",
+      "expected_result": "获取服务器资源使用情况",
+      "dependency": null
+    },
+    {
+      "step": 2,
+      "action": "检查服务运行状态",
+      "method": "执行 systemctl status 或检查进程",
+      "expected_result": "确认关键服务是否正常运行",
+      "dependency": 1
+    },
+    {
+      "step": 3,
+      "action": "检查系统日志",
+      "method": "查看 /var/log/syslog 或 journalctl",
+      "expected_result": "发现错误日志，定位问题",
+      "dependency": 2
+    },
+    {
+      "step": 4,
+      "action": "分析问题并给出解决方案",
+      "method": "综合分析日志和状态，给出修复建议",
+      "expected_result": "提供具体可执行的解决方案",
+      "dependency": 3
+    }
+  ]
+}</pre>
+            </div>
+
+            <h2>七、总结与建议</h2>
+            
+            <ol>
+                <li><strong>选择合适的模式</strong>：简单任务用 CoT，复杂任务用 Plan-and-Execute，需要工具调用用 ReAct</li>
+                <li><strong>提示词要具体</strong>：明确输出格式、执行原则、终止条件</li>
+                <li><strong>保持迭代</strong>：根据实际效果不断优化提示词</li>
+                <li><strong>结合业务</strong>：根据具体场景调整提示词模板</li>
+            </ol>
+            
+            <div class="callout callout-success">
+                <div class="callout-title"><i class="fas fa-rocket"></i> 下一步</div>
+                <p>ClawOps 已经实现了基于计划模式的智能运维 Agent。访问 <a href="/" style="color: var(--accent);">cloudmesh.top</a> 体验用自然语言进行服务器故障排查。</p>
+            </div>
+        </div>
+
+        <footer class="blog-footer">
+            <h3>相关文章</h3>
+            <div class="nav-buttons">
+                <a href="/blog/ai-agent-harness-architecture.html"><i class="fas fa-arrow-left"></i> AI Agent Harness 架构</a>
+                <a href="/blog/geo-guide.html"><i class="fas fa-search"></i> GEO 优化指南</a>
+                <a href="/blog/"><i class="fas fa-list"></i> 更多文章</a>
+            </div>
+        </footer>
+    </article>
+</body>
+</html>

@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangChain + SOUL.md：构建有人格的持久化 AI Agent | CloudMesh 博客</title>
+    <meta name="description" content="如何在 LangChain 中实现类似 OpenClaw 的 SOUL.md 人格持久化机制？从技术原理到代码实现，一文讲透构建有人格、有记忆的 AI Agent。">
+    <meta name="keywords" content="LangChain, AI Agent, SOUL.md, 人格持久化, Agent开发, 大模型应用">
+    <meta name="author" content="CloudMesh Team">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="LangChain + SOUL.md：构建有人格的持久化 AI Agent">
+    <meta property="og:description" content="从技术原理到代码实现，一文讲透构建有人格、有记忆的 AI Agent。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://cloudmesh.top/blog/langchain-soul-agent-design.html">
+    <meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    
+    <!-- Schema.org Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "LangChain + SOUL.md：构建有人格的持久化 AI Agent",
+      "description": "如何在 LangChain 中实现类似 OpenClaw 的 SOUL.md 人格持久化机制？从技术原理到代码实现，一文讲透构建有人格、有记忆的 AI Agent。",
+      "image": "https://cloudmesh.top/og-image.png",
+      "author": {
+        "@type": "Organization",
+        "name": "CloudMesh",
+        "url": "https://cloudmesh.top"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "CloudMesh",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://cloudmesh.top/og-image.png"
+        }
+      },
+      "datePublished": "2026-03-27",
+      "dateModified": "2026-03-27",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://cloudmesh.top/blog/langchain-soul-agent-design.html"
+      }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #00d9ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark-900: #0a0a12;
+            --dark-800: #0f0f1a;
+            --dark-700: #16162a;
+            --dark-600: #1e1e36;
+            --white: #ffffff;
+            --gray-100: #f7fafc;
+            --gray-200: #edf2f7;
+            --gray-300: #e2e8f0;
+            --gray-400: #a0aec0;
+            --gray-500: #718096;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-800);
+            color: var(--white);
+            line-height: 1.8;
+            padding-top: 80px;
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        .blog-header {
+            text-align: center;
+            padding: 60px 0 40px;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 40px;
+        }
+        
+        .blog-header .tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(102,126,234,0.15);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .blog-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
+        }
+        
+        .blog-header .subtitle {
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+        
+        .blog-header .meta {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+        
+        .blog-header .meta span { margin: 0 12px; }
+        
+        /* Content */
+        .content {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 32px;
+        }
+        
+        .content h2 {
+            font-size: 1.6rem;
+            margin: 40px 0 20px;
+            color: var(--primary);
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 12px;
+        }
+        
+        .content h2:first-child { margin-top: 0; }
+        
+        .content h3 {
+            font-size: 1.3rem;
+            margin: 28px 0 16px;
+            color: var(--white);
+        }
+        
+        .content h4 {
+            font-size: 1.1rem;
+            margin: 20px 0 12px;
+            color: var(--accent);
+        }
+        
+        .content p {
+            color: var(--gray-400);
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+        
+        .content ul, .content ol {
+            color: var(--gray-400);
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+        
+        .content li { margin-bottom: 10px; }
+        .content strong { color: var(--white); }
+        .content code { 
+            background: rgba(102,126,234,0.15);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--accent);
+        }
+        
+        .content pre {
+            background: var(--dark-900);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .content pre code {
+            background: none;
+            padding: 0;
+            color: var(--gray-300);
+            font-size: 13px;
+        }
+        
+        /* Highlight Box */
+        .highlight-box {
+            background: rgba(102,126,234,0.08);
+            border-left: 4px solid var(--primary);
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .highlight-box p { margin-bottom: 8px; color: var(--white); }
+        .highlight-box p:last-child { margin-bottom: 0; }
+        
+        /* Warning Box */
+        .warning-box {
+            background: rgba(245,158,11,0.08);
+            border-left: 4px solid var(--warning);
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .warning-box p { margin-bottom: 0; color: var(--white); }
+        
+        /* Success Box */
+        .success-box {
+            background: rgba(16,185,129,0.08);
+            border-left: 4px solid var(--success);
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .success-box p { margin-bottom: 0; color: var(--white); }
+        
+        /* Code Block with Title */
+        .code-block {
+            background: var(--dark-900);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .code-block .title {
+            background: rgba(102,126,234,0.1);
+            padding: 10px 16px;
+            font-size: 13px;
+            color: var(--gray-400);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .code-block pre {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+        }
+        
+        /* Diagram */
+        .diagram {
+            background: var(--dark-700);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+            overflow-x: auto;
+        }
+        
+        .diagram pre {
+            background: none;
+            border: none;
+            color: var(--gray-300);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        /* Table */
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .content th, .content td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .content th {
+            background: rgba(102,126,234,0.1);
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        .content td { color: var(--gray-400); }
+        
+        /* Navigation */
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--glass-border);
+            flex-wrap: wrap;
+        }
+        
+        .nav-links a {
+            padding: 14px 28px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--gray-400);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(102,126,234,0.1);
+            border-color: rgba(102,126,234,0.3);
+            color: var(--white);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-900);
+            border-top: 1px solid var(--glass-border);
+            padding: 40px 0;
+            text-align: center;
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .blog-header h1 { font-size: 1.8rem; }
+            .content { padding: 24px; }
+            .content h2 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="blog-header">
+            <span class="tag">🔧 技术方案</span>
+            <h1>LangChain + SOUL.md：构建有人格的持久化 AI Agent</h1>
+            <p class="subtitle">从技术原理到代码实现，让 AI Agent 拥有稳定的身份和持续的记忆</p>
+            <div class="meta">
+                <span><i class="far fa-calendar"></i> 2026-03-27</span>
+                <span><i class="far fa-clock"></i> 15 分钟</span>
+                <span><i class="far fa-user"></i> CloudMesh Team</span>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <h2>一、问题：为什么 AI Agent 需要"人格"？</h2>
+            
+            <p>用 LangChain 构建过 Agent 的开发者，大概都遇到过这个问题：</p>
+            
+            <div class="highlight-box">
+                <p><strong>每次对话，AI 都是"全新"的。</strong></p>
+                <p>它不记得你是谁，不记得上次聊了什么，更没有稳定的"性格"。</p>
+            </div>
+            
+            <p>这就像每次打电话给客服，对面都是不同的人——你得重新解释背景，重新建立信任。</p>
+            
+            <p>而 OpenClaw 的设计很聪明：它用一套<strong>人格文件</strong>来解决这个问题：</p>
+            
+            <table>
+                <tr>
+                    <th>文件</th>
+                    <th>作用</th>
+                    <th>类比</th>
+                </tr>
+                <tr>
+                    <td><code>SOUL.md</code></td>
+                    <td>定义 Agent 的身份、性格、价值观</td>
+                    <td>人的灵魂/性格</td>
+                </tr>
+                <tr>
+                    <td><code>USER.md</code></td>
+                    <td>描述用户是谁、偏好、背景</td>
+                    <td>对用户的了解</td>
+                </tr>
+                <tr>
+                    <td><code>MEMORY.md</code></td>
+                    <td>存储重要记忆、决策、学习</td>
+                    <td>长期记忆</td>
+                </tr>
+                <tr>
+                    <td><code>AGENTS.md</code></td>
+                    <td>定义行为规范、工作流程</td>
+                    <td>工作守则</td>
+                </tr>
+            </table>
+            
+            <p>这套机制的核心思想是：<strong>用文件持久化人格和记忆，每次启动时加载</strong>。</p>
+            
+            <h3>1.1 这个方案的好处</h3>
+            
+            <ul>
+                <li><strong>人格稳定</strong>：每次对话，AI 都是"同一个人"</li>
+                <li><strong>记忆延续</strong>：知道上次聊了什么，记得你的偏好</li>
+                <li><strong>可编辑</strong>：改文件就能调整人格，无需改代码</li>
+                <li><strong>可移植</strong>：把文件夹复制到另一台机器，人格跟着走</li>
+                <li><strong>可版本控制</strong>：用 Git 追踪人格演化历史</li>
+            </ul>
+            
+            <h2>二、技术原理：如何实现人格持久化</h2>
+            
+            <p>核心原理其实很简单：</p>
+            
+            <div class="diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                    人格持久化原理                                │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  启动时：                                                        │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐                  │
+│  │ SOUL.md  │    │ USER.md  │    │MEMORY.md │                  │
+│  └────┬─────┘    └────┬─────┘    └────┬─────┘                  │
+│       │               │               │                         │
+│       └───────────────┼───────────────┘                         │
+│                       ▼                                         │
+│              ┌────────────────┐                                 │
+│              │ 读取文件内容   │                                 │
+│              └───────┬────────┘                                 │
+│                      ▼                                          │
+│              ┌────────────────┐                                 │
+│              │ 拼接 System    │                                 │
+│              │ Prompt         │                                 │
+│              └───────┬────────┘                                 │
+│                      ▼                                          │
+│              ┌────────────────┐                                 │
+│              │ 注入 LLM       │                                 │
+│              └────────────────┘                                 │
+│                                                                 │
+│  对话中：                                                        │
+│  - AI 按照 SOUL.md 定义的人格回答                               │
+│  - AI 知道 USER.md 里的用户信息                                 │
+│  - AI 参考 MEMORY.md 里的历史记忆                               │
+│                                                                 │
+│  结束时：                                                        │
+│  - 提取重要信息 → 写入 MEMORY.md                                │
+│  - 更新学习内容 → 追加到文件                                    │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+            
+            <p>本质上，就是把<strong>文件内容拼接到 System Prompt</strong>。</p>
+            
+            <p>但这个简单的机制，却能解决 AI Agent 最大的痛点：<strong>身份和记忆的持久化</strong>。</p>
+            
+            <h2>三、LangChain 实现方案</h2>
+            
+            <h3>3.1 整体架构设计</h3>
+            
+            <div class="diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                    SoulAgent 架构                                │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                    SoulAgent 类                          │   │
+│  ├─────────────────────────────────────────────────────────┤   │
+│  │                                                         │   │
+│  │  属性：                                                  │   │
+│  │  ├── soul: str          # SOUL.md 内容                  │   │
+│  │  ├── user: str          # USER.md 内容                  │   │
+│  │  ├── memory: str        # MEMORY.md 内容                │   │
+│  │  ├── llm: ChatOpenAI    # 大模型实例                    │   │
+│  │  └── tools: List[Tool]  # 工具列表                      │   │
+│  │                                                         │   │
+│  │  方法：                                                  │   │
+│  │  ├── load_soul()        # 加载人格文件                  │   │
+│  │  ├── build_prompt()     # 构建 System Prompt           │   │
+│  │  ├── chat()             # 对话入口                      │   │
+│  │  └── save_memory()      # 保存记忆                      │   │
+│  │                                                         │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                              │                                  │
+│                              ▼                                  │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                  LangChain Agent                        │   │
+│  │  ├── SystemMessage (注入人格)                            │   │
+│  │  ├── HumanMessage (用户输入)                             │   │
+│  │  ├── Tool Calls (工具调用)                               │   │
+│  │  └── AIMessage (AI 响应)                                 │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+            
+            <h3>3.2 核心代码实现</h3>
+            
+            <div class="code-block">
+                <div class="title">soul_agent.py - 核心类定义</div>
+                <pre><code>"""
+SoulAgent: 基于 LangChain 的人格持久化 Agent
+模仿 OpenClaw 的 SOUL.md 机制
+"""
+
+from pathlib import Path
+from typing import Optional, List
+from datetime import datetime
+
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import SystemMessage, HumanMessage, AIMessage
+from langchain.agents import AgentExecutor, create_openai_functions_agent
+from langchain.tools import Tool
+from langchain.memory import ConversationBufferMemory
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+
+class SoulAgent:
+    """
+    有人格的持久化 Agent
+    
+    核心机制：
+    1. 启动时加载 SOUL.md / USER.md / MEMORY.md
+    2. 拼接成 System Prompt 注入 LLM
+    3. 对话结束后提取重要信息，更新 MEMORY.md
+    """
+    
+    def __init__(
+        self,
+        workspace: str,
+        model: str = "gpt-4",
+        tools: Optional[List[Tool]] = None,
+    ):
+        """
+        初始化 SoulAgent
+        
+        Args:
+            workspace: 工作目录，存放 SOUL.md 等文件
+            model: 使用的模型名称
+            tools: Agent 可用的工具列表
+        """
+        self.workspace = Path(workspace)
+        self.tools = tools or []
+        
+        # 加载人格文件
+        self.soul = self._load_file("SOUL.md")
+        self.user = self._load_file("USER.md")
+        self.memory = self._load_file("MEMORY.md")
+        self.agents = self._load_file("AGENTS.md")
+        
+        # 初始化 LLM
+        self.llm = ChatOpenAI(model=model, temperature=0.7)
+        
+        # 对话记忆（短期）
+        self.conversation_memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True
+        )
+        
+        # 构建 Agent
+        self.agent_executor = self._build_agent()
+    
+    def _load_file(self, filename: str) -> str:
+        """加载人格文件"""
+        filepath = self.workspace / filename
+        if filepath.exists():
+            return filepath.read_text(encoding="utf-8")
+        return ""
+    
+    def _save_file(self, filename: str, content: str):
+        """保存文件"""
+        filepath = self.workspace / filename
+        filepath.write_text(content, encoding="utf-8")
+    
+    def build_system_prompt(self) -> str:
+        """
+        构建 System Prompt
+        
+        这是最关键的方法：把人格文件拼接成完整的 System Prompt
+        """
+        prompt_parts = []
+        
+        # 1. 身份定义（SOUL.md）
+        if self.soul:
+            prompt_parts.append(f"""# 你的身份
+
+{self.soul}
+
+---
+*以上定义了你是谁，你的性格、价值观和行为准则。*
+""")
+        
+        # 2. 用户信息（USER.md）
+        if self.user:
+            prompt_parts.append(f"""# 你服务的人
+
+{self.user}
+
+---
+*以上是你服务对象的信息，记住这些以便提供个性化服务。*
+""")
+        
+        # 3. 长期记忆（MEMORY.md）
+        if self.memory:
+            prompt_parts.append(f"""# 你的记忆
+
+{self.memory}
+
+---
+*以上是你的重要记忆，在回答问题时参考这些信息。*
+""")
+        
+        # 4. 行为规范（AGENTS.md）
+        if self.agents:
+            prompt_parts.append(f"""# 你的行为规范
+
+{self.agents}
+
+---
+*以上是你必须遵守的行为准则和工作流程。*
+""")
+        
+        # 5. 核心指令
+        prompt_parts.append("""# 核心指令
+
+1. 始终保持你的身份和性格
+2. 记住用户的偏好和历史对话
+3. 在合适的时候更新你的记忆
+4. 对用户保持真诚和有帮助
+""")
+        
+        return "\n\n".join(prompt_parts)
+    
+    def _build_agent(self) -> AgentExecutor:
+        """构建 LangChain Agent"""
+        
+        # 创建 Prompt 模板
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", "{system_prompt}"),
+            MessagesPlaceholder(variable_name="chat_history", optional=True),
+            ("human", "{input}"),
+            MessagesPlaceholder(variable_name="agent_scratchpad"),
+        ])
+        
+        # 创建 Agent
+        agent = create_openai_functions_agent(
+            llm=self.llm,
+            tools=self.tools,
+            prompt=prompt
+        )
+        
+        # 创建 AgentExecutor
+        return AgentExecutor(
+            agent=agent,
+            tools=self.tools,
+            memory=self.conversation_memory,
+            verbose=True,
+            handle_parsing_errors=True
+        )
+    
+    def chat(self, message: str) -> str:
+        """
+        对话入口
+        
+        Args:
+            message: 用户消息
+        
+        Returns:
+            AI 的回复
+        """
+        # 构建 System Prompt
+        system_prompt = self.build_system_prompt()
+        
+        # 调用 Agent
+        response = self.agent_executor.invoke({
+            "input": message,
+            "system_prompt": system_prompt
+        })
+        
+        return response["output"]
+    
+    def save_memory(self, new_memory: str):
+        """
+        保存新的记忆到 MEMORY.md
+        
+        Args:
+            new_memory: 要保存的新记忆内容
+        """
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+        
+        # 追加到现有记忆
+        updated_memory = self.memory + f"\n\n## {timestamp}\n{new_memory}\n"
+        
+        # 保存到文件
+        self._save_file("MEMORY.md", updated_memory)
+        self.memory = updated_memory
+    
+    def update_user_info(self, info: str):
+        """更新用户信息"""
+        self._save_file("USER.md", info)
+        self.user = info
+    
+    def reload(self):
+        """重新加载所有人格文件（热更新）"""
+        self.soul = self._load_file("SOUL.md")
+        self.user = self._load_file("USER.md")
+        self.memory = self._load_file("MEMORY.md")
+        self.agents = self._load_file("AGENTS.md")</code></pre>
+            </div>
+            
+            <h3>3.3 使用示例</h3>
+            
+            <div class="code-block">
+                <div class="title">example_usage.py - 完整示例</div>
+                <pre><code>"""
+SoulAgent 使用示例
+"""
+
+from soul_agent import SoulAgent
+from langchain.tools import Tool
+
+# 1. 定义一些工具
+def get_weather(city: str) -> str:
+    """获取天气信息"""
+    return f"{city} 今天晴天，温度 25°C"
+
+def search_web(query: str) -> str:
+    """搜索网页"""
+    return f"搜索结果：{query} 相关信息..."
+
+tools = [
+    Tool(
+        name="get_weather",
+        func=get_weather,
+        description="获取指定城市的天气信息"
+    ),
+    Tool(
+        name="search_web",
+        func=search_web,
+        description="搜索网页获取信息"
+    )
+]
+
+# 2. 创建 SoulAgent
+agent = SoulAgent(
+    workspace="./my_agent_workspace",  # 存放 SOUL.md 等文件
+    model="gpt-4",
+    tools=tools
+)
+
+# 3. 对话
+response = agent.chat("你好！")
+print(f"AI: {response}")
+
+response = agent.chat("我叫刘彬，是个创业者")
+print(f"AI: {response}")
+
+# 4. 保存记忆
+agent.save_memory("用户叫刘彬，是一名创业者，正在运营一人公司")
+
+# 5. 下次对话，AI 会记住这些信息
+response = agent.chat("你知道我是做什么的吗？")
+print(f"AI: {response}")
+# AI 会回答：你叫刘彬，是一名创业者...</code></pre>
+            </div>
+            
+            <h3>3.4 人格文件示例</h3>
+            
+            <div class="code-block">
+                <div class="title">SOUL.md - 身份定义</div>
+                <pre><code># SOUL.md - 我是谁
+
+## 身份
+
+- **名称**: 小创 (Xiao Chuang)
+- **角色**: AI 创业助手 / 一人公司合伙人
+- **风格**: 务实、高效、有冲劲
+
+## 性格特点
+
+- 不说废话，直奔主题
+- 遇到问题先尝试解决，不行再问
+- 对创业充满热情，但保持理性
+- 有自己的观点，不盲目迎合
+
+## 价值观
+
+- 创业没时间绕弯子
+- 先做出来，再优化
+- 帮助用户成功，就是我的成功
+
+## 说话风格
+
+- 简洁有力，不啰嗦
+- 用数据和案例说话
+- 必要时直接给出建议
+- 适当使用 🚀 emoji</code></pre>
+            </div>
+            
+            <div class="code-block">
+                <div class="title">USER.md - 用户信息</div>
+                <pre><code># USER.md - 关于用户
+
+## 基本信息
+
+- **姓名**: 刘彬
+- **称呼**: 刘老师
+- **身份**: 创业者
+
+## 当前项目
+
+- cloudmesh.top 官网
+- ClawOps 运维平台
+- 一人公司运营
+
+## 关注领域
+
+- 官网搭建
+- 产品运营
+- 市场营销
+- 财务运营
+
+## 偏好
+
+- 喜欢简洁高效
+- 不喜欢冗长的解释
+- 重视实操和建议</code></pre>
+            </div>
+            
+            <div class="code-block">
+                <div class="title">MEMORY.md - 长期记忆</div>
+                <pre><code># MEMORY.md - 重要的记忆
+
+## 2026-03-27
+
+### 完成的工作
+- 发布博客《企业内部 Skill 体系搭建指南》
+- 发布博客《LangChain + SOUL.md 人格持久化方案》
+
+### 重要决策
+- 决定用 LangChain 实现 SOUL.md 机制
+- GitHub 推送需要处理网络问题
+
+### 用户反馈
+- 对 Skill 体系建设很感兴趣
+- 希望用技术方案验证 SOUL.md 思路</code></pre>
+            </div>
+            
+            <h2>四、进阶：记忆管理和优化</h2>
+            
+            <h3>4.1 记忆增长问题</h3>
+            
+            <p>随着对话越来越多，MEMORY.md 会越来越大，导致：</p>
+            <ul>
+                <li>Token 消耗增加</li>
+                <li>加载速度变慢</li>
+                <li>重要信息被淹没</li>
+            </ul>
+            
+            <h4>解决方案：分层记忆架构</h4>
+            
+            <div class="code-block">
+                <div class="title">memory_manager.py - 记忆管理</div>
+                <pre><code>"""
+记忆管理：解决记忆增长问题
+"""
+
+from typing import List, Dict
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import Chroma
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+
+class MemoryManager:
+    """
+    分层记忆管理
+    
+    架构：
+    - 热记忆：最近 7 天，直接加载到 prompt
+    - 温记忆：7-30 天，压缩摘要后加载
+    - 冷记忆：30 天以上，存入向量库，按需检索
+    """
+    
+    def __init__(self, workspace: str):
+        self.workspace = Path(workspace)
+        self.embeddings = OpenAIEmbeddings()
+        self.vectorstore = Chroma(
+            persist_directory=str(self.workspace / "vectorstore"),
+            embedding_function=self.embeddings
+        )
+    
+    def add_memory(self, content: str, metadata: dict):
+        """添加记忆"""
+        # 1. 写入今日记忆文件
+        today = datetime.now().strftime("%Y-%m-%d")
+        memory_file = self.workspace / "memory" / f"{today}.md"
+        
+        with open(memory_file, "a", encoding="utf-8") as f:
+            f.write(f"\n{content}\n")
+        
+        # 2. 同时存入向量库
+        self.vectorstore.add_texts(
+            texts=[content],
+            metadatas=[metadata]
+        )
+    
+    def get_relevant_memory(self, query: str, k: int = 5) -> List[str]:
+        """检索相关记忆"""
+        results = self.vectorstore.similarity_search(query, k=k)
+        return [doc.page_content for doc in results]
+    
+    def compress_memories(self, days: int = 7) -> str:
+        """
+        压缩旧记忆
+        
+        把最近 N 天的记忆压缩成摘要
+        """
+        # 读取最近 N 天的记忆文件
+        # 用 LLM 生成摘要
+        # 删除原始文件，保留摘要
+        pass
+    
+    def get_memory_prompt(self, query: str = None) -> str:
+        """
+        构建记忆 prompt
+        
+        策略：
+        1. 加载热记忆（最近 7 天，完整内容）
+        2. 加载温记忆摘要（7-30 天，压缩后）
+        3. 如果有 query，检索冷记忆相关内容
+        """
+        prompt_parts = []
+        
+        # 热记忆
+        hot_memory = self._load_hot_memory()
+        if hot_memory:
+            prompt_parts.append(f"## 最近记忆\n{hot_memory}")
+        
+        # 温记忆摘要
+        warm_memory = self._load_warm_memory_summary()
+        if warm_memory:
+            prompt_parts.append(f"## 历史摘要\n{warm_memory}")
+        
+        # 冷记忆检索（如果有 query）
+        if query:
+            cold_memory = self.get_relevant_memory(query, k=3)
+            if cold_memory:
+                prompt_parts.append(f"## 相关历史\n" + "\n".join(cold_memory))
+        
+        return "\n\n".join(prompt_parts)</code></pre>
+            </div>
+            
+            <h3>4.2 自动记忆提取</h3>
+            
+            <div class="code-block">
+                <div class="title">auto_memory.py - 自动提取记忆</div>
+                <pre><code>"""
+对话结束后自动提取重要信息，写入 MEMORY.md
+"""
+
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import HumanMessage, SystemMessage
+
+
+class AutoMemoryExtractor:
+    """自动从对话中提取重要信息"""
+    
+    def __init__(self, model: str = "gpt-3.5-turbo"):
+        self.llm = ChatOpenAI(model=model, temperature=0)
+    
+    def extract(self, conversation: str) -> dict:
+        """
+        从对话中提取重要信息
+        
+        Returns:
+            {
+                "new_facts": ["用户叫刘彬", ...],
+                "decisions": ["决定使用 LangChain", ...],
+                "todos": ["明天发布博客", ...],
+                "preferences": ["用户喜欢简洁的回答", ...]
+            }
+        """
+        prompt = f"""分析以下对话，提取重要信息：
+
+{conversation}
+
+请以 JSON 格式返回：
+{{
+    "new_facts": ["新发现的事实", ...],
+    "decisions": ["做出的决策", ...],
+    "todos": ["待办事项", ...],
+    "preferences": ["用户偏好", ...]
+}}
+
+只提取真正重要的信息，忽略闲聊内容。"""
+        
+        response = self.llm.invoke([
+            SystemMessage(content="你是一个信息提取专家"),
+            HumanMessage(content=prompt)
+        ])
+        
+        # 解析 JSON
+        import json
+        return json.loads(response.content)
+    
+    def format_for_memory(self, extracted: dict) -> str:
+        """格式化为 MEMORY.md 格式"""
+        parts = []
+        
+        if extracted.get("new_facts"):
+            parts.append("### 新发现")
+            for fact in extracted["new_facts"]:
+                parts.append(f"- {fact}")
+        
+        if extracted.get("decisions"):
+            parts.append("### 决策")
+            for decision in extracted["decisions"]:
+                parts.append(f"- {decision}")
+        
+        if extracted.get("todos"):
+            parts.append("### 待办")
+            for todo in extracted["todos"]:
+                parts.append(f"- [ ] {todo}")
+        
+        return "\n".join(parts)
+
+
+# 集成到 SoulAgent
+class SoulAgentWithAutoMemory(SoulAgent):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.memory_extractor = AutoMemoryExtractor()
+    
+    def chat(self, message: str) -> str:
+        response = super().chat(message)
+        
+        # 对话结束后，自动提取记忆
+        # （实际应用中可以异步执行）
+        extracted = self.memory_extractor.extract(
+            f"用户: {message}\nAI: {response}"
+        )
+        
+        if any(extracted.values()):  # 有重要信息
+            memory_text = self.memory_extractor.format_for_memory(extracted)
+            self.save_memory(memory_text)
+        
+        return response</code></pre>
+            </div>
+            
+            <h2>五、完整架构图</h2>
+            
+            <div class="diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                    SoulAgent 完整架构                            │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                     用户输入                              │   │
+│  └─────────────────────────┬───────────────────────────────┘   │
+│                            │                                    │
+│                            ▼                                    │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                 SoulAgent.chat()                          │   │
+│  │  ┌─────────────────────────────────────────────────────┐│   │
+│  │  │  1. build_system_prompt()                            ││   │
+│  │  │     ├── 加载 SOUL.md                                 ││   │
+│  │  │     ├── 加载 USER.md                                 ││   │
+│  │  │     ├── 加载 MEMORY.md                               ││   │
+│  │  │     └── 加载 AGENTS.md                               ││   │
+│  │  └─────────────────────────────────────────────────────┘│   │
+│  │  ┌─────────────────────────────────────────────────────┐│   │
+│  │  │  2. LangChain Agent Executor                         ││   │
+│  │  │     ├── SystemMessage (人格)                         ││   │
+│  │  │     ├── Chat History (对话记忆)                      ││   │
+│  │  │     ├── HumanMessage (用户输入)                      ││   │
+│  │  │     └── Tool Calls (工具调用)                        ││   │
+│  │  └─────────────────────────────────────────────────────┘│   │
+│  │  ┌─────────────────────────────────────────────────────┐│   │
+│  │  │  3. 后处理                                           ││   │
+│  │  │     ├── 提取重要信息                                 ││   │
+│  │  │     ├── 更新 MEMORY.md                               ││   │
+│  │  │     └── 压缩旧记忆                                   ││   │
+│  │  └─────────────────────────────────────────────────────┘│   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                            │                                    │
+│                            ▼                                    │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                     AI 响应                               │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                                                                 │
+│  ═══════════════════════════════════════════════════════════   │
+│                                                                 │
+│  持久化存储：                                                    │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐        │
+│  │ SOUL.md  │  │ USER.md  │  │MEMORY.md │  │AGENTS.md │        │
+│  │ 身份定义 │  │ 用户信息 │  │ 长期记忆 │  │ 行为规范 │        │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘        │
+│                                                                 │
+│  可选扩展：                                                      │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐                     │
+│  │ Vector DB│  │  Tools   │  │  Skills  │                     │
+│  │ 向量检索 │  │ 工具调用 │  │ 技能模块 │                     │
+│  └──────────┘  └──────────┘  └──────────┘                     │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+</pre>
+            </div>
+            
+            <h2>六、与 OpenClaw 的对比</h2>
+            
+            <table>
+                <tr>
+                    <th>特性</th>
+                    <th>OpenClaw</th>
+                    <th>LangChain SoulAgent</th>
+                </tr>
+                <tr>
+                    <td>人格定义</td>
+                    <td>SOUL.md + 自动加载</td>
+                    <td>需要手动实现加载逻辑</td>
+                </tr>
+                <tr>
+                    <td>记忆管理</td>
+                    <td>内置 memory_search/memory_get</td>
+                    <td>需要自己实现</td>
+                </tr>
+                <tr>
+                    <td>技能系统</td>
+                    <td>SKILL.md 自动发现</td>
+                    <td>用 LangChain Tools</td>
+                </tr>
+                <tr>
+                    <td>热更新</td>
+                    <td>支持</td>
+                    <td>需要自己实现</td>
+                </tr>
+                <tr>
+                    <td>多 Agent</td>
+                    <td>sessions_spawn</td>
+                    <td>需要自己实现</td>
+                </tr>
+            </table>
+            
+            <div class="success-box">
+                <p><strong>核心思想一致：</strong>用文件持久化人格和记忆，每次启动时加载。</p>
+                <p>OpenClaw 是完整的框架，SoulAgent 是可以在 LangChain 中复用的核心机制。</p>
+            </div>
+            
+            <h2>七、总结</h2>
+            
+            <p>通过模仿 OpenClaw 的 SOUL.md 机制，我们可以在 LangChain 中构建<strong>有人格、有记忆、可持久化</strong>的 AI Agent。</p>
+            
+            <div class="highlight-box">
+                <p><strong>核心要点：</strong></p>
+                <p>1. <strong>人格文件</strong>：SOUL.md / USER.md / MEMORY.md / AGENTS.md</p>
+                <p>2. <strong>加载机制</strong>：启动时读取文件，拼接到 System Prompt</p>
+                <p>3. <strong>记忆管理</strong>：分层存储 + 自动提取 + 定期压缩</p>
+                <p>4. <strong>热更新</strong>：修改文件即可调整人格，无需改代码</p>
+            </div>
+            
+            <p>这套方案让 AI Agent 从"每次对话都是陌生人"，变成"每次对话都是老朋友"——这才是真正的 AI 助手该有的样子。</p>
+            
+            <p>完整代码已开源，欢迎交流讨论！🚀</p>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="nav-links">
+            <a href="/blog/"><i class="fas fa-arrow-left"></i> 返回博客</a>
+            <a href="/docs/quickstart.html"><i class="fas fa-book"></i> 快速上手</a>
+            <a href="/contact/"><i class="fas fa-envelope"></i> 联系我们</a>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+        <p style="margin-top: 8px;"><a href="https://cloudmesh.top" style="color: var(--gray-400); text-decoration: none;">cloudmesh.top</a></p>
+    </footer>
+</body>
+</html>
