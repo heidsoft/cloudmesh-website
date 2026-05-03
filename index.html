@@ -7,15 +7,12 @@
     <meta name="description" content="CloudMesh 是 AI 驱动的智能 IT 管理平台，整合 ClawOps DevOps 和 ITSM 工单系统，让 IT 管理更简单高效">
     <meta name="keywords" content="CloudMesh, ClawOps, IT 管理平台，DevOps, AI 运维，ITSM, 工单系统，监控告警，自动化运维，数字员工">
     
-    <!-- 主题初始化脚本 - 最早加载避免 FOUC -->
-    <script src="/js/theme.js"></script>
-    
     <!-- Open Graph -->
     <meta property="og:title" content="CloudMesh - AI 驱动的智能 IT 管理平台">
     <meta property="og:description" content="让一个人也能像大公司一样高效运维">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cloudmesh.top/">
-    <meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    <meta property="og:image" content="https://cloudmesh.top/icons/apple-touch-icon.png">
     <meta property="og:site_name" content="CloudMesh">
     <meta property="og:locale" content="zh_CN">
     
@@ -23,7 +20,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="CloudMesh - AI 驱动的智能 IT 管理平台">
     <meta name="twitter:description" content="让一个人也能像大公司一样高效运维">
-    <meta name="twitter:image" content="https://cloudmesh.top/og-image.png">
+    <meta name="twitter:image" content="https://cloudmesh.top/icons/apple-touch-icon.png">
     
     <!-- Canonical -->
     <link rel="canonical" href="https://cloudmesh.top/">
@@ -36,7 +33,7 @@
       "name": "CloudMesh",
       "alternateName": "云格科技",
       "url": "https://cloudmesh.top",
-      "logo": "https://cloudmesh.top/og-image.png",
+      "logo": "https://cloudmesh.top/icons/apple-touch-icon.png",
       "description": "CloudMesh 是 AI 驱动的智能 IT 管理平台，整合 ClawOps DevOps 和 ITSM 工单系统",
       "foundingDate": "2024",
       "contactPoint": {
@@ -72,7 +69,7 @@
     </script>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
     
     <!-- Preconnect -->
@@ -114,11 +111,6 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html, body {
-            overflow-x: hidden;
-            max-width: 100vw;
-        }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -385,7 +377,7 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 32px;
         }
 
@@ -500,7 +492,7 @@
 
         .solutions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 32px;
         }
 
@@ -582,10 +574,6 @@
             gap: 40px;
         }
 
-        #skills-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
         .feature-card {
             text-align: center;
             padding: 32px;
@@ -634,7 +622,7 @@
 
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 40px;
             margin-bottom: 40px;
         }
@@ -695,14 +683,11 @@
                 max-height: 80vh;
                 overflow-y: auto;
             }
-            .features-grid, #skills-grid {
+            .features-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             .footer-grid {
                 grid-template-columns: repeat(3, 1fr);
-            }
-            .trust-grid {
-                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -710,7 +695,7 @@
             .hero-title {
                 font-size: 2.5rem;
             }
-            .features-grid, #skills-grid {
+            .features-grid {
                 grid-template-columns: 1fr;
             }
             .products-grid, .solutions-grid {
@@ -718,24 +703,6 @@
             }
             .footer-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .trust-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .trusted-logos {
-                gap: 30px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            .trust-number {
-                font-size: 2rem;
-            }
-            .container {
-                padding: 0 15px;
             }
         }
 
@@ -829,30 +796,29 @@
             font-size: 1.5rem;
             color: var(--gray-500);
         }
-    </style>
-    <style>
-        /* 主题切换按钮样式 */
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: var(--transition-smooth, all 0.3s);
-            cursor: pointer;
-        }
-        .theme-toggle:hover {
-            background: var(--bg-light);
-        }
-        .theme-icon {
-            font-size: 1.2rem;
-        }
-        /* 深色主题适配 */
-        [data-theme="dark"] .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
+
+        @media (max-width: 768px) {
+            .trust-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .trust-number {
+                font-size: 2.5rem;
+            }
+            .trusted-logos {
+                gap: 30px;
+            }
         }
     </style>
+    <!-- Baidu Analytics -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9aa5b500dd19c4ed0aaf2ee1ebb15b1f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -875,10 +841,8 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" onclick="showSection('products')"><i class="fas fa-rocket"></i> ClawOps</a></li>
                             <li><a class="dropdown-item" onclick="showSection('products')"><i class="fas fa-ticket-alt"></i> ITSM</a></li>
-                            <li><a class="dropdown-item" href="/products/smart-replenishment.html"><i class="fas fa-boxes"></i> 智能补货助手</a></li>
-                            <li><a class="dropdown-item" href="/products/contract-review.html"><i class="fas fa-file-contract"></i> 合同审核助手 <span class="badge bg-warning text-dark ms-1">新</span></a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/openclaw-generator/"><i class="fas fa-wrench"></i> 配置生成器 <span class="badge bg-success ms-1">免费</span></a></li>
+                            <li><a class="dropdown-item" href="/openclaw-generator/"><i class="fas fa-wrench"></i> 配置生成器 <span class="badge bg-warning text-dark ms-1">免费</span></a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -901,12 +865,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/login.html">登录</a>
-                    </li>
-                    <!-- 主题切换按钮 -->
-                    <li class="nav-item">
-                        <a class="nav-link theme-toggle" href="javascript:void(0)" onclick="toggleTheme()" title="切换主题" data-theme-toggle>
-                            <span class="theme-icon">☀️</span>
-                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn-trial ms-2" href="/deploy/">
@@ -988,13 +946,7 @@
             <div class="container">
                 <div class="section-title">
                     <h2>核心产品</h2>
-                    <p>一人公司也能拥有大企业的数字化能力</p>
-                    <div class="value-props" style="display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap;">
-                        <span style="color: var(--accent); font-size: 0.9rem;"><i class="fas fa-check-circle me-1"></i> 开箱即用</span>
-                        <span style="color: var(--accent); font-size: 0.9rem;"><i class="fas fa-check-circle me-1"></i> 免费起步</span>
-                        <span style="color: var(--accent); font-size: 0.9rem;"><i class="fas fa-check-circle me-1"></i> AI 赋能</span>
-                        <span style="color: var(--accent); font-size: 0.9rem;"><i class="fas fa-check-circle me-1"></i> 私有化部署</span>
-                    </div>
+                    <p>AI 驱动的企业级 IT 管理解决方案</p>
                 </div>
                 <div class="products-grid">
                     <!-- ClawOps -->
@@ -1005,9 +957,6 @@
                             <p>一个人的 DevOps 团队</p>
                         </div>
                         <div class="product-body">
-                            <div class="product-value" style="background: rgba(102,126,234,0.1); border-radius: 8px; padding: 8px 12px; margin-bottom: 16px; font-size: 13px; color: var(--primary);">
-                                <i class="fas fa-star me-1"></i> 让一个人干一个团队的活
-                            </div>
                             <ul class="product-features">
                                 <li><i class="fas fa-check-circle"></i> AI 对话运维，自然语言交互</li>
                                 <li><i class="fas fa-check-circle"></i> 多平台支持（钉钉/飞书/企微）</li>
@@ -1034,9 +983,6 @@
                             <p>企业级 IT 服务管理平台</p>
                         </div>
                         <div class="product-body">
-                            <div class="product-value" style="background: rgba(16,185,129,0.1); border-radius: 8px; padding: 8px 12px; margin-bottom: 16px; font-size: 13px; color: #10b981;">
-                                <i class="fas fa-star me-1"></i> IT 服务标准化，降本增效
-                            </div>
                             <ul class="product-features">
                                 <li><i class="fas fa-check-circle"></i> 完整的 ITIL 流程支持</li>
                                 <li><i class="fas fa-check-circle"></i> 智能工单管理与分配</li>
@@ -1063,9 +1009,6 @@
                             <p>让品牌在 AI 时代被看见</p>
                         </div>
                         <div class="product-body">
-                            <div class="product-value" style="background: rgba(0,217,255,0.1); border-radius: 8px; padding: 8px 12px; margin-bottom: 16px; font-size: 13px; color: var(--accent);">
-                                <i class="fas fa-star me-1"></i> 你的品牌，AI 也能推荐
-                            </div>
                             <ul class="product-features">
                                 <li><i class="fas fa-check-circle"></i> AI 引擎品牌曝光诊断</li>
                                 <li><i class="fas fa-check-circle"></i> ChatGPT/Perplexity 优化</li>
@@ -1126,7 +1069,7 @@
                     <h2>🧩 Skill 技能市场</h2>
                     <p>像安装 App 一样扩展你的 AI 助手能力</p>
                 </div>
-                <div class="features-grid" id="skills-grid">
+                <div class="features-grid" style="grid-template-columns: repeat(4, 1fr);">
                     <div class="feature-card" style="background: var(--glass-bg); border-radius: 16px; border: 1px solid var(--glass-border);">
                         <span class="feature-icon" style="font-size: 3rem;">💬</span>
                         <h4 style="margin: 16px 0 8px;">钉钉机器人</h4>
@@ -1163,103 +1106,20 @@
             </div>
         </section>
 
-        <!-- Customer Cases -->
-        <section class="section" style="background: var(--dark-700); padding: 80px 0;">
-            <div class="container">
-                <div class="section-title">
-                    <h2>客户成功案例</h2>
-                    <p>他们已经在用 CloudMesh 提升效率</p>
-                </div>
-                <div class="row g-4">
-                    <!-- Case 1 -->
-                    <div class="col-lg-6">
-                        <div class="card" style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 2rem; height: 100%;">
-                            <div class="d-flex align-items-center mb-3">
-                                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🏥</div>
-                                <div class="ms-3">
-                                    <h4 class="mb-0">某三甲医院</h4>
-                                    <small class="text-muted">医疗行业 · 500+ 床位</small>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <span class="badge bg-success me-2">智能补货助手</span>
-                                <span class="badge bg-primary">ITSM</span>
-                            </div>
-                            <p class="text-muted mb-3" style="font-size: 0.95rem; line-height: 1.8;">
-                                "之前医疗耗材管理靠人工盘点，经常出现断货或积压。使用智能补货助手后，库存周转率提升 <strong class="text-white">40%</strong>，断货率降低 <strong class="text-white">85%</strong>，每年节省采购成本 <strong class="text-white">50万+</strong>。"
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center pt-3" style="border-top: 1px solid var(--glass-border);">
-                                <div>
-                                    <small class="text-muted">项目负责人</small>
-                                    <div class="text-white">张主任</div>
-                                </div>
-                                <div class="text-end">
-                                    <small class="text-muted">使用时长</small>
-                                    <div class="text-cyan">18 个月</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Case 2 -->
-                    <div class="col-lg-6">
-                        <div class="card" style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 2rem; height: 100%;">
-                            <div class="d-flex align-items-center mb-3">
-                                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🚀</div>
-                                <div class="ms-3">
-                                    <h4 class="mb-0">某科技公司</h4>
-                                    <small class="text-muted">互联网行业 · 50 人团队</small>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <span class="badge bg-primary me-2">ClawOps</span>
-                                <span class="badge bg-warning text-dark">合同审核助手</span>
-                            </div>
-                            <p class="text-muted mb-3" style="font-size: 0.95rem; line-height: 1.8;">
-                                "作为一家初创公司，我们没有专职运维和法务。用 ClawOps 后，一个人就能搞定所有运维工作；合同审核助手帮我们省下了 <strong class="text-white">90%</strong> 的法务费，审核一份合同从 3 天缩短到 <strong class="text-white">5 分钟</strong>。"
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center pt-3" style="border-top: 1px solid var(--glass-border);">
-                                <div>
-                                    <small class="text-muted">创始人</small>
-                                    <div class="text-white">李总</div>
-                                </div>
-                                <div class="text-end">
-                                    <small class="text-muted">使用时长</small>
-                                    <div class="text-cyan">12 个月</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- CTA -->
         <section class="cta-section">
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-7 text-center text-lg-start">
-                        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">立即开始免费试用</h2>
-                        <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 0.5rem;">无需信用卡 · 3分钟快速部署 · 全功能体验</p>
-                        <p style="opacity: 0.7; margin-bottom: 1.5rem;">
-                            <i class="fas fa-check-circle me-2 text-success"></i>免费版永久可用
-                            <i class="fas fa-check-circle ms-3 me-2 text-success"></i>专业版试用30天
-                            <i class="fas fa-check-circle ms-3 me-2 text-success"></i>专属客服支持
-                        </p>
-                    </div>
-                    <div class="col-lg-5 text-center">
-                        <div class="d-flex flex-column gap-3">
-                            <a href="/deploy/" class="btn btn-light btn-lg" style="padding: 1rem 2.5rem; font-size: 1.2rem; font-weight: 600; border-radius: 50px;">
-                                <i class="fas fa-rocket me-2"></i>立即免费试用
-                            </a>
-                            <a href="/contact/" class="btn btn-outline-light" style="padding: 0.75rem 2rem; border-radius: 50px;">
-                                <i class="fas fa-calendar-alt me-2"></i>预约产品演示
-                            </a>
-                        </div>
-                        <p style="margin-top: 1rem; font-size: 0.875rem; opacity: 0.6;">
-                            已有 <strong class="text-white">1000+</strong> 企业选择 CloudMesh
-                        </p>
-                    </div>
+                <h2>准备好开始了吗？</h2>
+                <p>立即免费试用 30 天，无需信用卡</p>
+                <div class="hero-buttons justify-content-center">
+                    <a href="/deploy/" class="btn-hero btn-hero-primary" style="background: white; color: var(--primary);">
+                        <i class="fas fa-rocket"></i> 免费试用
+                    </a>
+                    <a href="/contact/" class="btn-hero btn-hero-outline" style="border-color: white;">
+                        <i class="fas fa-envelope"></i> 联系我们
+                    </a>
                 </div>
+            </div>
         </section>
     </section>
 
@@ -1345,64 +1205,6 @@
                             </a>
                             <a href="/contact/" class="btn-product btn-product-outline">
                                 <i class="fas fa-search"></i> 免费诊断
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 智能补货助手 -->
-                    <div class="product-card">
-                        <div class="product-header" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
-                            <div class="product-icon">🛒</div>
-                            <h3>智能补货助手</h3>
-                            <p>让小店也能用 AI 管理库存</p>
-                        </div>
-                        <div class="product-body">
-                            <div class="product-value" style="background: rgba(249,115,22,0.1); border-radius: 8px; padding: 8px 12px; margin-bottom: 16px; font-size: 13px; color: #f97316;">
-                                <i class="fas fa-star me-1"></i> 补货不靠猜，AI 帮你算
-                            </div>
-                            <ul class="product-features">
-                                <li><i class="fas fa-check-circle"></i> AI 销量预测，准确率 90%+</li>
-                                <li><i class="fas fa-check-circle"></i> 智能补货建议，一键下单</li>
-                                <li><i class="fas fa-check-circle"></i> 库存预警，避免断货</li>
-                                <li><i class="fas fa-check-circle"></i> AI 对话补货，零学习成本</li>
-                                <li><i class="fas fa-check-circle"></i> 微信/钉钉原生接入</li>
-                            </ul>
-                        </div>
-                        <div class="product-actions">
-                            <a href="/products/smart-replenishment.html" class="btn-product btn-product-primary">
-                                <i class="fas fa-info-circle"></i> 了解详情
-                            </a>
-                            <a href="/contact/" class="btn-product btn-product-outline">
-                                <i class="fas fa-play"></i> 免费试用
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 合同审核助手 -->
-                    <div class="product-card">
-                        <div class="product-header" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);">
-                            <div class="product-icon">📝</div>
-                            <h3>合同审核助手</h3>
-                            <p>让一人公司也能享受专业法务服务</p>
-                        </div>
-                        <div class="product-body">
-                            <div class="product-value" style="background: rgba(59,130,246,0.1); border-radius: 8px; padding: 8px 12px; margin-bottom: 16px; font-size: 13px; color: #3b82f6;">
-                                <i class="fas fa-star me-1"></i> 省下 90% 法务费，避坑不踩雷
-                            </div>
-                            <ul class="product-features">
-                                <li><i class="fas fa-check-circle"></i> AI 智能审核，3分钟出报告</li>
-                                <li><i class="fas fa-check-circle"></i> 风险条款识别，避坑指南</li>
-                                <li><i class="fas fa-check-circle"></i> 合同到期提醒，避免遗漏</li>
-                                <li><i class="fas fa-check-circle"></i> 电子签章，在线签约</li>
-                                <li><i class="fas fa-check-circle"></i> 节省 90% 法务成本</li>
-                            </ul>
-                        </div>
-                        <div class="product-actions">
-                            <a href="/products/contract-review.html" class="btn-product btn-product-primary">
-                                <i class="fas fa-info-circle"></i> 了解详情
-                            </a>
-                            <a href="/contact/" class="btn-product btn-product-outline">
-                                <i class="fas fa-play"></i> 免费试用
                             </a>
                         </div>
                     </div>
@@ -1519,40 +1321,6 @@
                         </ul>
                     </div>
                 </div>
-
-                <!-- 零售智能运营 -->
-                <div class="solution-card">
-                    <div class="solution-header">
-                        <div class="solution-icon" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">🛒</div>
-                        <h3>零售智能运营</h3>
-                        <p>AI 驱动的零售自动化运营</p>
-                    </div>
-                    <div class="solution-body">
-                        <ul>
-                            <li><i class="fas fa-check"></i> 智能补货，AI 预测销量</li>
-                            <li><i class="fas fa-check"></i> 库存优化，降低断货率</li>
-                            <li><i class="fas fa-check"></i> 智能定价，提升利润</li>
-                            <li><i class="fas fa-check"></i> 会员运营，精准营销</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- 企业法务管理 -->
-                <div class="solution-card">
-                    <div class="solution-header">
-                        <div class="solution-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);">⚖️</div>
-                        <h3>企业法务管理</h3>
-                        <p>AI 驱动的智能法务解决方案</p>
-                    </div>
-                    <div class="solution-body">
-                        <ul>
-                            <li><i class="fas fa-check"></i> 合同智能审核，风险识别</li>
-                            <li><i class="fas fa-check"></i> 合同到期提醒，避免遗漏</li>
-                            <li><i class="fas fa-check"></i> 电子签章，在线签约</li>
-                            <li><i class="fas fa-check"></i> 法务成本降低 90%</li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -1560,7 +1328,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-grid" style="grid-template-columns: repeat(5, 1fr);">
                 <div class="footer-col">
                     <h4>产品</h4>
                     <ul>
