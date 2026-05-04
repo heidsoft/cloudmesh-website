@@ -60,6 +60,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    padding-top: 56px;
 }
 
 /* ===== Background Animation ===== */
@@ -216,7 +217,7 @@ body {
 .product-hero, .hero-section {
     background: linear-gradient(135deg, var(--dark-700) 0%, var(--dark-800) 100%);
     color: var(--white);
-    padding: 160px 0 100px;
+    padding: 80px 0 60px;
     position: relative;
     overflow: hidden;
     border-bottom: 1px solid var(--glass-border);
@@ -427,9 +428,8 @@ footer {
 /* ===== Breadcrumb ===== */
 .breadcrumb-section {
     background: var(--dark-800);
-    padding: 100px 0 2rem;
+    padding: 60px 0 2rem;
     border-bottom: 1px solid var(--glass-border);
-    margin-top: 80px;
 }
 
 .breadcrumb {
