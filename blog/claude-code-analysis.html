@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code 源码架构详细分析 | CloudMesh 博客</title>
+    <meta name="description" content="深入解析 Claude Code 源码架构，包含命令系统、工具系统、查询引擎、服务层等核心模块的技术实现。">
+    <meta name="keywords" content="Claude Code, 源码分析, CLI工具, TypeScript, Anthropic, Agent架构">
+    <meta name="author" content="CloudMesh Team">
+
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+
+
+<style>
+.dropdown-content:hover { display: block; }
+a:hover { color: #fff !important; }
+</style>
+
+    <div class="container">
+        <div class="blog-card">
+            <div class="blog-header">
+                <span class="tag">🔍 源码分析</span>
+                <h1>Claude Code 源码架构详细分析</h1>
+                <p class="subtitle">50+命令、40+工具、51万行TypeScript代码的CLI巨头架构解密</p>
+                <div class="meta">
+                    <span><i class="far fa-calendar"></i> 2026-04-01</span>
+                    <span><i class="far fa-clock"></i> 25 分钟</span>
+                    <span><i class="far fa-user"></i> CloudMesh Team</span>
+                </div>
+            </div>
+            <div class="content">
+                <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+
+                <h2>一、项目概述</h2>
+                <p>Claude Code 是 Anthropic 推出的终端 AI 编程助手，通过 npm source map 泄露事件于 2026年3月31日被公开。这是目前已知的最完整的 AI Agent CLI 源码，包含约 1,900 个文件、512,000+ 行 TypeScript 代码。</p>
+                
+                <div class="highlight-box">
+                    <strong>📌 来源</strong>：<a href="https://github.com/heidsoft/claude-code" target="_blank">heidsoft/claude-code</a> 项目为研究目的整理的源码快照<br>
+                    <strong>🛠️ 技术栈</strong>：Bun 运行时 + React + Ink (终端 UI 框架) + TypeScript
+                </div>
+
+                <h2>二、整体架构图</h2>
+                <div class="diagram">
+<pre>┌─────────────────────────────────────────────────────────────┐
+│                      main.tsx (入口)                        │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │ commands.ts │  │  tools.ts   │  │  QueryEngine.ts    │  │
+│  │  (50+命令)  │  │  (40+工具)  │  │    (核心循环)      │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│                      services/ (服务层)                      │
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────────────────┐   │
+│  │ API  │ │ MCP  │ │分析  │ │插件  │ │ Context压缩      │   │
+│  └──────┘ └──────┘ └──────┘ └──────┘ └──────────────────┘   │
+├─────────────────────────────────────────────────────────────┤
+│                    React + Ink (终端UI)                      │
+└─────────────────────────────────────────────────────────────┘</pre>
+                </div>
+
+                <h2>三、核心模块详解</h2>
+
+                <h3>1. 入口模块 (main.tsx)</h3>
+                <p>CLI 入口、启动初始化、命令路由。启动时做了大量性能优化：</p>
+                <div class="code-block">
+                    <div class="title">启动性能优化 - 并行执行</div>
+                    <pre><code>// 这些副作用必须在其他导入之前运行：
+// 1. profileCheckpoint 标记入口点
+// 2. startMdmRawRead 启动 MDM 子进程并行执行
+// 3. startKeychainPrefetch 并行读取 keychain (OAuth + API Key)
+profileCheckpoint('main_tsx_entry');
+startMdmRawRead();
+startKeychainPrefetch();</code></pre>
+                </div>
+                <p><strong>优化效果</strong>：MDM + Keychain 并行执行，节省约 200ms 启动时间。</p>
+
+                <h3>2. 命令系统 (commands.ts)</h3>
+                <p>注册和管理所有 slash 命令，共支持约 50+ 个命令。</p>
+                <table>
+                    <tr><th>分类</th><th>命令</th><th>说明</th></tr>
+                    <tr><td>Git</td><td>/commit, /diff, /branch</td><td>Git 操作</td></tr>
+                    <tr><td>调试</td><td>/doctor, /review, /test</td><td>诊断和审查</td></tr>
+                    <tr><td>上下文</td><td>/context, /compact, /memory</td><td>上下文管理</td></tr>
+                    <tr><td>会话</td><td>/resume, /share, /teleport</td><td>会话管理</td></tr>
+                    <tr><td>任务</td><td>/tasks, /plan</td><td>任务管理</td></tr>
+                    <tr><td>配置</td><td>/config, /theme, /mcp</td><td>配置管理</td></tr>
+                </table>
+
+                <h3>3. 工具系统 (tools.ts)</h3>
+                <p>定义 Agent 可调用的工具能力，共约 40+ 个工具。</p>
+                <table>
+                    <tr><th>类别</th><th>工具</th><th>说明</th></tr>
+                    <tr><td>文件操作</td><td>BashTool, FileReadTool, FileWriteTool, FileEditTool, GlobTool, GrepTool</td><td>Shell执行、文件读写、搜索</td></tr>
+                    <tr><td>网络</td><td>WebFetchTool, WebSearchTool</td><td>URL获取、Web搜索</td></tr>
+                    <tr><td>任务与Agent</td><td>AgentTool, TaskCreateTool, TaskUpdateTool</td><td>子Agent spawn、任务管理</td></tr>
+                    <tr><td>高级</td><td>LSPTool, McpTool</td><td>语言服务器、MCP协议</td></tr>
+                </table>
+
+                <h3>4. 查询引擎 (QueryEngine.ts)</h3>
+                <p>核心交互循环，处理用户输入、调用 LLM、执行工具。</p>
+                <div class="diagram">
+<pre>用户输入 → 构建 Context → Anthropic API → 解析 Tool Use → 执行工具 → 循环</pre>
+                </div>
+                <p>上下文构建包括：System Prompt、用户上下文（当前目录、项目结构）、对话历史、工具执行结果。</p>
+
+                <h3>5. 服务层 (services/)</h3>
+                <p>外部集成和能力抽象，包括：</p>
+                <ul>
+                    <li><strong>API 服务</strong>：Anthropic API 客户端、文件上传下载</li>
+                    <li><strong>MCP 服务</strong>：Model Context Protocol 客户端</li>
+                    <li><strong>分析服务</strong>：GrowthBook 特性开关、使用量统计</li>
+                    <li><strong>插件系统</strong>：插件加载器、内置插件初始化</li>
+                    <li><strong>上下文压缩</strong>：对话上下文压缩、Token 成本追踪</li>
+                </ul>
+
+                <h2>四、关键技术特性</h2>
+
+                <h3>1. Feature Flag 机制</h3>
+                <p>通过 bun:bundle 的 feature 函数实现条件编译，tree-shaking 移除未启用的代码：</p>
+                <div class="code-block">
+                    <div class="title">条件导入示例</div>
+                    <pre><code>import { feature } from 'bun:bundle';
+
+const voiceCommand = feature('VOICE_MODE')
+  ? require('./commands/voice/index.js').default
+  : null</code></pre>
+                </div>
+                <p>支持的特性：VOICE_MODE、KAIROS、BUDDY、BRIDGE_MODE、COORDINATOR_MODE</p>
+
+                <h3>2. Lazy Import 打破循环依赖</h3>
+                <div class="code-block">
+                    <div class="title">延迟加载</div>
+                    <pre><code>const getTeammateUtils = () => require('./utils/teammate.js');</code></pre>
+                </div>
+
+                <h3>3. MCP (Model Context Protocol)</h3>
+                <p>支持通过 MCP 协议动态扩展 Agent 能力，实现工具和资源的动态发现。</p>
+
+                <h2>五、目录结构总览</h2>
+                <div class="diagram">
+<pre>src/
+├── main.tsx                 # 入口
+├── commands.ts              # 命令注册
+├── tools.ts                 # 工具注册
+├── QueryEngine.ts           # 核心循环
+├── context.ts               # 上下文收集
+├── cost-tracker.ts          # 成本追踪
+│
+├── commands/                # ~50 个命令实现
+├── tools/                   # ~40 个工具实现
+├── services/                # 服务层
+├── components/              # Ink UI 组件 (~140)
+├── hooks/                   # React Hooks
+├── state/                   # 状态管理
+├── bridge/                  # IDE 桥接
+├── coordinator/              # 多 Agent 协调
+├── plugins/                 # 插件系统
+├── skills/                  # 技能系统
+└── memdir/                  # 持久化内存</pre>
+                </div>
+
+                <h2>六、与 OpenClaw 对比</h2>
+                <table>
+                    <tr><th>特性</th><th>Claude Code</th><th>OpenClaw</th></tr>
+                    <tr><td>运行时</td><td>Bun</td><td>Node.js</td></tr>
+                    <tr><td>UI 框架</td><td>React + Ink</td><td>Terminal UI</td></tr>
+                    <tr><td>工具系统</td><td>~40 个</td><td>可扩展</td></tr>
+                    <tr><td>命令系统</td><td>~50 个</td><td>可扩展</td></tr>
+                    <tr><td>插件系统</td><td>支持</td><td>支持</td></tr>
+                    <tr><td>技能系统</td><td>支持</td><td>支持</td></tr>
+                    <tr><td>MCP</td><td>支持</td><td>支持</td></tr>
+                </table>
+
+                <h2>七、学习价值</h2>
+                <div class="highlight-box">
+                    <ul>
+                        <li><strong>大规模 CLI 设计</strong>：如何组织 50+ 命令和 40+ 工具</li>
+                        <li><strong>性能优化</strong>：启动并行化、条件编译、tree-shaking</li>
+                        <li><strong>架构模式</strong>：插件系统、技能系统、MCP 集成</li>
+                        <li><strong>工程实践</strong>：Feature flag、Lazy load、循环依赖处理</li>
+                    </ul>
+                </div>
+
+                <blockquote>
+                    <strong>💡 提示</strong>：Claude Code 源码仅供学习研究使用，原代码版权属于 Anthropic。如需实际使用，请下载官方客户端：<a href="https://claude.com/desktop" target="_blank">claude.com/desktop</a>
+                </blockquote>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudMesh - 智能 IT 管理平台 | AI 驱动的 DevOps 平台</title>
+    <meta name="description" content="CloudMesh 是 AI 驱动的智能 IT 管理平台，整合 ClawOps DevOps 和 ITSM 工单系统，让 IT 管理更简单高效">
+    <meta name="keywords" content="CloudMesh, IT 管理平台，DevOps, AI 运维，ITSM, 工单系统，监控告警，自动化运维">
+    <meta name="author" content="CloudMesh">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="CloudMesh - 智能 IT 管理平台">
+    <meta property="og:description" content="AI 驱动的 DevOps 平台，让一个人也能像大公司一样高效运维">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cloudmesh.top/">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://cloudmesh.top/">
+    
+    <!-- Schema.org Structured Data -->
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "CloudMesh",
+      "alternateName": "云格科技",
+      "url": "https://cloudmesh.top",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://cloudmesh.top/icons/apple-touch-icon.png"
+      },
+      "description": "CloudMesh 是 AI 驱动的智能 IT 管理平台，整合 ClawOps DevOps 和 ITSM 工单系统，让 IT 管理更简单高效",
+      "foundingDate": "2024",
+      "founder": {
+        "@type": "Person",
+        "name": "刘彬"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "CN"
+      },
+      "sameAs": [
+        "https://github.com/heidsoft",
+        "https://space.bilibili.com/349309176"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "availableLanguage": ["Chinese", "English"]
+      },
+      "knowsAbout": [
+        "DevOps",
+        "ITSM",
+        "AI运维",
+        "工单系统",
+        "监控告警",
+        "自动化运维",
+        "GEO优化"
+      ]
+    }
+    </script>
+    
+    <!-- WebSite Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "CloudMesh",
+      "url": "https://cloudmesh.top",
+      "description": "AI 驱动的智能 IT 管理平台，让一个人也能像大公司一样高效运维",
+      "publisher": {
+        "@type": "Organization",
+        "name": "CloudMesh",
+        "url": "https://cloudmesh.top"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://cloudmesh.top/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- SoftwareApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "CloudMesh",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web-based",
+      "description": "CloudMesh 是 AI 驱动的智能 IT 管理平台，整合 ClawOps DevOps 和 ITSM 工单系统，让 IT 管理更简单高效",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "100",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": "CloudMesh"
+      },
+      "featureList": "多云管理，监控告警，自动化运维，ITSM 工单系统，知识库",
+      "softwareVersion": "2.0",
+      "url": "https://cloudmesh.top/",
+      "screenshot": "https://cloudmesh.top/images/screenshot.png",
+      "author": {
+        "@type": "Organization",
+        "name": "CloudMesh Team",
+        "url": "https://cloudmesh.top/about/"
+      }
+    }
+    </script>
+    
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "CloudMesh 是什么？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CloudMesh 是 AI 驱动的智能 IT 管理平台，整合 ClawOps DevOps 和 ITSM 工单系统。它让一个人也能像大公司一样高效运维，支持多云管理、监控告警、自动化运维、工单系统等功能。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "CloudMesh 支持哪些平台？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CloudMesh 支持钉钉、飞书、企业微信等主流企业 IM 平台，可以快速接入企业现有沟通体系，实现智能化运维和工单管理。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "CloudMesh 如何收费？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CloudMesh 提供免费试用 30 天，无需信用卡。个人版永久免费，企业版按需定价。具体价格请访问 pricing 页面或联系我们的销售团队。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ClawOps 是什么？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ClawOps 是 CloudMesh 平台的核心组件，是一个开源的 DevOps 自动化平台。它支持多平台消息接入、AI 对话、自动化运维等功能，可扩展的 Skill 系统让它能像安装 App 一样扩展能力。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "CloudMesh 提供哪些解决方案？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CloudMesh 提供多种智能化解决方案：医疗知识库问答系统、智能排队叫号系统、弱电工程管理、3D室内设计、GEO生成式引擎优化服务等，覆盖医疗、政务、企业等多个行业。"
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://cdn.bootcdn.net">
+    <link rel="dns-prefetch" href="https://cdn.bootcdn.net">
+    
+    <!-- Styles -->
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="bg-gradient bg-gradient-1"></div>
+        <div class="bg-gradient bg-gradient-2"></div>
+        <div class="bg-gradient bg-gradient-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    <span>AI-Driven DevOps Platform</span>
+                </div>
+                <h1 class="hero-title">
+                    让 IT 管理更<span>简单</span><br>
+                    让业务运营更<span>高效</span>
+                </h1>
+                <p class="hero-subtitle">
+                    CloudMesh 提供完整的 IT 管理平台，从部署到运维，从工单到知识库，<br class="d-none d-md-block">
+                    一站式解决企业 IT 管理需求
+                </p>
+                <div class="hero-buttons">
+                    <a href="/deploy/" class="btn-hero btn-hero-primary">
+                        <i class="fas fa-rocket"></i> 开始免费试用
+                    </a>
+                    <a href="#products" class="btn-hero btn-hero-outline">
+                        <i class="fas fa-book"></i> 了解产品
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">服务企业</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100 万+</div>
+                        <div class="stat-label">处理工单</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99%</div>
+                        <div class="stat-label">用户满意</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">系统可用</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="section products-section" id="products">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">PRODUCTS</span>
+                <h2>我们的产品</h2>
+                <p>三大核心产品，覆盖 IT 管理全场景</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <!-- ClawOps -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <div class="product-header openclaw">
+                            <span class="product-icon">🚀</span>
+                            <h3>ClawOps</h3>
+                            <p>AI 驱动的一人 DevOps 团队</p>
+                        </div>
+                        <div class="product-body">
+                            <ul class="product-features">
+                                <li><i class="fas fa-check-circle"></i> CMDB 配置管理</li>
+                                <li><i class="fas fa-check-circle"></i> 多云资源统一管理</li>
+                                <li><i class="fas fa-check-circle"></i> 全栈监控告警</li>
+                                <li><i class="fas fa-check-circle"></i> DevOps 流水线</li>
+                                <li><i class="fas fa-check-circle"></i> AI 运维大脑</li>
+                            </ul>
+                            <div class="product-actions">
+                                <a href="/products/clawops.html" class="btn-product btn-product-primary">
+                                    <i class="fas fa-info-circle"></i> 了解详情
+                                </a>
+                                <a href="/deploy/" class="btn-product btn-product-outline">
+                                    <i class="fas fa-play"></i> 立即体验
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ITSM -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <div class="product-header itsm">
+                            <span class="product-icon">📋</span>
+                            <h3>ITSM</h3>
+                            <p>企业级 IT 服务管理平台</p>
+                        </div>
+                        <div class="product-body">
+                            <ul class="product-features">
+                                <li><i class="fas fa-check-circle"></i> 完整的 ITIL 流程支持</li>
+                                <li><i class="fas fa-check-circle"></i> 智能工单管理与分配</li>
+                                <li><i class="fas fa-check-circle"></i> SLA 服务级别管理</li>
+                                <li><i class="fas fa-check-circle"></i> CMDB 配置管理数据库</li>
+                                <li><i class="fas fa-check-circle"></i> 知识库与自助服务</li>
+                            </ul>
+                            <div class="product-actions">
+                                <a href="/products/itsm.html" class="btn-product btn-product-primary">
+                                    <i class="fas fa-info-circle"></i> 了解详情
+                                </a>
+                                <a href="/tickets/" class="btn-product btn-product-outline">
+                                    <i class="fas fa-play"></i> 立即体验
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Config Generator -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="product-card">
+                        <div class="product-header" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                            <span class="product-icon">⚙️</span>
+                            <h3>配置生成器</h3>
+                            <p>3 分钟完成 ClawOps 配置</p>
+                        </div>
+                        <div class="product-body">
+                            <ul class="product-features">
+                                <li><i class="fas fa-check-circle"></i> 多平台支持（钉钉/飞书/企微）</li>
+                                <li><i class="fas fa-check-circle"></i> 一键安装脚本</li>
+                                <li><i class="fas fa-check-circle"></i> 个人版免费使用</li>
+                                <li><i class="fas fa-check-circle"></i> 企业版对接配置中心</li>
+                                <li><i class="fas fa-check-circle"></i> 安全存储敏感信息</li>
+                            </ul>
+                            <div class="product-actions">
+                                <a href="/openclaw-generator/" class="btn-product btn-product-primary">
+                                    <i class="fas fa-wrench"></i> 立即配置
+                                </a>
+                                <a href="/openclaw-generator/#enterprise" class="btn-product btn-product-outline" onclick="switchMode('enterprise'); return false;">
+                                    <i class="fas fa-building"></i> 企业版
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GEO Service -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <div class="product-header" style="background: linear-gradient(135deg, #00d9ff 0%, #667eea 50%, #764ba2 100%);">
+                            <span class="product-icon">🤖</span>
+                            <h3>GEO 服务</h3>
+                            <p>让品牌在 AI 时代被看见</p>
+                        </div>
+                        <div class="product-body">
+                            <ul class="product-features">
+                                <li><i class="fas fa-check-circle"></i> AI 引擎品牌曝光诊断</li>
+                                <li><i class="fas fa-check-circle"></i> ChatGPT/Perplexity 优化</li>
+                                <li><i class="fas fa-check-circle"></i> 内容结构化改造</li>
+                                <li><i class="fas fa-check-circle"></i> 权威来源建设</li>
+                                <li><i class="fas fa-check-circle"></i> GEO 综合评分报告</li>
+                            </ul>
+                            <div class="product-actions">
+                                <a href="/solutions/geo.html" class="btn-product btn-product-primary">
+                                    <i class="fas fa-info-circle"></i> 了解详情
+                                </a>
+                                <a href="/contact/" class="btn-product btn-product-outline">
+                                    <i class="fas fa-search"></i> 免费诊断
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">FEATURES</span>
+                <h2>核心优势</h2>
+                <p>为什么选择 CloudMesh</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <span class="feature-icon">🤖</span>
+                        <h3>AI 智能赋能</h3>
+                        <p>AI 驱动的自动化和智能分析，异常检测、根因分析、性能优化建议，让运维更智能</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <span class="feature-icon">⚡</span>
+                        <h3>快速部署</h3>
+                        <p>分钟级部署上线，一键部署、蓝绿发布、金丝雀发布，无需复杂配置，开箱即用</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <span class="feature-icon">🔒</span>
+                        <h3>安全可靠</h3>
+                        <p>企业级安全保护，数据加密传输，权限管理，审计日志，99.9% 可用性保障</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <span class="feature-icon">📊</span>
+                        <h3>数据驱动</h3>
+                        <p>多维度数据分析报表，可视化仪表盘，容量预测，成本优化，助力科学决策</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <span class="feature-icon">🔄</span>
+                        <h3>灵活扩展</h3>
+                        <p>模块化设计，按需选择，支持私有化部署，API 开放集成，随业务增长而扩展</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <span class="feature-icon">💬</span>
+                        <h3>专业服务</h3>
+                        <p>7x24 小时技术支持，专业团队全程陪伴，知识库，社区互助，快速响应</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Showcase Section -->
+    <section class="section" style="background: var(--dark-700);" id="skills">
+        <div class="container">
+            <div class="section-title">
+                <span class="section-tag">SKILLS</span>
+                <h2>🧩 Skill 技能市场</h2>
+                <p>像安装 App 一样扩展你的 AI 助手能力</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" style="text-align: center;">
+                        <span class="feature-icon" style="font-size: 4rem;">💬</span>
+                        <h4 style="margin: 16px 0 8px;">钉钉机器人</h4>
+                        <p style="font-size: 14px; margin-bottom: 16px;">连接钉钉企业 IM，支持消息收发、卡片消息</p>
+                        <span class="badge bg-success">12,580+ 安装</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" style="text-align: center;">
+                        <span class="feature-icon" style="font-size: 4rem;">🚀</span>
+                        <h4 style="margin: 16px 0 8px;">飞书机器人</h4>
+                        <p style="font-size: 14px; margin-bottom: 16px;">集成飞书开放平台，支持消息、日历、云文档</p>
+                        <span class="badge bg-success">8,960+ 安装</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" style="text-align: center;">
+                        <span class="feature-icon" style="font-size: 4rem;">🔍</span>
+                        <h4 style="margin: 16px 0 8px;">网页搜索</h4>
+                        <p style="font-size: 14px; margin-bottom: 16px;">Brave Search API 集成，支持网页搜索、新闻搜索</p>
+                        <span class="badge bg-success">15,680+ 安装</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" style="text-align: center;">
+                        <span class="feature-icon" style="font-size: 4rem;">🧠</span>
+                        <h4 style="margin: 16px 0 8px;">记忆管理</h4>
+                        <p style="font-size: 14px; margin-bottom: 16px;">长期记忆存储、语义搜索、记忆整理</p>
+                        <span class="badge bg-success">11,230+ 安装</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center" style="margin-top: 40px;">
+                <a href="/skills/" class="btn-hero btn-hero-primary">
+                    <i class="fas fa-puzzle-piece"></i> 浏览全部 Skills
+                </a>
+                <a href="/blog/skill-market-guide.html" class="btn-hero btn-hero-outline ms-3">
+                    <i class="fas fa-book"></i> 使用指南
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2>准备好开始了吗？</h2>
+            <p>立即免费试用 30 天，无需信用卡。我们的专家团队随时为您服务。</p>
+            <div class="hero-buttons justify-content-center">
+                <a href="/deploy/" class="btn-hero btn-hero-primary">
+                    <i class="fas fa-rocket"></i> 免费试用
+                </a>
+                <a href="/contact/" class="btn-hero btn-hero-outline">
+                    <i class="fas fa-envelope"></i> 联系我们
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                    <div class="footer-brand">
+                        <i class="fas fa-cloud"></i>
+                        <span>CloudMesh</span>
+                    </div>
+                    <p class="footer-text">智能 IT 管理平台，让 IT 管理更简单高效</p>
+                    <div class="d-flex gap-3">
+                        <a href="https://github.com/heidsoft/itsm" target="_blank" class="text-white-50 fs-4"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-white-50 fs-4"><i class="fab fa-weixin"></i></a>
+                        <a href="mailto:heidsoft@qq.com" class="text-white-50 fs-4"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">产品</h4>
+                    <ul class="footer-links">
+                        <li><a href="/products/clawops.html">ClawOps</a></li>
+                        <li><a href="/products/itsm.html">ITSM</a></li>
+                        <li><a href="/#pricing">定价</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                    <h4 class="footer-title">开源</h4>
+                    <ul class="footer-links">
+                        <li><a href="/open-source/">开源社区</a></li>
+                        <li><a href="https://github.com/heidsoft/itsm" target="_blank">GitHub</a></li>
+                        <li><a href="/docs/">文档</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h4 class="footer-title">联系</h4>
+                    <ul class="footer-links">
+                        <li><a href="/contact/">联系我们</a></li>
+                        <li><a href="mailto:heidsoft@qq.com">heidsoft@qq.com</a></li>
+                        <li><a href="/privacy/">隐私政策</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CloudMesh. All rights reserved. | Powered by Open Source</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        // Fade in animation on scroll
+        const fadeElements = document.querySelectorAll('.product-card, .feature-card');
+        const fadeInOnScroll = () => {
+            fadeElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (elementTop < windowHeight - 100) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        fadeElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        });
+        
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+    </script>
+</body>
+</html>

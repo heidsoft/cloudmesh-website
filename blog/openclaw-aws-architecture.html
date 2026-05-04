@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基于 AWS 搭建 OpenClaw 智能运维平台 - 完整架构实践指南 - CloudMesh 博客</title>
+    <meta name="description" content="从零开始在 AWS 上搭建 OpenClaw 智能运维平台的完整指南">
+    <link rel="canonical" href="https://cloudmesh.top/blog/openclaw-aws-architecture.html">
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    
+
+
+<style>
+.dropdown-content:hover { display: block; }
+a:hover { color: #fff !important; }
+</style>
+
+    <header class="blog-header" style="margin-top: 70px;">
+        <div class="container text-center">
+            <span class="tag-badge aws-badge"><i class="fab fa-aws"></i> AWS 官方推荐案例</span>
+            <h1 class="blog-title">基于 AWS 搭建 OpenClaw 智能运维平台<br><small style="font-size: 0.6em; opacity: 0.8;">完整架构实践指南</small></h1>
+            <div class="blog-meta">
+                <span><i class="far fa-calendar"></i> 2026年3月20日</span>
+                <span class="mx-3">|</span>
+                <span><i class="far fa-clock"></i> 阅读时间 25 分钟</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <article class="blog-content">
+                    <h2>一、背景与挑战</h2>
+                    <p>OpenClaw 是一款开源的 AI 驱动智能运维平台，专为中小企业和一人公司设计。本文详细介绍如何在 AWS 云平台上从零搭建生产可用的 OpenClaw 集群。</p>
+
+                    <div class="highlight-box">
+                        <h4><i class="fas fa-award"></i> AWS 官方博客推荐</h4>
+                        <p style="margin-bottom:0;">本文是对 AWS 官方博客文章《探索 OpenClaw 在电商平台中的应用场景》的深度实践补充。</p>
+                    </div>
+
+                    <h3>1.1 为什么选择 AWS？</h3>
+                    <table>
+                        <tr><th>优势领域</th><th>AWS 能力</th><th>价值</th></tr>
+                        <tr><td>全球基础设施</td><td>30+ 区域</td><td>就近部署</td></tr>
+                        <tr><td>容器服务</td><td>ECS/EKS/Fargate</td><td>无服务器容器</td></tr>
+                        <tr><td>数据库</td><td>RDS, Aurora</td><td>托管数据库</td></tr>
+                        <tr><td>AI/ML</td><td>SageMaker, Bedrock</td><td>大模型能力</td></tr>
+                    </table>
+
+                    <h3>1.2 技术选型</h3>
+                    <table>
+                        <tr><th>层级</th><th>选择</th><th>理由</th></tr>
+                        <tr><td>容器编排</td><td>ECS Fargate</td><td>无需管理节点</td></tr>
+                        <tr><td>数据库</td><td>RDS PostgreSQL</td><td>成熟稳定</td></tr>
+                        <tr><td>缓存</td><td>ElastiCache Redis</td><td>高性能</td></tr>
+                        <tr><td>IaC</td><td>Terraform</td><td>多云支持</td></tr>
+                    </table>
+
+                    <h2>二、架构设计</h2>
+                    <p>采用三层架构，核心服务部署在私有子网：</p>
+                    <ul>
+                        <li><strong>接入层：</strong>Route 53 + ALB + WAF</li>
+                        <li><strong>应用层：</strong>ECS Fargate 集群（API/Worker/AI）</li>
+                        <li><strong>数据层：</strong>RDS PostgreSQL + ElastiCache Redis + S3</li>
+                    </ul>
+
+                    <h2>三、Terraform 完整代码</h2>
+
+                    <h3>3.1 VPC 配置</h3>
+                    <pre><code>resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  tags = { Name = "openclaw-vpc" }
+}
+
+resource "aws_subnet" "public" {
+  count = 2
+  vpc_id = aws_vpc.main.id
+  cidr_block = "10.0.\${count.index + 1}.0/24"
+  map_public_ip_on_launch = true
+}
+
+resource "aws_subnet" "private" {
+  count = 2
+  vpc_id = aws_vpc.main.id
+  cidr_block = "10.0.\${count.index + 10}.0/24"
+}</code></pre>
+
+                    <h3>3.2 ECS 集群</h3>
+                    <pre><code>resource "aws_ecs_cluster" "main" {
+  name = "openclaw-cluster"
+}
+
+resource "aws_ecs_task_definition" "api" {
+  family = "openclaw-api"
+  requires_compatibilities = ["FARGATE"]
+  network_mode = "awsvpc"
+  cpu = "1024"
+  memory = "2048"
+  
+  container_definitions = jsonencode([{
+    name = "api"
+    image = "\${aws_ecr_repository.api.repository_url}:latest"
+    portMappings = [{ containerPort = 3000 }]
+    environment = [
+      { name = "NODE_ENV", value = "production" }
+    ]
+    healthCheck = {
+      command = ["CMD-SHELL", "curl -f http://localhost:3000/health"]
+      interval = 30
+      retries = 3
+    }
+  }])
+}
+
+resource "aws_ecs_service" "api" {
+  name = "openclaw-api"
+  cluster = aws_ecs_cluster.main.id
+  task_definition = aws_ecs_task_definition.api.arn
+  desired_count = 2
+  launch_type = "FARGATE"
+}</code></pre>
+
+                    <h3>3.3 RDS 数据库</h3>
+                    <pre><code>resource "aws_db_instance" "main" {
+  identifier = "openclaw-postgres"
+  engine = "postgres"
+  engine_version = "15.4"
+  instance_class = "db.r6g.xlarge"
+  
+  allocated_storage = 100
+  storage_type = "gp3"
+  storage_encrypted = true
+  
+  db_name = "openclaw"
+  username = "openclaw_admin"
+  password = random_password.db.result
+  
+  multi_az = true
+  backup_retention_period = 7
+  deletion_protection = true
+}</code></pre>
+
+                    <h2>四、监控告警</h2>
+                    <pre><code>resource "aws_cloudwatch_metric_alarm" "cpu_high" {
+  alarm_name = "openclaw-cpu-high"
+  comparison_operator = "GreaterThanThreshold"
+  metric_name = "CPUUtilization"
+  namespace = "AWS/ECS"
+  threshold = 80
+  evaluation_periods = 2
+  
+  dimensions = {
+    ServiceName = aws_ecs_service.api.name
+    ClusterName = aws_ecs_cluster.main.name
+  }
+  
+  alarm_actions = [aws_sns_topic.alerts.arn]
+}</code></pre>
+
+                    <h2>五、成本分析</h2>
+                    <table>
+                        <tr><th>服务</th><th>配置</th><th>月费用</th></tr>
+                        <tr><td>ECS Fargate</td><td>5 任务</td><td>$150-300</td></tr>
+                        <tr><td>ALB</td><td>标准</td><td>$25-50</td></tr>
+                        <tr><td>RDS</td><td>Multi-AZ</td><td>$350-400</td></tr>
+                        <tr><td>Redis</td><td>集群</td><td>$120-150</td></tr>
+                        <tr><td>其他</td><td>NAT/S3/CW</td><td>$60-100</td></tr>
+                        <tr><th colspan="2">总计</th><th>$700-1000/月</th></tr>
+                    </table>
+
+                    <div class="highlight-box">
+                        <h4><i class="fas fa-lightbulb"></i> 成本优化建议</h4>
+                        <ol>
+                            <li>Reserved Instances 可节省 30-50%</li>
+                            <li>Spot 实例可节省 70%</li>
+                            <li>配置 HPA 自动伸缩</li>
+                        </ol>
+                    </div>
+
+                    <h2>六、最佳实践</h2>
+                    <h3>安全</h3>
+                    <ul>
+                        <li>核心服务部署在私有子网</li>
+                        <li>最小权限 IAM 策略</li>
+                        <li>ALB 启用 HTTPS 和 WAF</li>
+                        <li>Secrets Manager 管理密钥</li>
+                    </ul>
+
+                    <h3>高可用</h3>
+                    <ul>
+                        <li>跨可用区部署</li>
+                        <li>自动故障转移</li>
+                        <li>健康检查</li>
+                        <li>定期备份</li>
+                    </ul>
+
+                    <h2>七、总结</h2>
+                    <blockquote>
+                        <p><strong>核心要点：</strong></p>
+                        <ul>
+                            <li>架构：VPC + ECS + RDS + Redis</li>
+                            <li>IaC：Terraform 管理</li>
+                            <li>监控：CloudWatch 全覆盖</li>
+                            <li>成本：$700-1000/月</li>
+                        </ul>
+                    </blockquote>
+
+                    <h3>下一步</h3>
+                    <ul>
+                        <li>🚀 <a href="/clawops/demo.html">在线体验 OpenClaw</a></li>
+                        <li>📖 <a href="https://github.com/heidsoft/itsm">GitHub 开源仓库</a></li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+                    <div>
+                        <span class="tag-badge">AWS</span>
+                        <span class="tag-badge">Terraform</span>
+                        <span class="tag-badge">ECS</span>
+                        <span class="tag-badge">RDS</span>
+                        <span class="tag-badge">DevOps</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <footer style="background: rgba(0,0,0,0.3); padding: 2rem 0;">
+        <div class="container text-center">
+            <p style="color: #888; margin-bottom: 0;">&copy; 2026 CloudMesh. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
