@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>一文读懂 MES 系统：从概念到落地的工厂数字化实战指南</title>
-  <meta name="description" content="MES（制造执行系统）是工厂数字化转型的核心。什么是MES？它和ERP有什么区别？中小企业怎么落地？本文一次讲清楚，并提供 CloudMES 演示系统体验。">
+  <meta <meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    <meta name="description" content="MES（制造执行系统）是工厂数字化转型的核心。什么是MES？它和ERP有什么区别？中小企业怎么落地？本文一次讲清楚，并提供 CloudMES 演示系统体验。">
   <link rel="canonical" href="https://cloudmesh.top/blog/mes-system-guide-2026.html">
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -223,7 +224,9 @@
     function shareTo(platform) {
         var url = encodeURIComponent(window.location.href);
         var title = encodeURIComponent(document.title);
-        var summary = encodeURIComponent(document.querySelector('meta[name="description"]') ? document.querySelector('meta[name="description"]').content : document.title);
+        var summary = encodeURIComponent(document.querySelector('meta[<meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    <meta name="description"]') ? document.querySelector('meta[<meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    <meta name="description"]').content : document.title);
         if (platform === 'weibo') {
             window.open('http://service.weibo.com/share/share.php?url=' + url + '&title=' + title + '&pic=', '_blank', 'width=600,height=500');
         } else if (platform === 'qzone') {

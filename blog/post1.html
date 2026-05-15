@@ -118,7 +118,9 @@ button:hover { color: #fff !important; background: rgba(102,126,234,0.1) !import
     function shareTo(platform) {
         var url = encodeURIComponent(window.location.href);
         var title = encodeURIComponent(document.title);
-        var summary = encodeURIComponent(document.querySelector('meta[name="description"]') ? document.querySelector('meta[name="description"]').content : document.title);
+        var summary = encodeURIComponent(document.querySelector('meta[<meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    <meta name="description"]') ? document.querySelector('meta[<meta property="og:image" content="https://cloudmesh.top/og-image.png">
+    <meta name="description"]').content : document.title);
         if (platform === 'weibo') {
             window.open('http://service.weibo.com/share/share.php?url=' + url + '&title=' + title + '&pic=', '_blank', 'width=600,height=500');
         } else if (platform === 'qzone') {
