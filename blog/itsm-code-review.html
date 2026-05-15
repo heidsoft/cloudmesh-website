@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITSM 开源项目代码质量审查实战 - Go + Next.js 项目踩坑记录</title>
-    <meta <meta property="og:image" content="https://cloudmesh.top/og-image.png">
-    <meta name="description" content="分享 ITSM 开源项目代码审查过程中发现的问题和解决方案，包括 Go 后端、Next.js 前端的常见陷阱和最佳实践">
+    <meta                     <meta name="description" content="分享 ITSM 开源项目代码审查过程中发现的问题和解决方案，包括 Go 后端、Next.js 前端的常见陷阱和最佳实践">
+<meta property="og:title" content="">
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://cloudmesh.top/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cloudmesh.top/og-image.png">
+<meta property="og:url" content="">
     <meta name="keywords" content="ITSM,代码审查,Go,Next.js,开源项目,代码质量">
     <meta name="author" content="CloudMesh Team">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
@@ -283,9 +291,7 @@ grep -rn "TODO\|FIXME\|panic\|console.log" ./src</code>
     function shareTo(platform) {
         var url = encodeURIComponent(window.location.href);
         var title = encodeURIComponent(document.title);
-        var summary = encodeURIComponent(document.querySelector('meta[<meta property="og:image" content="https://cloudmesh.top/og-image.png">
-    <meta name="description"]') ? document.querySelector('meta[<meta property="og:image" content="https://cloudmesh.top/og-image.png">
-    <meta name="description"]').content : document.title);
+        var summary = encodeURIComponent(document.querySelector('meta[                    <meta name="description"]') ? document.querySelector('meta[                    <meta name="description"]').content : document.title);
         if (platform === 'weibo') {
             window.open('http://service.weibo.com/share/share.php?url=' + url + '&title=' + title + '&pic=', '_blank', 'width=600,height=500');
         } else if (platform === 'qzone') {

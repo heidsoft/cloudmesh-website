@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenClaw 安全最佳实践 - 保护你的 API 密钥和数据</title>
-    <meta <meta property="og:image" content="https://cloudmesh.top/og-image.png">
-    <meta name="description" content="OpenClaw 安全最佳实践指南，包括 API 密钥管理、权限控制、审计日志等安全措施">
+    <meta                     <meta name="description" content="OpenClaw 安全最佳实践指南，包括 API 密钥管理、权限控制、审计日志等安全措施">
+<meta property="og:title" content="">
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://cloudmesh.top/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cloudmesh.top/og-image.png">
+<meta property="og:url" content="">
     <meta name="keywords" content="OpenClaw,安全，API 密钥，权限控制，最佳实践">
     <meta name="author" content="OpenClaw Team">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
@@ -255,9 +263,7 @@ ls -la ~/.openclaw/workspace/
     function shareTo(platform) {
         var url = encodeURIComponent(window.location.href);
         var title = encodeURIComponent(document.title);
-        var summary = encodeURIComponent(document.querySelector('meta[<meta property="og:image" content="https://cloudmesh.top/og-image.png">
-    <meta name="description"]') ? document.querySelector('meta[<meta property="og:image" content="https://cloudmesh.top/og-image.png">
-    <meta name="description"]').content : document.title);
+        var summary = encodeURIComponent(document.querySelector('meta[                    <meta name="description"]') ? document.querySelector('meta[                    <meta name="description"]').content : document.title);
         if (platform === 'weibo') {
             window.open('http://service.weibo.com/share/share.php?url=' + url + '&title=' + title + '&pic=', '_blank', 'width=600,height=500');
         } else if (platform === 'qzone') {
