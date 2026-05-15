@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>经济学学习系列：理解世界的底层逻辑 | CloudMesh</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding-top: 56px; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #2c3e50; border-bottom: 3px solid #27ae60; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 40px; }
+        h3 { color: #7f8c8d; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', 'Consolas', monospace; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 8px; overflow-x: auto; border-left: 4px solid #27ae60; }
+        .tag { display: inline-block; background: #e8f6ef; color: #27ae60; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; margin-right: 5px; }
+        blockquote { border-left: 4px solid #e74c3c; margin: 20px 0; padding: 10px 20px; background: #fdf2f2; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #27ae60; color: white; }
+        tr:nth-child(even) { background: #f9f9f9; }
+        .principle { background: #fffde7; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #ffc107; }
+        .diagram { background: #fafafa; padding: 20px; border-radius: 8px; text-align: center; font-family: monospace; margin: 20px 0; }
+        .series-info { background: #e8f5e9; padding: 15px; border-radius: 8px; margin: 20px 0; }
+    
+        .blog-navbar { background: rgba(15,15,35,0.98); border-bottom: 1px solid rgba(102,126,234,0.2); padding: 0.5rem 0; }
+        .blog-navbar .navbar-brand { color: var(--primary) !important; font-weight: 800; font-size: 1.1rem; text-decoration: none; }
+        .blog-navbar .nav-link { color: var(--gray-400); padding: 0.5rem 1rem; font-size: 0.9rem; text-decoration: none; transition: color 0.2s; }
+        .blog-navbar .nav-link:hover, .blog-navbar .nav-link.active { color: var(--white); }
+        .blog-navbar .nav-link.active { color: var(--primary); }
+        .blog-footer { border-top: 1px solid var(--glass-border); padding: 40px 0 30px; margin-top: 60px; text-align: center; }
+        .blog-footer .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+        .blog-footer .footer-links a { color: var(--gray-500); text-decoration: none; font-size: 0.9rem; }
+        .blog-footer .footer-links a:hover { color: var(--primary); }
+        .blog-footer .copyright { color: var(--gray-600); font-size: 0.85rem; }
+
+    </style>
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;z-index:9999;">跳转到主要内容</a>
+<nav role="navigation" aria-label="主导航" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
+        <a href="/" style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap;" aria-label="CloudMesh 首页">☁ CloudMesh</a>
+        <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;">
+            <a href="/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">首页</a>
+            <div style="position:relative;" class="nav-dropdown">
+                <button onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true');this.parentElement.querySelector('.dd').classList.toggle('show')" aria-expanded="false" aria-haspopup="true" aria-label="产品菜单" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;border-radius:6px;transition:color 0.2s,background 0.2s;">产品 <span style="font-size:0.7rem;" aria-hidden="true">▼</span></button>
+                <div class="dd" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(22,22,42,0.98);border:1px solid rgba(102,126,234,0.3);border-radius:10px;padding:6px;min-width:190px;z-index:1001;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+                    <a href="/products/clawops.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-terminal" aria-hidden="true"></i> ClawOps</a>
+                    <a href="/products/itsm.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-tasks" aria-hidden="true"></i> ITSM</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-boxes-stacked" aria-hidden="true"></i> 智能补货助手</a>
+                    <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-file-signature" aria-hidden="true"></i> 合同审核助手</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/openclaw.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-robot" aria-hidden="true"></i> OpenClaw</a>
+                    <a href="/products/llm-cost-center.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-coins" aria-hidden="true"></i> LLM Cost Center</a>
+                </div>
+            </div>
+            <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
+            <a href="/open-source/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">开源</a>
+            <a href="/blog/" style="color:#fff;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;background:rgba(102,126,234,0.15);">博客</a>
+            <a href="/pricing.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">定价</a>
+            <a href="/docs/quickstart.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">文档</a>
+            <a href="/contact/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">联系</a>
+            <a href="/deploy/" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:0.82rem;font-weight:700;padding:8px 16px;text-decoration:none;border-radius:50px;white-space:nowrap;margin-left:4px;transition:opacity 0.2s;">免费试用</a>
+        </div>
+    </div>
+</nav>
+<style>
+.dd { display: none !important; }
+.dd.show { display: block !important; }
+@media (max-width: 768px) {
+    .hero { padding: 56px 0 32px; }
+    nav[role="navigation"] { height: 50px; }
+    nav[role="navigation"] > div { padding: 0 12px; }
+}
+</style><article>
+        <header>
+            <span class="tag">经济学</span>
+            <span class="tag">学习系列</span>
+            <span class="tag">入门</span>
+            <h1>经济学学习系列：理解世界的底层逻辑</h1>
+            <p><em>"经济学研究的是人们如何利用稀缺的资源生产有价值的商品并分配给不同的人。" — N. Gregory Mankiw</em></p>
+        </header>
+
+        <section>
+            <h2>为什么学经济学？</h2>
+            <p><strong>经济学是理解世界的底层框架：</strong></p>
+            <ul>
+                <li><strong>个人决策：</strong>消费、工作、投资</li>
+                <li><strong>企业经营：</strong>定价、竞争、市场策略</li>
+                <li><strong>政府政策：</strong>税收、货币、贸易</li>
+                <li><strong>全球格局：</strong>汇率、通货膨胀、贫富差距</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>系列学习路径</h2>
+
+            <h3>📗 入门阶段：建立直觉</h3>
+            <table>
+                <tr><th>顺序</th><th>主题</th><th>推荐阅读</th><th>核心概念</th></tr>
+                <tr><td>1</td><td>十大原理</td><td>Mankiw《经济学原理》第1章</td><td>机会成本、边际思维、激励反应</td></tr>
+                <tr><td>2</td><td>供给与需求</td><td>Mankiw 第4-6章</td><td>均衡价格、价格弹性、供需曲线</td></tr>
+                <tr><td>3</td><td>消费者行为</td><td>Mankiw 第21章</td><td>效用理论、边际效用递减</td></tr>
+                <tr><td>4</td><td>生产者行为</td><td>Mankiw 第13章</td><td>成本曲线、利润最大化</td></tr>
+            </table>
+
+            <h3>📘 进阶阶段：掌握工具</h3>
+            <table>
+                <tr><th>顺序</th><th>主题</th><th>推荐阅读</th><th>核心概念</th></tr>
+                <tr><td>5</td><td>市场结构</td><td>Mankiw 第14-16章</td><td>完全竞争、垄断、寡头</td></tr>
+                <tr><td>6</td><td>博弈论基础</td><td>《策略思维》</td><td>纳什均衡、囚徒困境</td></tr>
+                <tr><td>7</td><td>信息经济学</td><td>《信息经济学》</td><td>逆向选择、道德风险</td></tr>
+                <tr><td>8</td><td>行为经济学</td><td>《助推》《错误的行为》</td><td>有限理性、偏见与启发式</td></tr>
+            </table>
+
+            <h3>📙 应用阶段：洞察现实</h3>
+            <table>
+                <tr><th>顺序</th><th>主题</th><th>推荐阅读</th><th>核心概念</th></tr>
+                <tr><td>9</td><td>宏观经济学基础</td><td>Mankiw《宏观》第1-6章</td><td>GDP、CPI、失业率、货币政策</td></tr>
+                <tr><td>10</td><td>国际贸易</td><td>Mankiw 第9章</td><td>比较优势、贸易收益、关税</td></tr>
+                <tr><td>11</td><td>公共经济学</td><td>Mankiw 第11章</td><td>外部性、公共物品、税收</td></tr>
+                <tr><td>12</td><td>发展经济学</td><td>Banerjee《贫穷的本质》</td><td>贫困陷阱、教育与健康</td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>核心概念速览</h2>
+
+            <h3>🔑 经济学的十大原理（曼昆）</h3>
+
+            <div class="principle">
+                <strong>人们如何做出决策：</strong>
+                <ol>
+                    <li>人们面临权衡取舍</li>
+                    <li>某种东西的成本是为了得到它所放弃的东西（机会成本）</li>
+                    <li>理性人考虑边际量</li>
+                    <li>人们会对激励做出反应</li>
+                </ol>
+            </div>
+
+            <div class="principle">
+                <strong>人们如何相互影响：</strong>
+                <ol>
+                    <li>贸易可以使每个人的状况变得更好</li>
+                    <li>市场通常是组织经济活动的好方法</li>
+                    <li>政府有时可以改善市场结果</li>
+                </ol>
+            </div>
+
+            <div class="principle">
+                <strong>整体经济如何运行：</strong>
+                <ol>
+                    <li>一国的生活水平取决于它生产物品与服务的能力</li>
+                    <li>当政府发行了过多货币时物价上涨（通货膨胀）</li>
+                    <li>社会面临通货膨胀与失业之间的短期权衡（菲利普斯曲线）</li>
+                </ol>
+            </div>
+
+            <h3>📊 供需模型</h3>
+            <div class="diagram">
+        价格<br>
+         │<br>
+    Pmax │─────────● 需求曲线 D<br>
+         │        ╱<br>
+         │       ╱<br>
+    Pe   │      ●───────── 均衡点 E<br>
+         │     ╱       ╱<br>
+         │    ╱       ╱<br>
+    Pmin │   ╱───────●<br>
+         │  ╱ 供给曲线 S<br>
+         │<br>
+         └──────────────── 数量 Q<br>
+              Qe<br>
+            </div>
+
+            <p><strong>核心公式：</strong></p>
+            <ul>
+                <li>均衡：Qs = Qd</li>
+                <li>需求弹性：Ed = (%ΔQd) / (%ΔP)</li>
+                <li>供给弹性：Es = (%ΔQs) / (%ΔP)</li>
+            </ul>
+
+            <h3>💰 机会成本示例</h3>
+            <p><strong>决策情境：</strong>你有 10 万元，可以：</p>
+            <ul>
+                <li>存款年利率 3%，年收益 3000 元</li>
+                <li>投资店铺年收益 1.5 万元</li>
+            </ul>
+
+            <p><strong>机会成本分析：</strong></p>
+            <ul>
+                <li>选择存款：机会成本 = 1.5 万元（放弃的店铺收益）</li>
+                <li>选择开店：机会成本 = 3000 元（放弃的存款利息）</li>
+                <li><strong>理性决策：开店</strong>（收益更高）</li>
+            </ul>
+
+            <h3>🎮 博弈论入门：囚徒困境</h3>
+            <p><strong>经典案例：</strong>两个嫌疑人被分别审讯</p>
+            <ul>
+                <li>都坦白：各判 5 年</li>
+                <li>都不坦白：各判 1 年</li>
+                <li>一人坦白另一人沉默：坦白者释放，沉默者判 10 年</li>
+            </ul>
+
+            <p><strong>收益矩阵：</strong></p>
+            <table>
+                <tr><th></th><th>对方坦白</th><th>对方沉默</th></tr>
+                <tr><td><strong>我坦白</strong></td><td>-5, -5</td><td>0, -10</td></tr>
+                <tr><td><strong>我沉默</strong></td><td>-10, 0</td><td>-1, -1</td></tr>
+            </table>
+
+            <p><strong>纳什均衡：双方都坦白</strong>（尽管"都不坦白"对双方都更好）</p>
+            <blockquote>
+                <strong>启示：</strong>个人理性与集体理性可能冲突 —— 这就是为什么需要制度与约束。
+            </blockquote>
+        </section>
+
+        <section>
+            <h2>经典经济学著作推荐</h2>
+            <table>
+                <tr><th>级别</th><th>书名</th><th>作者</th><th>特点</th></tr>
+                <tr><td>🟢 入门</td><td>《经济学原理》</td><td>N. Gregory Mankiw</td><td>全球最流行教材</td></tr>
+                <tr><td>🟢 入门</td><td>《牛奶可乐经济学》</td><td>Robert Frank</td><td>生活案例入门</td></tr>
+                <tr><td>🟡 中级</td><td>《魔鬼经济学》</td><td>Steven Levitt</td><td>趣味数据思维</td></tr>
+                <tr><td>🟡 中级</td><td>《贫穷的本质》</td><td>Banerjee & Duflo</td><td>发展经济学实地研究</td></tr>
+                <tr><td>🔴 进阶</td><td>《国富论》</td><td>Adam Smith</td><td>经济学开山之作</td></tr>
+                <tr><td>🔴 进阶</td><td>《资本论》</td><td>Karl Marx</td><td>批判资本主义</td></tr>
+                <tr><td>🔴 进阶</td><td>《就业、利息与货币通论》</td><td>Keynes</td><td>宏观经济学奠基</td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>系列预告</h2>
+            <div class="series-info">
+                <ol>
+                    <li><strong>经济学学习系列：理解世界的底层逻辑</strong> ✅</li>
+                    <li><strong>供需模型：价格是如何形成的？</strong> 🔜</li>
+                    <li><strong>博弈论入门：为什么聪明人会做"傻"事？</strong></li>
+                    <li><strong>行为经济学：人类真的理性吗？</strong></li>
+                    <li><strong>宏观经济学：GDP、CPI 与货币政策</strong></li>
+                    <li><strong>发展经济学：为什么有些国家富，有些国家穷？</strong></li>
+                    <li><strong>国际贸易：全球化是好事还是坏事？</strong></li>
+                </ol>
+            </div>
+        </section>
+
+        <footer>
+            <p><em>保持好奇，下一篇：《供需模型：价格是如何形成的？》</em></p>
+            <p><a href="index.html">← 返回博客首页</a></p>
+        </footer>
+    </article>
+</body>
+</html>

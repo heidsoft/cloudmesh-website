@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Code 精华系列：写出让人眼前一亮的代码 | CloudMesh</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding-top: 56px; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 40px; }
+        h3 { color: #7f8c8d; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', 'Consolas', monospace; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 8px; overflow-x: auto; border-left: 4px solid #3498db; }
+        .tag { display: inline-block; background: #e8f4f8; color: #2980b9; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; margin-right: 5px; }
+        blockquote { border-left: 4px solid #27ae60; margin: 20px 0; padding: 10px 20px; background: #f0f9f0; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #3498db; color: white; }
+        tr:nth-child(even) { background: #f9f9f9; }
+        .series-info { background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; }
+    
+        .blog-navbar { background: rgba(15,15,35,0.98); border-bottom: 1px solid rgba(102,126,234,0.2); padding: 0.5rem 0; }
+        .blog-navbar .navbar-brand { color: var(--primary) !important; font-weight: 800; font-size: 1.1rem; text-decoration: none; }
+        .blog-navbar .nav-link { color: var(--gray-400); padding: 0.5rem 1rem; font-size: 0.9rem; text-decoration: none; transition: color 0.2s; }
+        .blog-navbar .nav-link:hover, .blog-navbar .nav-link.active { color: var(--white); }
+        .blog-navbar .nav-link.active { color: var(--primary); }
+        .blog-footer { border-top: 1px solid var(--glass-border); padding: 40px 0 30px; margin-top: 60px; text-align: center; }
+        .blog-footer .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+        .blog-footer .footer-links a { color: var(--gray-500); text-decoration: none; font-size: 0.9rem; }
+        .blog-footer .footer-links a:hover { color: var(--primary); }
+        .blog-footer .copyright { color: var(--gray-600); font-size: 0.85rem; }
+
+    </style>
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;z-index:9999;">跳转到主要内容</a>
+<nav role="navigation" aria-label="主导航" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
+        <a href="/" style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap;" aria-label="CloudMesh 首页">☁ CloudMesh</a>
+        <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;">
+            <a href="/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">首页</a>
+            <div style="position:relative;" class="nav-dropdown">
+                <button onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true');this.parentElement.querySelector('.dd').classList.toggle('show')" aria-expanded="false" aria-haspopup="true" aria-label="产品菜单" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;border-radius:6px;transition:color 0.2s,background 0.2s;">产品 <span style="font-size:0.7rem;" aria-hidden="true">▼</span></button>
+                <div class="dd" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(22,22,42,0.98);border:1px solid rgba(102,126,234,0.3);border-radius:10px;padding:6px;min-width:190px;z-index:1001;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+                    <a href="/products/clawops.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-terminal" aria-hidden="true"></i> ClawOps</a>
+                    <a href="/products/itsm.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-tasks" aria-hidden="true"></i> ITSM</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-boxes-stacked" aria-hidden="true"></i> 智能补货助手</a>
+                    <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-file-signature" aria-hidden="true"></i> 合同审核助手</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/openclaw.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-robot" aria-hidden="true"></i> OpenClaw</a>
+                    <a href="/products/llm-cost-center.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-coins" aria-hidden="true"></i> LLM Cost Center</a>
+                </div>
+            </div>
+            <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
+            <a href="/open-source/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">开源</a>
+            <a href="/blog/" style="color:#fff;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;background:rgba(102,126,234,0.15);">博客</a>
+            <a href="/pricing.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">定价</a>
+            <a href="/docs/quickstart.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">文档</a>
+            <a href="/contact/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">联系</a>
+            <a href="/deploy/" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:0.82rem;font-weight:700;padding:8px 16px;text-decoration:none;border-radius:50px;white-space:nowrap;margin-left:4px;transition:opacity 0.2s;">免费试用</a>
+        </div>
+    </div>
+</nav>
+<style>
+.dd { display: none !important; }
+.dd.show { display: block !important; }
+@media (max-width: 768px) {
+    .hero { padding: 56px 0 32px; }
+    nav[role="navigation"] { height: 50px; }
+    nav[role="navigation"] > div { padding: 0 12px; }
+}
+</style><article>
+        <header>
+            <span class="tag">代码质量</span>
+            <span class="tag">Clean Code</span>
+            <span class="tag">最佳实践</span>
+            <h1>Clean Code 精华系列：写出让人眼前一亮的代码</h1>
+            <p><em>"花时间保持代码整洁，远比浪费时间后期维护糟糕代码要值得。" — Robert C. Martin</em></p>
+        </header>
+
+        <section>
+            <h2>什么是 Clean Code？</h2>
+            <p><strong>Clean Code</strong>（整洁代码）是由 Robert C. Martin 提出的软件工程核心理念，强调代码不仅要能运行，更要<strong>人类可读、可维护、可扩展</strong>。</p>
+        </section>
+
+        <section>
+            <h2>核心原则</h2>
+
+            <h3>1. 命名原则</h3>
+            <p><strong>好命名 > 注释解释</strong></p>
+            <pre><code># ❌ 差
+d = 86400  # 秒
+def proc(a, b):
+    if a > 5:
+        return b
+
+# ✅ 好
+SECONDS_PER_DAY = 86400
+def process_order(order, discount):
+    if order.total_amount > MINIMUM_ORDER_THRESHOLD:
+        return apply_discount(order, discount)</code></pre>
+            <p><strong>命名规范：</strong></p>
+            <ul>
+                <li>变量名要<strong>见名知意</strong></li>
+                <li>类名 → 名词或名词短语（UserService, OrderProcessor）</li>
+                <li>方法名 → 动词或动词短语（calculateTotal, saveUser）</li>
+                <li>常量 → 全大写下划线分隔（MAX_RETRY_COUNT）</li>
+            </ul>
+
+            <h3>2. 函数原则</h3>
+            <p><strong>短小精悍，一个函数只做一件事</strong></p>
+            <pre><code># ❌ 差：一个函数做三件事
+def handle_userregistration(user_data):
+    # 验证
+    if not user_data.get('email'):
+        return False
+    if not user_data.get('password'):
+        return False
+    # 保存
+    user = User.objects.create(...)
+    # 发送邮件
+    send_welcome_email(user.email)
+    return user
+
+# ✅ 好：职责分离
+def validate_registration_data(user_data):
+    required_fields = ['email', 'password']
+    for field in required_fields:
+        if not user_data.get(field):
+            raise ValidationError(f"Missing field: {field}")
+
+def create_user(user_data):
+    return User.objects.create(**user_data)
+
+def send_welcome_email(user):
+    EmailService.send(user.email, template='welcome')</code></pre>
+            <p><strong>函数黄金法则：</strong></p>
+            <ul>
+                <li>行数 < 20行</li>
+                <li>嵌套层级 < 3层</li>
+                <li>参数数量 ≤ 3个</li>
+                <li>只做一件事</li>
+            </ul>
+
+            <h3>3. 注释原则</h3>
+            <p><strong>注释是代码的补救，不是代码的替代品</strong></p>
+            <pre><code># ❌ 差：废话注释
+# 循环遍历用户列表
+for user in users:
+    process(user)
+
+# ✅ 好：解释"为什么"，不是"是什么"
+# 只有VIP用户需要额外验证，普通用户直接通过
+if user.is_vip and user.auth_level < 2:
+    perform_additional_verification(user)</code></pre>
+            <p><strong>好的注释类型：</strong></p>
+            <ul>
+                <li>法律注释（版权声明）</li>
+                <li>解释复杂业务逻辑</li>
+                <li>TODO 说明</li>
+                <li>警告注释</li>
+            </ul>
+
+            <h3>4. 错误处理原则</h3>
+            <pre><code># ❌ 差：返回 null 或空值
+def find_user(user_id):
+    user = User.objects.get(id=user_id)
+    if not user:
+        return None  # 让调用者处理空指针
+
+# ✅ 好：明确语义，让调用者知道发生了什么
+def find_user(user_id):
+    try:
+        return User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        raise UserNotFoundError(f"User {user_id} not found")</code></pre>
+        </section>
+
+        <section>
+            <h2>Clean Code 实践清单</h2>
+            <table>
+                <tr><th>类别</th><th>检查项</th></tr>
+                <tr><td>命名</td><td>变量/函数/类名是否清晰表达意图？</td></tr>
+                <tr><td>函数</td><td>是否小于20行？是否只做一件事？</td></tr>
+                <tr><td>注释</td><td>注释是否解释"为什么"而非"是什么"？</td></tr>
+                <tr><td>格式</td><td>代码风格是否一致？</td></tr>
+                <tr><td>错误</td><td>错误处理是否优雅？</td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>系列预告</h2>
+            <div class="series-info">
+                <ol>
+                    <li><strong>Clean Code 精华系列</strong> — 写代码的艺术 ✅</li>
+                    <li><strong>设计模式实战系列</strong> — GoF 23种模式精讲 🔜</li>
+                    <li><strong>The Pragmatic Programmer</strong> — 程序员的思维方式</li>
+                    <li><strong>DDIA 分布式系统</strong> — 数据密集型系统设计</li>
+                    <li><strong>Clean Architecture</strong> — 架构整洁之道</li>
+                </ol>
+            </div>
+        </section>
+
+        <footer>
+            <p><em>保持学习，保持代码整洁。下一篇文章：《设计模式实战：为什么你需要策略模式？》</em></p>
+            <p><a href="index.html">← 返回博客首页</a></p>
+        </footer>
+    </article>
+</body>
+</html>

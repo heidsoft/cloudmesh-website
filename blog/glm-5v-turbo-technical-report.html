@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLM-5V-Turbo 技术报告：多模态 Agent 基座模型深度解读 | CloudMesh 博客</title>
+    <meta name="description" content="深度解读智谱 GLM-5V-Turbo 技术报告，涵盖 CogViT 视觉编码器、MMTP 多模态多 Token 预测、广覆盖联合训练、大规模多模态 RL 基础设施等核心技术。">
+    <meta name="keywords" content="GLM-5V-Turbo, 多模态, Agent, 基座模型, 智谱, CogViT, MMTP, 多模态RL, AutoClaw">
+    <meta name="author" content="CloudMesh Team">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="GLM-5V-Turbo 技术报告：多模态 Agent 基座模型深度解读">
+    <meta property="og:description" content="深度解读智谱 GLM-5V-Turbo 技术报告，涵盖 CogViT、MMTP、广覆盖联合训练等核心技术。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://cloudmesh.top/blog/glm-5v-turbo-technical-report.html">
+    
+    <!-- Schema.org Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "GLM-5V-Turbo 技术报告：多模态 Agent 基座模型深度解读",
+      "description": "深度解读智谱 GLM-5V-Turbo 技术报告，涵盖 CogViT 视觉编码器、MMTP 多模态多 Token 预测、广覆盖联合训练等核心技术。",
+      "author": {
+        "@type": "Organization",
+        "name": "CloudMesh",
+        "url": "https://cloudmesh.top"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "CloudMesh"
+      },
+      "datePublished": "2026-05-12",
+      "dateModified": "2026-05-12"
+    }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #00d9ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark-900: #0a0a12;
+            --dark-800: #0f0f1a;
+            --dark-700: #16162a;
+            --dark-600: #1e1e36;
+            --white: #ffffff;
+            --gray-100: #f7fafc;
+            --gray-200: #edf2f7;
+            --gray-300: #e2e8f0;
+            --gray-400: #a0aec0;
+            --gray-500: #718096;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-800);
+            color: var(--white);
+            line-height: 1.8;
+            padding-top: 80px;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        
+        .blog-header {
+            text-align: center;
+            padding: 60px 0 40px;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 40px;
+        }
+        
+        .blog-header .tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(102,126,234,0.15);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .blog-header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
+        }
+        
+        .blog-header .subtitle {
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+        
+        .blog-header .meta {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+        
+        .blog-header .meta span { margin: 0 12px; }
+        
+        .content {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        
+        h2 {
+            font-size: 1.6rem;
+            margin: 40px 0 20px;
+            color: var(--white);
+            border-left: 4px solid var(--primary);
+            padding-left: 16px;
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            margin: 30px 0 16px;
+            color: var(--accent);
+        }
+        
+        p {
+            color: var(--gray-300);
+            margin-bottom: 18px;
+        }
+        
+        .concept-card {
+            background: var(--dark-700);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 28px;
+            margin: 28px 0;
+        }
+        
+        .concept-card h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+        
+        .concept-card p {
+            margin-bottom: 8px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0,217,255,0.08), rgba(102,126,234,0.08));
+            border: 1px solid rgba(0,217,255,0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .highlight-box .icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        
+        .highlight-box h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .quote-box {
+            background: var(--dark-700);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            position: relative;
+        }
+        
+        .quote-box::before {
+            content: '"';
+            font-size: 60px;
+            color: var(--primary);
+            position: absolute;
+            top: -10px;
+            left: 16px;
+            opacity: 0.5;
+        }
+        
+        .quote-box p {
+            font-style: italic;
+            color: var(--gray-200);
+            font-size: 1.05rem;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 24px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        th {
+            color: var(--gray-400);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            background: var(--dark-700);
+        }
+        
+        td {
+            color: var(--gray-300);
+        }
+        
+        tr:hover td {
+            background: rgba(102,126,234,0.05);
+        }
+        
+        ul {
+            color: var(--gray-300);
+            padding-left: 24px;
+            margin: 16px 0;
+        }
+        
+        ul li {
+            margin-bottom: 10px;
+        }
+        
+        .project-card {
+            background: var(--dark-700);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        
+        .project-card h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .project-card p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-400);
+            text-decoration: none;
+            padding: 12px 20px;
+            background: var(--dark-700);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+        
+        .back-link:hover {
+            color: var(--white);
+            background: var(--dark-600);
+        }
+        
+        .content-wrapper {
+            margin-bottom: 60px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;z-index:9999;">跳转到主要内容</a>
+<nav role="navigation" aria-label="主导航" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
+        <a href="/" style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap;" aria-label="CloudMesh 首页">☁ CloudMesh</a>
+        <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;">
+            <a href="/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">首页</a>
+            <div style="position:relative;" class="nav-dropdown">
+                <button onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true');this.parentElement.querySelector('.dd').classList.toggle('show')" aria-expanded="false" aria-haspopup="true" aria-label="产品菜单" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;border-radius:6px;transition:color 0.2s,background 0.2s;">产品 <span style="font-size:0.7rem;" aria-hidden="true">▼</span></button>
+                <div class="dd" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(22,22,42,0.98);border:1px solid rgba(102,126,234,0.3);border-radius:10px;padding:6px;min-width:190px;z-index:1001;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+                    <a href="/products/clawops.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-terminal" aria-hidden="true"></i> ClawOps</a>
+                    <a href="/products/itsm.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-tasks" aria-hidden="true"></i> ITSM</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-boxes-stacked" aria-hidden="true"></i> 智能补货助手</a>
+                    <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-file-signature" aria-hidden="true"></i> 合同审核助手</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/openclaw.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-robot" aria-hidden="true"></i> OpenClaw</a>
+                    <a href="/products/llm-cost-center.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-coins" aria-hidden="true"></i> LLM Cost Center</a>
+                </div>
+            </div>
+            <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
+            <a href="/open-source/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">开源</a>
+            <a href="/blog/" style="color:#fff;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;background:rgba(102,126,234,0.15);">博客</a>
+            <a href="/pricing.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">定价</a>
+            <a href="/docs/quickstart.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">文档</a>
+            <a href="/contact/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">联系</a>
+            <a href="/deploy/" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:0.82rem;font-weight:700;padding:8px 16px;text-decoration:none;border-radius:50px;white-space:nowrap;margin-left:4px;transition:opacity 0.2s;">免费试用</a>
+        </div>
+    </div>
+</nav>
+<style>
+.dd { display: none !important; }
+.dd.show { display: block !important; }
+@media (max-width: 768px) {
+    .hero { padding: 56px 0 32px; }
+    nav[role="navigation"] { height: 50px; }
+    nav[role="navigation"] > div { padding: 0 12px; }
+}
+</style><div class="container">
+        <a href="/blog" class="back-link"><i class="fas fa-arrow-left"></i>返回博客列表</a>
+        
+        <div class="blog-header">
+            <span class="tag">AI 模型</span>
+            <h1>GLM-5V-Turbo 技术报告：多模态 Agent 基座模型深度解读</h1>
+            <p class="subtitle">从 CogViT 到 MMTP，智谱如何打造多模态 Agent 认知内核</p>
+            <div class="meta">
+                <span><i class="far fa-calendar"></i> 2026-05-12</span>
+                <span><i class="far fa-building"></i> 智谱开放平台</span>
+                <span><i class="fas fa-tag"></i> 多模态 · Agent · 基座模型</span>
+            </div>
+        </div>
+
+        <div class="content content-wrapper">
+            <h2>背景</h2>
+            <p>现实世界中的任务天然是多模态的——人类每天同时处理文字、图表、截图、网页等信息。如今大模型正从纯语言理解转向<strong>多模态 Agentic 能力</strong>，不仅要求模型理解图像、视频、网页、GUI，还需要在此基础上完成规划与行动。</p>
+            <p>GLM-5V-Turbo 是智谱发布的新一代多模态基座模型，在多模态 Coding、Tool Use、GUI Agent 等方面取得了极具竞争力的性能。</p>
+
+            <h2>核心技术改进</h2>
+
+            <h3>1. CogViT：参数高效的视觉编码器</h3>
+            <p>从零构建的视觉编码器，采用<strong>两阶段预训练</strong>：</p>
+            
+            <div class="concept-card">
+                <h4>第一阶段：掩码图像建模（MIM）</h4>
+                <ul>
+                    <li>输入 224×224，35% 掩码率重建被遮挡区域</li>
+                    <li>同时对齐两个教师模型特征：SigLIP2（语义表示）+ DINOv3（纹理特征）</li>
+                    <li>数据混合：80% 高质量自然图像 + 10% 指令跟随 + 10% 科学图像</li>
+                    <li>优化器使用 Muon，引入 QK-Norm 提升训练稳定性</li>
+                </ul>
+            </div>
+            
+            <div class="concept-card">
+                <h4>第二阶段：对比式图文预训练</h4>
+                <ul>
+                    <li>用 NaFlex 方案替代固定 224×224 输入，支持变尺寸、保留原始长宽比</li>
+                    <li>SigLIP loss 全局批次扩到 64K</li>
+                    <li>80 亿规模中英文双语图文语料</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <div class="icon">📊</div>
+                <h4>性能表现（403M参数的 CogViT-L）</h4>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>基准</th>
+                                <th>分数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ImageNet-1K 零样本</td>
+                                <td>83.5</td>
+                            </tr>
+                            <tr>
+                                <td>38项 CLIP Bench 平均</td>
+                                <td>70.4</td>
+                            </tr>
+                            <tr>
+                                <td>14项通用目标 Bench 平均</td>
+                                <td>45.1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 12px; margin-bottom: 0; color: var(--gray-400);">多数指标超过 SigLIP2-SO (427M) 和 DFN-H (632M)，以更小参数实现更优性能。</p>
+            </div>
+
+            <h3>2. MMTP：多模态多 Token 预测</h3>
+            <p>传统 MTP 中，前缀 token 可直接输入 MTP head，但视觉 token 如何传递是个难题。团队对比了 3 种方案：</p>
+            
+            <div class="project-card">
+                <h4>方案对比</h4>
+                <p><strong>方案 1：直接传视觉嵌入</strong> → 通信复杂度高，需要在流水线并行的多个 stage 之间传递视觉嵌入</p>
+                <p><strong>方案 2：完全掩码视觉 token</strong> → 退化为纯文本 MTP，丢失多模态特性</p>
+                <p><strong>方案 3：视觉位置信息 + 共享可学习图像占位 token</strong> → ✅ 最终采用</p>
+            </div>
+
+            <div class="highlight-box">
+                <div class="icon">💡</div>
+                <h4>第 3 种方案优势</h4>
+                <ul>
+                    <li>不需要在流水线并行的 stage 间传递视觉嵌入，显著降低通信复杂度</li>
+                    <li>训练损失更低、收敛更稳定</li>
+                    <li>天然兼容序列并行和上下文并行，无需额外处理视觉嵌入的分区与对齐</li>
+                </ul>
+            </div>
+
+            <h3>3. 广覆盖联合训练</h3>
+            <p>预训练阶段深度融合视觉与语言，覆盖：</p>
+            <p>世界知识、图文交错、OCR、编程、GUI、视频、多模态工具使用、空间感知、grounding、学科问题求解……特别加大了<strong>多模态编程数据</strong>的比例，并在 <strong>30+ 任务类别</strong>下进行<strong>联合 RL 优化</strong>。</p>
+            
+            <div class="concept-card">
+                <h4>几个关键发现</h4>
+                <ul>
+                    <li>多任务 RL 跨域干扰比 SFT 更弱，多领域均获得稳定增益</li>
+                    <li>跨域协同训练让分布窄、单任务易震荡的领域优化更稳定</li>
+                    <li>思维模式存在跨任务迁移：一个领域学到的推理行为有时能在另一个领域带来可衡量的收益</li>
+                </ul>
+            </div>
+
+            <h3>4. 大规模多模态 RL 基础设施</h3>
+            <p>从 4 个维度重构训练栈：</p>
+            <ul>
+                <li><strong>统一任务与奖励抽象</strong>：VLM RL Gym 提供统一接口，奖励系统集中编排多验证器</li>
+                <li><strong>全管线解耦与异步</strong>：rollout 推理、奖励评估、batch 构建、权重传输四阶段最大化重叠</li>
+                <li><strong>面向多模态的细粒度内存管理</strong>：为 ViT 与 projector 设计独立内存策略，结合细粒度定向重计算与 CPU offload</li>
+                <li><strong>拓扑感知的视觉输入分区</strong>：减少约 7GB GPU 通信缓存开销</li>
+            </ul>
+
+            <h2>多模态 Agent 能力与生态</h2>
+
+            <h3>多模态工具链</h3>
+            <p>覆盖：通用识别、多模态搜索、浏览器工具、图像处理、Web/PPT 创建、深度研究工具集。</p>
+            
+            <div class="highlight-box">
+                <div class="icon">🔍</div>
+                <h4>搜索类基准表现</h4>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>基准</th>
+                                <th>分数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>MMSearch-Plus</td>
+                                <td><strong>30.0</strong>（近 8 倍提升）</td>
+                            </tr>
+                            <tr>
+                                <td>BrowseComp-VL</td>
+                                <td>51.9</td>
+                            </tr>
+                            <tr>
+                                <td>ImageMining</td>
+                                <td>30.7</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 12px; margin-bottom: 0; color: var(--gray-400);">与 Kimi K2.5、Claude Opus 4.6 处于同一水平，部分指标实现超越。</p>
+            </div>
+
+            <h3>框架集成：感知-规划-执行闭环</h3>
+            <p>GLM-5V-Turbo 可作为认知核心嵌入 Claude Code、AutoClaw 等外部 Agent 框架：</p>
+            
+            <div class="concept-card">
+                <h4>三角协作架构</h4>
+                <ul>
+                    <li><strong>Claude Code</strong>：负责终端环境与本地文件系统的执行逻辑</li>
+                    <li><strong>AutoClaw</strong>：提供浏览器与 GUI 自动化的"双手"</li>
+                    <li><strong>GLM-5V-Turbo</strong>：承担视觉-语言控制器的角色</li>
+                </ul>
+                <p style="margin-top: 12px; margin-bottom: 0;">三者构成完整的<strong>「感知-规划-执行」闭环</strong>。</p>
+            </div>
+
+            <h3>ImageMining 基准</h3>
+            <p>专门测试"用图像思考、用图像深度搜索"能力的视觉中心基准，要求模型通过多步工具调用主动从图像中"挖"出线索。</p>
+            <ul>
+                <li>217 道人工整理测试题，覆盖社交、娱乐、商品、地点、富文本、自然、科学领域</li>
+                <li>对应通用识别、时空推理、事件推理、富文本推理、视觉搜索推理任务</li>
+                <li>引入 Visual Jump 约束（WEB_VISUAL），强制中间推理步骤必须涉及视觉跳转</li>
+                <li>已开源，欢迎行业交流</li>
+            </ul>
+
+            <h2>总结</h2>
+            <p>GLM-5V-Turbo 的核心突破在于：</p>
+            <ol>
+                <li><strong>CogViT</strong> 以更小参数（403M）实现更优性能，两阶段预训练兼顾语义与纹理</li>
+                <li><strong>MMTP</strong> 解决视觉 token 传给 MTP head 的难题，图像占位 token 方案兼顾效率与效果</li>
+                <li><strong>广覆盖联合训练</strong> 让多任务 RL 跨域增益成为可能，思维模式可跨任务迁移</li>
+                <li><strong>大规模 RL 基础设施</strong> 为多模态训练提供工程保障，4 个维度重构训练栈</li>
+                <li><strong>生态集成</strong>（Claude Code + AutoClaw）证明模型可作为多模态 Agent 的认知内核</li>
+            </ol>
+            
+            <div class="quote-box">
+                <p>GLM-5V-Turbo 进行了 4 个方面的技术改进：新视觉编码器 CogViT、对大规模基础设施友好的多模态多 token 预测 MMTP、覆盖感知-推理-Agent 的广覆盖联合训练，以及一套面向大规模多模态强化学习的基础设施。</p>
+            </div>
+
+            <p style="margin-top: 30px;"><strong>技术报告链接：</strong><a href="https://arxiv.org/pdf/2604.26752" target="_blank" style="color: var(--accent);">https://arxiv.org/pdf/2604.26752</a></p>
+        </div>
+    </div>
+
+    <footer style="background: var(--dark-900); padding: 40px 0; margin-top: 60px; border-top: 1px solid var(--glass-border);">
+        <div class="container" style="text-align: center; color: var(--gray-500);">
+            <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

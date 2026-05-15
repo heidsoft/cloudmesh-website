@@ -8,6 +8,7 @@
     <meta name="keywords" content="OpenClaw,安全，API 密钥，权限控制，最佳实践">
     <meta name="author" content="OpenClaw Team">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         :root { --primary: #667eea; --secondary: #764ba2; --danger: #ef4444; --success: #10b981; --bg-dark: #0f0f1a; --bg-card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.08); --text-primary: #fff; --text-secondary: #a0aec0; }
@@ -32,10 +33,59 @@
         .nav-links { display: flex; gap: 16px; justify-content: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); flex-wrap: wrap; }
         .nav-links a { padding: 14px 28px; background: rgba(102,126,234,0.1); border-radius: 12px; color: var(--primary); text-decoration: none; font-weight: 600; }
         @media (max-width: 768px) { .container { padding: 60px 16px 30px; } .header h1 { font-size: 32px; } .content { padding: 28px 24px; } }
-    </style>
-</head>
+    
+        .blog-navbar { background: rgba(15,15,35,0.98); border-bottom: 1px solid rgba(102,126,234,0.2); padding: 0.5rem 0; }
+        .blog-navbar .navbar-brand { color: var(--primary) !important; font-weight: 800; font-size: 1.1rem; text-decoration: none; }
+        .blog-navbar .nav-link { color: var(--gray-400); padding: 0.5rem 1rem; font-size: 0.9rem; text-decoration: none; transition: color 0.2s; }
+        .blog-navbar .nav-link:hover, .blog-navbar .nav-link.active { color: var(--white); }
+        .blog-navbar .nav-link.active { color: var(--primary); }
+        .blog-footer { border-top: 1px solid var(--glass-border); padding: 40px 0 30px; margin-top: 60px; text-align: center; }
+        .blog-footer .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+        .blog-footer .footer-links a { color: var(--gray-500); text-decoration: none; font-size: 0.9rem; }
+        .blog-footer .footer-links a:hover { color: var(--primary); }
+        .blog-footer .copyright { color: var(--gray-600); font-size: 0.85rem; }
+
+    </style></head>
 <body>
-    <div class="container">
+
+    <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;z-index:9999;">跳转到主要内容</a>
+<nav role="navigation" aria-label="主导航" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
+        <a href="/" style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap;" aria-label="CloudMesh 首页">☁ CloudMesh</a>
+        <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;">
+            <a href="/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">首页</a>
+            <div style="position:relative;" class="nav-dropdown">
+                <button onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true');this.parentElement.querySelector('.dd').classList.toggle('show')" aria-expanded="false" aria-haspopup="true" aria-label="产品菜单" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;border-radius:6px;transition:color 0.2s,background 0.2s;">产品 <span style="font-size:0.7rem;" aria-hidden="true">▼</span></button>
+                <div class="dd" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(22,22,42,0.98);border:1px solid rgba(102,126,234,0.3);border-radius:10px;padding:6px;min-width:190px;z-index:1001;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+                    <a href="/products/clawops.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-terminal" aria-hidden="true"></i> ClawOps</a>
+                    <a href="/products/itsm.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-tasks" aria-hidden="true"></i> ITSM</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-boxes-stacked" aria-hidden="true"></i> 智能补货助手</a>
+                    <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-file-signature" aria-hidden="true"></i> 合同审核助手</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/openclaw.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-robot" aria-hidden="true"></i> OpenClaw</a>
+                    <a href="/products/llm-cost-center.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-coins" aria-hidden="true"></i> LLM Cost Center</a>
+                </div>
+            </div>
+            <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
+            <a href="/open-source/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">开源</a>
+            <a href="/blog/" style="color:#fff;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;background:rgba(102,126,234,0.15);">博客</a>
+            <a href="/pricing.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">定价</a>
+            <a href="/docs/quickstart.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">文档</a>
+            <a href="/contact/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">联系</a>
+            <a href="/deploy/" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:0.82rem;font-weight:700;padding:8px 16px;text-decoration:none;border-radius:50px;white-space:nowrap;margin-left:4px;transition:opacity 0.2s;">免费试用</a>
+        </div>
+    </div>
+</nav>
+<style>
+.dd { display: none !important; }
+.dd.show { display: block !important; }
+@media (max-width: 768px) {
+    .hero { padding: 56px 0 32px; }
+    nav[role="navigation"] { height: 50px; }
+    nav[role="navigation"] > div { padding: 0 12px; }
+}
+</style><div class="container">
         <div class="header">
             <h1>🔒 OpenClaw 安全最佳实践</h1>
             <p class="meta">保护你的 API 密钥和数据</p>
@@ -199,5 +249,35 @@ ls -la ~/.openclaw/workspace/
             <a href="/trust.html"><i class="fas fa-lock"></i> 安全与信任</a>
         </div>
     </div>
+
+    <script>
+    function shareTo(platform) {
+        var url = encodeURIComponent(window.location.href);
+        var title = encodeURIComponent(document.title);
+        var summary = encodeURIComponent(document.querySelector('meta[name="description"]') ? document.querySelector('meta[name="description"]').content : document.title);
+        if (platform === 'weibo') {
+            window.open('http://service.weibo.com/share/share.php?url=' + url + '&title=' + title + '&pic=', '_blank', 'width=600,height=500');
+        } else if (platform === 'qzone') {
+            window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + url + '&title=' + title + '&summary=' + summary, '_blank', 'width=700,height=600');
+        } else if (platform === 'wechat') {
+            window.open('https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + url, '_blank', 'width=500,height=500');
+        }
+    }
+    </script>
+
+    <footer class="blog-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="/">首页</a>
+                <a href="/products/">产品</a>
+                <a href="/solutions/">解决方案</a>
+                <a href="/blog/">博客</a>
+                <a href="/pricing.html">定价</a>
+                <a href="/contact/">联系</a>
+            </div>
+            <p class="copyright">&copy; 2026 CloudMesh. 让 AI 助手无所不能。</p>
+        </div>
+    </footer>
+
 </body>
 </html>

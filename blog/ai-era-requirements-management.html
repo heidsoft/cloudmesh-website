@@ -233,8 +233,7 @@
             .flow-steps { flex-direction: column; }
             .flow-steps .arrow { transform: rotate(90deg); }
         }
-    </style>
-</head>
+    </style></head>
 <body>
     <nav style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
     <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
@@ -249,6 +248,10 @@
                     <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
                     <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;">📦 智能补货助手</a>
                     <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;">📝 合同审核助手</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/openclaw.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-robot" aria-hidden="true"></i> OpenClaw</a>
+                    <a href="/products/llm-cost-center.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-coins" aria-hidden="true"></i> LLM Cost Center</a>
+
                 </div>
             </div>
             <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
@@ -427,6 +430,14 @@ button:hover { color: #fff !important; background: rgba(102,126,234,0.1) !import
                 </div>
                 
             </div>
+        
+        <div class="share-bar" style="margin-top:40px;padding-top:30px;border-top:1px solid var(--glass-border);display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <span style="color:var(--gray-500);font-size:0.875rem;">分享到：</span>
+            <a href="javascript:;" onclick="shareTo('weibo')" class="share-btn share-weibo" title="分享到微博"><i class="fab fa-weibo" style="font-size:1.2rem;"></i></a>
+            <a href="javascript:;" onclick="shareTo('qzone')" class="share-btn share-qzone" title="分享到QQ空间"><i class="fab fa-qq" style="font-size:1.2rem;"></i></a>
+            <a href="javascript:;" onclick="shareTo('wechat')" class="share-btn share-wechat" title="分享到微信"><i class="fab fa-weixin" style="font-size:1.2rem;"></i></a>
+        </div>
+
         </article>
     </main>
     
@@ -437,5 +448,20 @@ button:hover { color: #fff !important; background: rgba(102,126,234,0.1) !import
     </footer>
     
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    function shareTo(platform) {
+        var url = encodeURIComponent(window.location.href);
+        var title = encodeURIComponent(document.title);
+        var summary = encodeURIComponent(document.querySelector('meta[name="description"]') ? document.querySelector('meta[name="description"]').content : document.title);
+        if (platform === 'weibo') {
+            window.open('http://service.weibo.com/share/share.php?url=' + url + '&title=' + title + '&pic=', '_blank', 'width=600,height=500');
+        } else if (platform === 'qzone') {
+            window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + url + '&title=' + title + '&summary=' + summary, '_blank', 'width=700,height=600');
+        } else if (platform === 'wechat') {
+            window.open('https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + url, '_blank', 'width=500,height=500');
+        }
+    }
+    </script>
 </body>
 </html>

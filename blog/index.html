@@ -7,857 +7,194 @@
     <meta name="description" content="CloudMesh 技术博客，分享 AI Agent、DevOps、自动化运维等最佳实践">
     <meta name="keywords" content="CloudMesh, ClawOps, 博客, 技术分享, AI Agent, DevOps">
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="CloudMesh 博客 - 技术分享">
-    <meta property="og:description" content="AI 驱动的智能 IT 管理技术分享与最佳实践">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cloudmesh.top/blog/">
-    <meta property="og:image" content="https://cloudmesh.top/icons/apple-touch-icon.png">
-    
-    <!-- Favicon -->
+    <link rel="canonical" href="https://cloudmesh.top/blog/">
     <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
     
-    <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
     
     <style>
-        /* ===== CSS Variables ===== */
-        :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --accent: #00d9ff;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark-900: #0a0a12;
-            --dark-800: #0f0f1a;
-            --dark-700: #16162a;
-            --dark-600: #1e1e36;
-            --white: #ffffff;
-            --gray-100: #f7fafc;
-            --gray-200: #edf2f7;
-            --gray-300: #e2e8f0;
-            --gray-400: #a0aec0;
-            --gray-500: #718096;
-            --gray-600: #4a5568;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-blur: blur(20px);
-            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            --gradient-cyber: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
-            --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.15);
-            --shadow-glow-lg: 0 0 60px rgba(102, 126, 234, 0.2);
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html, body {
-            overflow-x: hidden;
-            max-width: 100vw;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--dark-800);
-            color: var(--white);
-            line-height: 1.7;
-            overflow-x: hidden;
-            padding-top: 80px;
-        }
-
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
-
-        /* ===== Navigation ===== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(15, 15, 35, 0.8);
-            backdrop-filter: var(--glass-blur);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: var(--transition-smooth);
-        }
-
-        .navbar.scrolled {
-            padding: 0.75rem 0;
-            background: rgba(15, 15, 35, 0.95);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-        }
-
-        .navbar-brand:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
-        }
-
-        .navbar-brand i {
-            font-size: 1.75rem;
-            background: var(--gradient-cyber);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-link {
-            color: var(--gray-400) !important;
-            font-weight: 600;
-            padding: 0.5rem 1.25rem !important;
-            transition: var(--transition-smooth);
-            position: relative;
-            cursor: pointer;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-cyber);
-            transition: var(--transition-smooth);
-            transform: translateX(-50%);
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--white) !important;
-        }
-
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 80%;
-        }
-
-        .btn-trial {
-            background: var(--gradient-primary);
-            color: var(--white) !important;
-            border-radius: 50px;
-            padding: 0.625rem 1.75rem !important;
-            font-weight: 700;
-            transition: var(--transition-smooth);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .btn-trial:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-        }
-
-        .dropdown-menu {
-            background: rgba(26, 26, 46, 0.98);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-glow-lg);
-            border-radius: 16px;
-            padding: 0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        .dropdown-item {
-            border-radius: 10px;
-            padding: 0.875rem 1.25rem;
-            transition: var(--transition-smooth);
-            color: var(--gray-400);
-            font-weight: 500;
-        }
-
-        .dropdown-item:hover {
-            background: var(--glass-bg);
-            color: var(--white);
-            padding-left: 1.5rem;
-        }
-
-        /* ===== Blog Styles ===== */
-        .blog-header {
+        body { padding-top: 56px; }
+        .blog-hero {
+            background: linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(118,75,162,0.1) 100%);
+            padding: 80px 0 60px;
             text-align: center;
-            padding: 60px 0;
         }
-
-        .blog-header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .blog-header p {
-            color: var(--gray-400);
-            font-size: 1.2rem;
-        }
-
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 32px;
-            padding-bottom: 60px;
-        }
-
-        .blog-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: var(--transition-smooth);
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(102,126,234,0.3);
-            box-shadow: 0 12px 40px rgba(102,126,234,0.15);
-        }
-
-        .blog-card .tag {
-            display: inline-block;
-            padding: 6px 14px;
-            background: rgba(102,126,234,0.15);
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        .blog-card h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--white);
-        }
-
-        .blog-card p {
-            color: var(--gray-400);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .blog-card .meta {
-            display: flex;
-            gap: 20px;
-            font-size: 13px;
-            color: var(--gray-500);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            padding: 40px 0;
-            border-top: 1px solid var(--glass-border);
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            padding: 14px 28px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: var(--gray-400);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition-smooth);
-        }
-
-        .nav-links a:hover {
-            background: rgba(102,126,234,0.1);
-            border-color: rgba(102,126,234,0.3);
-            color: var(--white);
-        }
-
-        /* ===== Footer ===== */
-        footer {
-            background: var(--dark-900);
-            border-top: 1px solid var(--glass-border);
-            padding: 60px 0 30px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col h4 {
-            color: var(--white);
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 1.25rem;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-col a {
-            color: var(--gray-500);
-            text-decoration: none;
-            transition: var(--transition-smooth);
-            font-size: 0.9rem;
-        }
-
-        .footer-col a:hover {
-            color: var(--white);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid var(--glass-border);
-            color: var(--gray-500);
-            font-size: 0.875rem;
-        }
-
-        /* ===== Responsive ===== */
-        @media (max-width: 991px) {
-            .navbar-toggler {
-                display: block !important;
-                border: 1px solid rgba(255,255,255,0.3);
-                padding: 8px 12px;
-            }
-            .navbar-toggler-icon {
-                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-            }
-            .navbar-collapse {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(15, 15, 35, 0.98);
-                padding: 20px;
-                border-top: 1px solid rgba(255,255,255,0.1);
-                max-height: 80vh;
-                overflow-y: auto;
-            }
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-            .footer-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .blog-header h1 {
-                font-size: 2rem;
-            }
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        .blog-hero h1 { font-size: 2.5rem; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .blog-hero p { color: var(--gray-400); margin-top: 1rem; }
+        .blog-grid { padding: 60px 0; }
+        .blog-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; transition: var(--transition-smooth); margin-bottom: 2rem; }
+        .blog-card:hover { transform: translateY(-5px); border-color: var(--primary-start); box-shadow: var(--shadow-glow); }
+        .blog-card .content { padding: 1.5rem; }
+        .blog-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--white); margin-bottom: 0.75rem; line-height: 1.4; }
+        .blog-card h3 a { color: var(--white); text-decoration: none; }
+        .blog-card h3 a:hover { color: var(--primary-start); }
+        .blog-card .meta { color: var(--gray-500); font-size: 0.8rem; margin-bottom: 0.75rem; }
+        .blog-card .excerpt { color: var(--gray-400); font-size: 0.875rem; line-height: 1.6; }
+        .footer { padding: 40px 0; border-top: 1px solid var(--glass-border); }
     </style>
-    <!-- Baidu Analytics -->
-    <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?9aa5b500dd19c4ed0aaf2ee1ebb15b1f";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-    </script>
+
+    <style>
+    /* UI/UX Pro Max Accessibility Fixes */
+    :focus-visible { outline: 2px solid #667eea; outline-offset: 2px; }
+    :focus:not(:focus-visible) { outline: none; }
+    a, button, [role="button"], .nav-link, .dropdown-item, .btn, .card, [onclick], label[for], .nav-dropdown button { cursor: pointer; }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+    .skip-link {
+        position: absolute; top: -40px; left: 0;
+        background: #667eea; color: #fff; padding: 8px 16px;
+        z-index: 9999; text-decoration: none;
+        border-radius: 0 0 8px 0; font-weight: 600;
+        transition: top 0.2s;
+    }
+    .skip-link:focus { top: 0; outline: 2px solid #00d9ff; }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
-    <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
-        <a href="/" style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap;">☁ CloudMesh</a>
-        <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;">
-            <a href="/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">首页</a>
-            <div style="position:relative;" class="nav-dropdown">
-                <button onclick="this.parentElement.querySelector('.dd').classList.toggle('show')" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;border-radius:6px;transition:color 0.2s,background 0.2s;">产品 <span style="font-size:0.7rem;">▼</span></button>
-                <div class="dd" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(22,22,42,0.98);border:1px solid rgba(102,126,234,0.3);border-radius:10px;padding:6px;min-width:190px;z-index:1001;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
-                    <a href="/products/clawops.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;">🚀 ClawOps</a>
-                    <a href="/products/itsm.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;">🎫 ITSM</a>
-                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
-                    <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;">📦 智能补货助手</a>
-                    <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;">📝 合同审核助手</a>
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
+    <nav role="navigation" aria-label="主导航" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
+        <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
+            <a href="/" style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap;" aria-label="CloudMesh 首页">☁ CloudMesh</a>
+            <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;">
+                <a href="/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">首页</a>
+                <div style="position:relative;" class="nav-dropdown">
+                    <button onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true');this.parentElement.querySelector('.dd').classList.toggle('show')" aria-expanded="false" aria-haspopup="true" aria-label="产品菜单" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;border-radius:6px;transition:color 0.2s,background 0.2s;">产品 <span style="font-size:0.7rem;" aria-hidden="true">▼</span></button>
+                    <div class="dd" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(22,22,42,0.98);border:1px solid rgba(102,126,234,0.3);border-radius:10px;padding:6px;min-width:190px;z-index:1001;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+                        <a href="/products/clawops.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-terminal" aria-hidden="true"></i> ClawOps</a>
+                        <a href="/products/itsm.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-tasks" aria-hidden="true"></i> ITSM</a>
+                        <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                        <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-boxes-stacked" aria-hidden="true"></i> 智能补货助手</a>
+                        <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-file-signature" aria-hidden="true"></i> 合同审核助手</a>
+                        <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                        <a href="/products/openclaw.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-robot" aria-hidden="true"></i> OpenClaw</a>
+                        <a href="/products/llm-cost-center.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-coins" aria-hidden="true"></i> LLM Cost Center</a>
+                    </div>
                 </div>
+                <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
+                <a href="/open-source/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">开源</a>
+                <a href="/blog/" style="color:#fff;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;background:rgba(102,126,234,0.15);">博客</a>
+                <a href="/pricing.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">定价</a>
+                <a href="/docs/quickstart.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">文档</a>
+                <a href="/contact/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">联系</a>
+                <a href="/deploy/" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:0.82rem;font-weight:700;padding:8px 16px;text-decoration:none;border-radius:50px;white-space:nowrap;margin-left:4px;transition:opacity 0.2s;">免费试用</a>
             </div>
-            <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
-            <a href="/open-source/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">开源</a>
-            <a href="/blog/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">博客</a>
-            <a href="/pricing.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">定价</a>
-            <a href="/docs/quickstart.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">文档</a>
-            <a href="/contact/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">联系</a>
-            <a href="/deploy/" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:0.82rem;font-weight:700;padding:8px 16px;text-decoration:none;border-radius:50px;white-space:nowrap;margin-left:4px;transition:opacity 0.2s;">免费试用</a>
         </div>
-    </div>
-</nav>
+    </nav>
 <style>
 .dd { display: none !important; }
 .dd.show { display: block !important; }
-.nav-dropdown:hover .dd { display: block !important; }
-a:hover { color: #fff !important; background: rgba(102,126,234,0.1); }
-button:hover { color: #fff !important; background: rgba(102,126,234,0.1) !important; }
 </style>
-
-    <!-- Blog Content -->
-    <div class="container">
-        <div class="blog-header">
-            <h1>📝 CloudMesh 博客</h1>
-            <p>技术分享 · 最佳实践 · 产品更新</p>
-        </div>
-
-        <div class="blog-grid">
-
-            <a href="/blog/digital-employee-kpi.html" class="blog-card">
-                <span class="tag">📊 管理</span>
-                <h2>数字员工绩效考核指南：如何评估 AI 员工的工作表现</h2>
-                <p>当 AI 成为你的数字员工，如何科学地评估和管理它的工作表现？效率、质量、可用性、成本四大维度全面解析。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-05-03</span>
-                    <span><i class="far fa-clock"></i> 10 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/geo-monitor.html" class="blog-card">
-                <span class="tag">🛠️ 工具搭建</span>
-                <h2>AI 驱动的品牌健康监测：让 GEO 优化可量化、可追踪</h2>
-                <p>搭建你的品牌 AI 健康仪表盘，自动追踪品牌在 ChatGPT、Perplexity、Claude 中的引用情况。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-05-03</span>
-                    <span><i class="far fa-clock"></i> 10 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/content-marketing-automation.html" class="blog-card">
-                <span class="tag">⚡ 效率提升</span>
-                <h2>运维人效率提升指南：从手动发帖到 AI 全流程自动化</h2>
-                <p>用 AI 实现内容营销全流程自动化，从热点发现、内容创作、多平台发布到数据复盘，一个人搞定全平台运营。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-05-03</span>
-                    <span><i class="far fa-clock"></i> 10 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/geo-guide.html" class="blog-card">
-                <span class="tag">🔍 策略</span>
-                <h2>AI 时代的内容营销新战场：GEO 实战指南</h2>
-                <p>当用户不再搜索，而是问 AI——你的品牌如何在 ChatGPT 们的回答中被优先引用？GEO 优化从入门到实战。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-05-03</span>
-                    <span><i class="far fa-clock"></i> 12 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/ai-operator-classic-scenes.html" class="blog-card">
-                <span class="tag">🛠️ 实践分享</span>
-                <h2>AI 操作助手的 10 个经典场景：一个人搞定运维的实战分享</h2>
-                <p>从凌晨报警处理到批量服务器管理，用 AI 重新定义运维工作方式。本文分享 10 个经典场景的实战经验。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-05-03</span>
-                    <span><i class="far fa-clock"></i> 15 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/ai-startup-one-person-company-2026.html" class="blog-card">
-                <span class="tag">🚀 实战分享</span>
-                <h2>一人公司如何用 AI Agent 从 0 到 1：实战方法论</h2>
-                <p>揭秘一人公司如何利用 AI Agent 实现高效运营，从获客到服务交付的完整方法论。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-04-25</span>
-                    <span><i class="far fa-clock"></i> 8 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/sme-it-ops-dilemma.html" class="blog-card">
-                <span class="tag">🚀 中小企业</span>
-                <h2>小微企业 IT 运维困境与破局：AI 如何让运维成本降低 80%</h2>
-                <p>深入分析小微企业 IT 运维痛点，探讨如何借助 AI 技术突破困境。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-04-02</span>
-                    <span><i class="far fa-clock"></i> 10 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/ai-fatigue-reflection.html" class="blog-card">
-                <span class="tag">💭 深度思考</span>
-                <h2>AI 时代的疲惫与反思：我们是否正在被 AI 绑架？</h2>
-                <p>AI 让我们更高效，还是更疲惫？深入探讨 AI 时代人们的焦虑与反思。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-04-02</span>
-                    <span><i class="far fa-clock"></i> 8 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/service-industry-digital-transformation.html" class="blog-card">
-                <span class="tag">📜 政策解读</span>
-                <h2>服务业数字化转型：AI 如何破解行业痛点</h2>
-                <p>深度分析零售、餐饮、酒店、医疗等服务业细分行业痛点，探讨 AI 赋能服务业的方式，以及 ClawOps 的行业切入策略。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-04-14</span>
-                    <span><i class="far fa-clock"></i> 15 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/case-studies-clawops-servicenow-netflix.html" class="blog-card">
-                <span class="tag">📚 产品方法论</span>
-                <h2>ClawOps 标杆案例研究：ServiceNow 与 Netflix 的成功启示</h2>
-                <p>深度解析 ServiceNow 与 Netflix 两大标杆公司的运维实践，探讨其对 ClawOps 产品演进的借鉴意义。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-04-14</span>
-                    <span><i class="far fa-clock"></i> 12 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/hermes-agent-design-analysis.html" class="blog-card">
-                <span class="tag">🧠 Agent架构</span>
-                <h2>Nous Research Hermes Agent 架构深度解析：自我进化 AI Agent 的工程实践</h2>
-                <p>深入解析 Hermes Agent 的核心架构设计：自我进化机制、Provider 中立架构、Tool Registry、Skills 系统。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-04-13</span>
-                    <span><i class="far fa-clock"></i> 15 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/minimax-m27-hermes-agent.html" class="blog-card">
-                <span class="tag">🤖 大模型</span>
-                <h2>MiniMax-M2.7：从 Hermes Agent 看国产 AI Agent 的突破与创新</h2>
-                <p>分析 MiniMax-M2.7 模型能力，探讨国产 AI Agent 在 Hermes 架构下的技术突破。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-04-13</span>
-                    <span><i class="far fa-clock"></i> 12 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/agent-plan-prompt-design.html" class="blog-card">
-                <span class="tag">🧠 Agent架构</span>
-                <h2>AI Agent 计划模式设计：如何在系统提示词中实现智能规划</h2>
-                <p>深入解析 Plan-and-Execute、ReAct、Self-Correction 等计划模式的设计原理。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-04-02</span>
-                    <span><i class="far fa-clock"></i> 12 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/ai-ops-natural-language-troubleshooting.html" class="blog-card">
-                <span class="tag">🛠️ 运维实践</span>
-                <h2>AI Ops 自然语言故障排查实战</h2>
-                <p>用自然语言描述问题，AI 自动分析日志并给出解决方案。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-31</span>
-                    <span><i class="far fa-clock"></i> 10 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/agent-three-layer-memory-architecture.html" class="blog-card">
-                <span class="tag">🧠 架构设计</span>
-                <h2>Agent 三层记忆架构设计</h2>
-                <p>短期记忆、长期记忆、持久化存储的三层记忆架构实现。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-31</span>
-                    <span><i class="far fa-clock"></i> 12 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/ai-agent-harness-architecture.html" class="blog-card">
-                <span class="tag">🏗️ 架构设计</span>
-                <h2>AI Agent Harness 架构设计与实现</h2>
-                <p>深入解析多运行时、多会话、线程绑定的 Agent Harness 核心架构。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-27</span>
-                    <span><i class="far fa-clock"></i> 20 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/langchain-soul-agent-design.html" class="blog-card">
-                <span class="tag">🔧 技术方案</span>
-                <h2>LangChain + SOUL.md：构建有人格的持久化 AI Agent</h2>
-                <p>如何在 LangChain 中实现人格持久化？</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-27</span>
-                    <span><i class="far fa-clock"></i> 15 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/claude-code-analysis.html" class="blog-card">
-                <span class="tag">🔍 源码分析</span>
-                <h2>Claude Code 源码架构详细分析</h2>
-                <p>深入解析 Claude Code 源码架构，50+命令、40+工具、51万行TypeScript代码。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-04-01</span>
-                    <span><i class="far fa-clock"></i> 25 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/enterprise-skill-system-guide.html" class="blog-card">
-                <span class="tag">🏗️ 企业实践</span>
-                <h2>企业内部 Skill 体系搭建指南：让 AI Agent 成为专业员工</h2>
-                <p>从技术栈到业务场景，从设计原则到落地实践，一文讲透企业内部 Skill 体系搭建的全流程。让你的 AI Agent 从"什么都懂一点"变成"某个领域很专业"。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-27</span>
-                    <span><i class="far fa-clock"></i> 12 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/schema-org-geo-guide.html" class="blog-card">
-                <span class="tag">📚 技术教程</span>
-                <h2>Schema.org 入门指南：让你的内容被 AI 看见</h2>
-                <p>深入了解 Schema.org 结构化数据，学习如何让 AI 和搜索引擎更好地理解你的内容，提升 GEO 优化效果。从基础概念到实战案例，一文掌握。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-25</span>
-                    <span><i class="far fa-clock"></i> 8 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/one-person-company-vertical-strategy.html" class="blog-card">
-                <span class="tag">🚀 创业策略</span>
-                <h2>一人公司的生存法则：专注垂直细分，不和巨头正面竞争</h2>
-                <p>一人公司最大的战略错误，就是和巨头正面竞争。你的生存之道，是在大厂"看不上"或"做不好"的垂直细分领域，做深做透，成为那个细分市场的第一。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-24</span>
-                    <span><i class="far fa-clock"></i> 10 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/one-person-company-ai-ops-2026.html" class="blog-card">
-                <span class="tag">🔥 趋势</span>
-                <h2>🚀 一人公司的技术革命：2026 AI Agent 运维趋势报告</h2>
-                <p>AI Agent 正在重新定义一人公司的技术边界。一个人 + AI = 过去 10 人运维团队的战斗力。深入分析 AI Agent 运维趋势、核心能力、实战案例。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-23</span>
-                    <span><i class="far fa-clock"></i> 12 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/ai-3d-generation-guide.html" class="blog-card">
-                <span class="tag">AI设计</span>
-                <h2>🎮 AI 生成 3D：一场颠覆设计行业的技术革命</h2>
-                <p>从文字描述到 3D 模型，只需要 30 秒。深入分析 AI 生成 3D 的七大应用场景、主流工具推荐，以及对传统设计工具的影响和从业者应对策略。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-21</span>
-                    <span><i class="far fa-clock"></i> 10 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/xiaomi-mimo-v2-release.html" class="blog-card">
-                <span class="tag">🔥 重磅</span>
-                <h2>📱 小米发布万亿参数大模型MiMo-V2-Pro：全球第五，超越xAI Grok</h2>
-                <p>小米3月19日凌晨发布MiMo-V2系列大模型，万亿参数跻身全球前五，标志着中国大模型正式进入第一梯队。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-19</span>
-                    <span><i class="far fa-clock"></i> 8 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/xiaomi-llm-analysis.html" class="blog-card">
-                <span class="tag">小米大模型</span>
-                <h2>📱 小米大模型深度解析：从MiLM到端侧AI的技术路线</h2>
-                <p>小米不只是手机厂商，更是端侧AI的积极布局者。深入解析小米大模型的技术特点与战略思考。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-19</span>
-                    <span><i class="far fa-clock"></i> 10 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/llm-as-judge-guide.html" class="blog-card">
-                <span class="tag">AI评估</span>
-                <h2>🤖 如何构建AI评估员：LLM-as-Judge 实战指南</h2>
-                <p>当你的AI Agent越来越复杂，如何评估它输出的答案好不好？本文教你构建专业的AI评估员，让AI来评估AI。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-19</span>
-                    <span><i class="far fa-clock"></i> 15 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/ai-projects-2026.html" class="blog-card">
-                <span class="tag">工具推荐</span>
-                <h2>🔥 2026年AI开发者必看：5个被低估的开源项目</h2>
-                <p>不想被AI浪潮甩在后面？这几个开源项目值得你花时间了解。从大模型训练到智能Agent，帮你找到趁手工具，少走弯路。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-19</span>
-                    <span><i class="far fa-clock"></i> 6 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/geo-guide.html" class="blog-card">
-                <span class="tag">GEO</span>
-                <h2>🔍 GEO 生成式引擎优化：让品牌在 AI 时代被看见</h2>
-                <p>当用户问 ChatGPT "推荐一个好的项目管理工具"，你的品牌会出现吗？本文从概念到落地，全面解析 GEO 优化策略。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-19</span>
-                    <span><i class="far fa-clock"></i> 12 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/itsm-code-review.html" class="blog-card">
-                <span class="tag">代码审查</span>
-                <h2>🔍 ITSM 开源项目代码质量审查实战</h2>
-                <p>Go + Next.js 项目踩坑记录。分享代码审查过程中发现的问题和解决方案，包括 panic 处理、版本兼容、类型问题等。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-17</span>
-                    <span><i class="far fa-clock"></i> 8 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/changelog-march-2026.html" class="blog-card">
-                <span class="tag">更新日志</span>
-                <h2>📦 更新日志 - 2026 年 3 月</h2>
-                <p>ClawOps 3 月更新：配置生成器上线、安全功能增强、性能优化、文档系统完善等新功能和改进。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-11</span>
-                    <span><i class="far fa-clock"></i> 5 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/security-best-practices.html" class="blog-card">
-                <span class="tag">安全</span>
-                <h2>🔒 ClawOps 安全最佳实践</h2>
-                <p>保护你的 API 密钥和数据。包括密钥管理、权限控制、审计日志、文件权限等安全措施和最佳实践。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-11</span>
-                    <span><i class="far fa-clock"></i> 8 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/skill-market-guide.html" class="blog-card">
-                <span class="tag">教程</span>
-                <h2>🧩 Skill 市场使用指南</h2>
-                <p>扩展你的 ClawOps 能力。了解如何发现、安装和管理 Skill，让 AI 助手具备更多专业技能。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-11</span>
-                    <span><i class="far fa-clock"></i> 6 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/openclaw-architecture.html" class="blog-card">
-                <span class="tag">架构设计</span>
-                <h2>🏗️ ClawOps 架构设计 - 一人抵一个 DevOps 团队</h2>
-                <p>深入了解 ClawOps 的架构设计，如何通过 AI Agent 实现一人抵一个 DevOps 团队。包括多 Agent 协作、技能模块化、系统架构等。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-11</span>
-                    <span><i class="far fa-clock"></i> 10 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/quickstart-tutorial.html" class="blog-card">
-                <span class="tag">教程</span>
-                <h2>⚡ 5 分钟快速上手 ClawOps</h2>
-                <p>从 0 到 1 配置你的 AI 助手。本教程将带你用 5 分钟时间完成 ClawOps 的配置和使用，适合新手快速入门。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-11</span>
-                    <span><i class="far fa-clock"></i> 5 分钟</span>
-                </div>
-            </a>
-
-            <a href="/blog/enterprise-deployment.html" class="blog-card">
-                <span class="tag">最佳实践</span>
-                <h2>🏢 企业部署最佳实践</h2>
-                <p>ClawOps 生产环境部署指南。包括配置中心集成、密钥管理、多环境管理、监控告警等企业级功能。</p>
-                <div class="meta">
-                    <span><i class="far fa-calendar"></i> 2026-03-11</span>
-                    <span><i class="far fa-clock"></i> 15 分钟</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="nav-links">
-            <a href="/"><i class="fas fa-home"></i> 返回首页</a>
-            <a href="/openclaw-generator/"><i class="fas fa-wrench"></i> 配置生成器</a>
-            <a href="/docs/"><i class="fas fa-book"></i> 文档中心</a>
-            <a href="/contact/"><i class="fas fa-envelope"></i> 联系我们</a>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
+    
+    <section class="blog-hero">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>产品</h4>
-                    <ul>
-                        <li><a href="/products/clawops.html">ClawOps</a></li>
-                        <li><a href="/products/itsm.html">ITSM</a></li>
-                        <li><a href="/products/smart-replenishment.html">智能补货助手</a></li>
-                        <li><a href="/products/contract-review.html">合同审核助手</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>解决方案</h4>
-                    <ul>
-                        <li><a href="/solutions/">医疗知识库</a></li>
-                        <li><a href="/solutions/">智能排队</a></li>
-                        <li><a href="/solutions/geo.html">GEO 服务</a></li>
-                        <li><a href="/solutions/">弱电工程</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>开源</h4>
-                    <ul>
-                        <li><a href="/open-source/">开源社区</a></li>
-                        <li><a href="https://github.com/heidsoft/itsm" target="_blank">GitHub</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>资源</h4>
-                    <ul>
-                        <li><a href="/docs/quickstart.html">文档中心</a></li>
-                        <li><a href="/blog/">博客</a></li>
-                        <li><a href="/pricing.html">定价</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>关于</h4>
-                    <ul>
-                        <li><a href="/contact/">联系我们</a></li>
-                        <li><a href="/trust.html">安全与信任</a></li>
-                        <li><a href="https://space.bilibili.com/349309176" target="_blank">B站</a></li>
-                    </ul>
-                </div>
+            <h1>技术博客</h1>
+            <p>分享 AI Agent、DevOps、自动化运维等最新实践</p>
+        </div>
+    </section>
+    
+    <section class="blog-grid">
+        <div class="container">
+            <div class="row" id="blogList">
+                <p style="color:var(--gray-400);text-align:center;padding:2rem;">加载中...</p>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 CloudMesh. All rights reserved.</p>
-            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container" style="text-align:center;color:var(--gray-500);font-size:0.875rem;">
+            <p>&copy; 2026 CloudMesh. 让 AI 助手无所不能。</p>
         </div>
     </footer>
-
-    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+    const articles = [
+        { title: "大模型爆火的背后：数学如何驱动 AI 生成文字", excerpt: "从向量空间到注意力机制，深度解析 Transformer 架构背后的线性代数、概率论与微积分。你会真正理解：为什么 ChatGPT 能生成文字、大模型为什么需要 GPU、以及 Attention 究竟在算什么。", date: "2026年05月14日", tag: "AI 原理", url: "/blog/llm-math-foundation.html" },
+        { title: "DDL 工单审批 AI Agent 边界条件测试用例", excerpt: "DDL 工单审批 AI Agent 系统边界条件全面梳理，含输入层、安全红线、工具层、审批流、上下文五大方向，附 AI 辅助找漏洞的方法论。", date: "2026年05月13日", tag: "AI Agent", url: "/blog/ddl-agent-boundary-cases.html" },
+        { title: "量子计算入门：从小白到理解量子霸权", excerpt: "量子计算是什么？跟普通电脑有什么区别？这篇用大白话讲清楚量子叠加、量子纠缠和量子算法。", date: "2026年05月13日", tag: "技术科普", url: "/blog/quantum-computing-intro.html" },
+        { title: "GLM-5V-Turbo 技术报告：多模态 Agent 基座模型深度解读", excerpt: "深度解读智谱 GLM-5V-Turbo 技术报告，涵盖 CogViT 视觉编码器、MMTP 多模态多 Token 预测、广覆盖联合训练等核心技术。", date: "2026年05月12日", tag: "AI 模型", url: "/blog/glm-5v-turbo-technical-report.html" },
+        { title: "四书体系：儒学大厦的四大支柱", excerpt: "深入解析四书（《大学》《中庸》《论语》《孟子》）的体系结构，理解儒家思想的核心框架与内在逻辑。", date: "2026年05月11日", tag: "儒学", url: "/blog/sizhu-system.html" },
+        { title: "《大学》三纲八目：理学与心学的千年之争", excerpt: "深入解析《大学》的三纲领与八条目，探讨理学与心学对格物致知的根本分歧，理解宋明理学的核心争论。", date: "2026年05月11日", tag: "儒学", url: "/blog/daxue-neo-confucianism.html" },
+        { title: "供需模型：价格是怎么定的？", excerpt: "用菜市场、奶茶店、打车软件讲懂供需模型。没有公式、没有图表，只有生活常识。一文讲透需求、供给、均衡价格。", date: "2026年05月10日", tag: "经济学", url: "/blog/economics-supply-demand.html" },
+        { title: "经济学学习系列：理解世界的底层逻辑", excerpt: "曼昆《经济学原理》十大原理 + 供需模型 + 博弈论入门。从机会成本到囚徒困境，建立经济学直觉。", date: "2026年05月10日", tag: "经济学", url: "/blog/economics-learning-series.html" },
+        { title: "Clean Code 精华系列：写出让人眼前一亮的代码", excerpt: "Robert C. Martin 的 Clean Code 核心理念：好命名、短小函数、 meaningful 注释、优雅错误处理。附实践清单与代码示例。", date: "2026年05月10日", tag: "代码质量", url: "/blog/clean-code-essence.html" },
+        { title: "设计模式实战系列：为什么你需要策略模式？", excerpt: "用支付场景讲透策略模式：告别 if-else 地狱，实现运行时灵活切换算法。附完整 Python 代码示例与 UML 图解。", date: "2026年05月10日", tag: "设计模式", url: "/blog/design-pattern-strategy.html" },
+        { title: "我是如何用 AI 整理 8 年 DevOps 笔记的：从散乱文件夹到有序知识库", excerpt: "8年 DevOps 经验散落在 30+ 文件夹，用 AI 辅助一天完成整理归档，目录结构 + README 规范 + 维护机制全部分享。", date: "2026年05月09日", tag: "知识管理", url: "/blog/devops-knowledge-base.html" },
+{ title: "2026年 AI Agent Harness 全景图：概念、技术栈与创业机会", excerpt: "深度调研 2026年 AI Agent / Harness / Agentic Engineering 领域现状，梳理核心概念、技术栈、热门项目，以及创业机会分析。", date: "2026年05月07日", tag: "技术调研", url: "/blog/ai-agent-harness-2026.html" },
+        { title: "独立开发者打造的 Claude Code Skills 精选指南", excerpt: "深入测评 5 位知名独立开发者打造的 Claude Code Skills，从 Matt Pocock 的实战技能库到 obra 的 Agentic 方法论，帮你找到最值得使用的 AI  Coding 技能。", date: "2026年05月07日", tag: "AI Coding", url: "/blog/claude-code-skills-by-indie-developers.html" },
+        { title: "Karpathy 谈 AI 编程未来：Agentic Engineering 是核心竞争力", excerpt: "深度解读 Andrej Karpathy 2026年4月访谈：AI 编程的下半场是 Agentic Engineering，Vibe Coding 抬高下限，Agentic Engineering 守住上限。", date: "2026年05月07日", tag: "AI 前沿", url: "/blog/karpathy-agentic-engineering.html" },
+        { title: "一文读懂 MES 系统：从概念到落地的工厂数字化实战指南", excerpt: "MES（制造执行系统）是工厂数字化转型的核心。什么是MES？它和ERP有什么区别？中小企业怎么落地？本文一次讲清楚，并提供 CloudMES 演示系统体验。", date: "2026年05月06日", tag: "MES", url: "/blog/mes-system-guide-2026.html" },
+        { title: "五一宅家指南：5个AI工具让你偷懒", excerpt: "五一假期不想出门看人山人海？5个AI工具让你躺平也能把事情办了，懒人必备。", date: "2026年05月04日", tag: "效率神器", url: "/blog/labor-day-ai-tools-guide.html" },
+        { title: "AI 操作助手的 10 个经典场景：一个人搞定运维的实战分享", excerpt: "从凌晨报警处理到批量服务器管理，AI 操作助手正在重新定义运维工作方式。本文分享 10 个经典场景的实战经验，帮助一人公司和技术团队用 AI 提升效率。", date: "2026年05月03日", tag: "技术文章", url: "/blog/ai-operator-classic-scenes.html" },
+        { title: "运维人效率提升指南：从手动发帖到 AI 全流程自动化", excerpt: "揭秘一人公司和运维团队如何用 AI 实现内容营销全流程自动化：从热点发现、内容创作、多平台发布到数据复盘，一个人轻松搞定全平台运营。", date: "2026年05月03日", tag: "技术文章", url: "/blog/content-marketing-automation.html" },
+        { title: "数字员工绩效考核指南：如何评估 AI 员工的工作表现", excerpt: "当 AI 成为你的数字员工，如何评估它的表现？本文分享数字员工 KPI 体系搭建方法，涵盖效率、质量、可用性、成本四大维度，让 AI 员工管理有章可循。", date: "2026年05月03日", tag: "技术文章", url: "/blog/digital-employee-kpi.html" },
+        { title: "AI 时代的内容营销新战场：GEO（生成式引擎优化）实战指南", excerpt: "从 SEO 到 GEO，AI 搜索引擎正在重塑内容营销规则。本文分享如何让品牌在 ChatGPT、Perplexity、Claude 的回答中被优先引用，实战数据 + 具体方法。", date: "2026年05月03日", tag: "技术文章", url: "/blog/geo-guide.html" },
+        { title: "AI 驱动的品牌健康监测：让 GEO 优化可量化、可追踪", excerpt: "本文分享如何搭建一套 AI 品牌健康监测系统，自动追踪品牌在 ChatGPT、Perplexity、Claude 等 AI 引擎中的引用情况，让 GEO 优化从玄学变成可量化的工作。", date: "2026年05月03日", tag: "技术文章", url: "/blog/geo-monitor.html" },
+        { title: "ClawOps 标杆案例研究：ServiceNow 与 Netflix 的成功启示", excerpt: "深度解析 ServiceNow 与 Netflix 两大标杆公司的运维实践，探讨其对 ClawOps 产品演进的借鉴意义。", date: "2026年04月14日", tag: "产品方法论", url: "/blog/case-studies-clawops-servicenow-netflix.html" },
+        { title: "服务业数字化转型：AI 如何破解行业痛点", excerpt: "深度分析零售、餐饮、酒店、医疗等服务业细分行业痛点，探讨 AI 赋能服务业的方式，以及 ClawOps 的行业切入策略。", date: "2026年04月14日", tag: "技术文章", url: "/blog/service-industry-digital-transformation.html" },
+        { title: "如何用 AI Agent 做日志分析与故障排查：从大海捞针到一键定位", excerpt: "手把手教你用 AI Agent 做日志分析与故障排查，让运维从大海捞针进化到一键定位，附真实案例与 Prompt 模板。", date: "2026年04月13日", tag: "AI Agent", url: "/blog/ai-agent-log-analysis-troubleshooting.html" },
+        { title: "小微企业数字化转型3步走：从小散弱到小而美", excerpt: "小微企业如何数字化转型？本文提出3步走策略：摸清家底→小步快跑→持续迭代，帮助小微企业在资源有限的情况下实现高效数字化转型。", date: "2026年04月07日", tag: "数字化转型", url: "/blog/sme-digital-transformation-3-steps.html" },
+        { title: "AI Agent 计划模式设计：如何在系统提示词中实现智能规划", excerpt: "AI Agent 计划模式设计：如何在系统提示词中实现智能规划", date: "2026年04月02日", tag: "技术文章", url: "/blog/agent-plan-prompt-design.html" },
+        { title: "AI 时代的疲惫与反思：我们是否正在被 AI 绑架？", excerpt: "AI 让我们更高效，还是更疲惫？本文深入探讨 AI 时代人们的焦虑、疲惫与反思，思考如何在 AI 时代保持自我。", date: "2026年04月02日", tag: "技术文章", url: "/blog/ai-fatigue-reflection.html" },
+        { title: "小微企业 IT 运维困境与破局：AI 如何让运维成本降低 80%", excerpt: "小微企业没有专职运维？运维成本高企？本文深入分析小微企业 IT 运维困境，探讨如何用 AI 技术将运维成本降低 80%，让中小微企业也能享受智能运维红利。", date: "2026年04月02日", tag: "技术文章", url: "/blog/sme-it-ops-dilemma.html" },
+        { title: "Claude Code 源码架构详细分析", excerpt: "深入解析 Claude Code 源码架构，包含命令系统、工具系统、查询引擎、服务层等核心模块的技术实现。", date: "2026年04月01日", tag: "源码分析", url: "/blog/claude-code-analysis.html" },
+        { title: "AI Agent 三层记忆架构：让大模型拥有\"记忆\"", excerpt: "深入解析 AI Agent 的三层记忆架构：短期记忆、长期记忆、知识记忆，以及如何实现智能记忆管理。", date: "2026年03月31日", tag: "AI 架构", url: "/blog/agent-three-layer-memory-architecture.html" },
+        { title: "AI 运维实战：用自然语言搞定服务器故障", excerpt: "传统运维繁琐又耗时？ClawOps 让你用自然语言就能搞定服务器故障，AI 驱动的智能运维实战指南。", date: "2026年03月31日", tag: "运维实践", url: "/blog/ai-ops-natural-language-troubleshooting.html" },
+        { title: "AI Agent Harness 架构设计与实现", excerpt: "深入解析 AI Agent Harness 架构的设计原理与实现方案，包括 ACP 协议、Sub-agent 机制、Session 生命周期管理、线程绑定等核心技术。", date: "2026年03月27日", tag: "架构设计", url: "/blog/ai-agent-harness-architecture.html" },
+        { title: "企业内部 Skill 体系搭建指南：让 AI Agent 成为专业员工", excerpt: "如何为企业搭建一套完整的 AI Agent Skill 体系？从技术栈到业务场景，从设计原则到落地实践，一文讲透企业内部 Skill 体系搭建的全流程。", date: "2026年03月27日", tag: "企业实践", url: "/blog/enterprise-skill-system-guide.html" },
+        { title: "LangChain + SOUL.md：构建有人格的持久化 AI Agent", excerpt: "如何在 LangChain 中实现类似 OpenClaw 的 SOUL.md 人格持久化机制？从技术原理到代码实现，一文讲透构建有人格、有记忆的 AI Agent。", date: "2026年03月27日", tag: "技术方案", url: "/blog/langchain-soul-agent-design.html" },
+        { title: "Schema.org 入门指南：让你的内容被 AI 看见", excerpt: "深入了解 Schema.org 结构化数据，学习如何让 AI 和搜索引擎更好地理解你的内容，提升 GEO 优化效果。", date: "2026年03月25日", tag: "技术文章", url: "/blog/schema-org-geo-guide.html" },
+        { title: "一人公司的生存法则：专注垂直细分，不和巨头正面竞争", excerpt: "一人公司如何在巨头林立的市场中生存？答案是专注垂直细分。本文分析为什么垂直细分是小团队的唯一出路，以及如何选择和深耕垂直赛道。", date: "2026年03月24日", tag: "技术文章", url: "/blog/one-person-company-vertical-strategy.html" },
+        { title: "一人公司的技术革命：2026 AI Agent 运维趋势报告", excerpt: "2026年，AI Agent 正在重新定义一人公司的技术边界。一个人，一套 AI 运维系统，就能跑出过去需要 10 人团队才能做到的事情。本文深入分析 AI Agent 运维趋势、核心能力、实战案例。", date: "2026年03月23日", tag: "技术文章", url: "/blog/one-person-company-ai-ops-2026.html" },
+        { title: "AI 生成 3D：一场颠覆设计行业的技术革命", excerpt: "从文字描述到 3D 模型，只需要 30 秒。AI 生成 3D 技术正在改变设计行业，本文深入分析应用场景、工具推荐和从业者应对策略。", date: "2026年03月21日", tag: "技术文章", url: "/blog/ai-3d-generation-guide.html" },
+        { title: "2026年AI开发者必看：5个被低估的开源项目", excerpt: "盘点2026年值得关注的AI开源项目，从大模型训练到智能Agent，帮你找到趁手工具，少走弯路。", date: "2026年03月19日", tag: "大模型训练", url: "/blog/ai-projects-2026.html" },
+        { title: "如何构建AI评估员：LLM-as-Judge 实战指南", excerpt: "详解如何构建一个专业的AI评估员（LLM-as-Judge），从核心组件设计到代码实现，帮助你科学评估AI输出质量。", date: "2026年03月19日", tag: "技术文章", url: "/blog/llm-as-judge-guide.html" },
+        { title: "小米大模型深度解析：从MiLM到端侧AI的技术路线", excerpt: "深入解析小米大模型技术路线，从MiLM系列到端侧AI布局，了解小米在AI领域的战略和技术创新。", date: "2026年03月19日", tag: "技术文章", url: "/blog/xiaomi-llm-analysis.html" },
+        { title: "小米发布万亿参数大模型MiMo-V2-Pro：全球第五，超越xAI Grok", excerpt: "小米3月19日凌晨发布万亿参数大模型MiMo-V2-Pro，位列全球第五，超过xAI Grok。同时发布全模态模型MiMo-V2-Omni和语音合成模型MiMo-V2-TTS。", date: "2026年03月19日", tag: "技术文章", url: "/blog/xiaomi-mimo-v2-release.html" },
+        { title: "ITSM 开源项目代码质量审查实战 - Go + Next.js 项目踩坑记录", excerpt: "分享 ITSM 开源项目代码审查过程中发现的问题和解决方案，包括 Go 后端、Next.js 前端的常见陷阱和最佳实践", date: "2026年03月17日", tag: "Go", url: "/blog/itsm-code-review.html" },
+        { title: "更新日志 - 2026 年 3 月 - OpenClaw 新功能和改进", excerpt: "OpenClaw 2026 年 3 月更新日志，包括配置生成器、安全功能、性能优化等新功能和改进", date: "2026年03月11日", tag: "技术文章", url: "/blog/changelog-march-2026.html" },
+        { title: "企业部署最佳实践 - OpenClaw 生产环境部署指南", excerpt: "OpenClaw 企业部署最佳实践，包括配置中心集成、密钥管理、多环境管理等生产环境部署指南", date: "2026年03月11日", tag: "技术文章", url: "/blog/enterprise-deployment.html" },
+        { title: "OpenClaw 架构设计 - 一人抵一个 DevOps 团队", excerpt: "深入了解 OpenClaw 的架构设计，如何通过 AI Agent 实现一人抵一个 DevOps 团队", date: "2026年03月11日", tag: "技术文章", url: "/blog/openclaw-architecture.html" },
+        { title: "5 分钟快速上手 OpenClaw - 从 0 到 1 配置你的 AI 助手", excerpt: "5 分钟快速上手 OpenClaw，从配置到使用，完整教程带你从零开始配置 AI 驱动的 DevOps 助手", date: "2026年03月11日", tag: "技术文章", url: "/blog/quickstart-tutorial.html" },
+        { title: "OpenClaw 安全最佳实践 - 保护你的 API 密钥和数据", excerpt: "OpenClaw 安全最佳实践指南，包括 API 密钥管理、权限控制、审计日志等安全措施", date: "2026年03月11日", tag: "技术文章", url: "/blog/security-best-practices.html" },
+        { title: "Skill 市场使用指南 - 扩展你的 OpenClaw 能力", excerpt: "OpenClaw Skill 市场使用指南，了解如何发现、安装和管理 Skill，扩展你的 AI 助手能力", date: "2026年03月11日", tag: "技术文章", url: "/blog/skill-market-guide.html" },
+        { title: "AI 时代如何做需求管理：从小团队聊出来的需求到结构化沉淀", excerpt: "探讨 AI 时代需求管理的最佳实践，解决小团队需求散落在口播、群聊、站会中的混乱问题，让需求从碎片化聊天进化为结构化资产。", date: "2026年03月01日", tag: "产品管理", url: "/blog/ai-era-requirements-management.html" },
+        { title: "一人公司如何用 AI Agent 从 0 到 1：实战方法论", excerpt: "揭秘一人公司如何利用 AI Agent 实现高效运营，从获客到服务交付的完整方法论。", date: "2026年03月01日", tag: "技术文章", url: "/blog/ai-startup-one-person-company-2026.html" },
+        { title: "Nous Research Hermes Agent 架构深度解析：自我进化 AI Agent 的工程实践", excerpt: "深入解析 Hermes Agent 的核心架构设计：自我进化机制、Provider 中立架构、Tool Registry、Skills 系统、多平台网关，以及对国产 AI Agent 发展的启示。", date: "2026年03月01日", tag: "AI Agent", url: "/blog/hermes-agent-design-analysis.html" },
+        { title: "MiniMax M2.7 × Hermes Agent：开启自我进化的 Agent 工作流", excerpt: "深入解析 MiniMax M2.7 与 Hermes Agent 的结合如何开启 AI Agent 自我进化新时代，涵盖 Agent Harness、强工程能力与复杂 Office 自动化三大核心突破。", date: "2026年03月01日", tag: "AI Agent", url: "/blog/minimax-m27-hermes-agent.html" },
+        { title: "基于 AWS 搭建 OpenClaw 智能运维平台 - 完整架构实践指南", excerpt: "从零开始在 AWS 上搭建 OpenClaw 智能运维平台的完整指南", date: "2026年03月01日", tag: "技术文章", url: "/blog/openclaw-aws-architecture.html" },
+        { title: "ITIL 4 核心概念详解 - ITSM 博客", excerpt: "ITIL 4 核心概念详解 - ITSM 博客", date: "2026年03月01日", tag: "技术文章", url: "/blog/post1.html" },
+        { title: "DeepSeek vs Claude vs GPT-4：主流大模型在运维场景的真实对比", excerpt: "DeepSeek、Claude、GPT-4 在日志分析、故障排查、脚本生成等运维场景中谁更强？实测对比，帮你选择最适合运维工作的大模型。", date: "2026年01月01日", tag: "技术文章", url: "/blog/llm-ops-scene-real-comparison.html" }
+    ];
+    
+    function renderBlog() {
+        const container = document.getElementById('blogList');
+        container.innerHTML = articles.map(a => `
+            <div class="col-lg-6">
+                <div class="blog-card">
+                    <div class="content">
+                        <h3><a href="${a.url}">${a.title}</a></h3>
+                        <p class="meta"><i class="fas fa-calendar me-1"></i>${a.date} &nbsp; <span class="tag" style="display:inline-block;padding:2px 8px;background:var(--dark-600);border-radius:4px;font-size:0.7rem;">${a.tag}</span></p>
+                        <p class="excerpt">${a.excerpt}</p>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    renderBlog();
     </script>
+
+<style>
+button, a, [role="button"] { cursor: pointer; }
+</style>
 </body>
 </html>

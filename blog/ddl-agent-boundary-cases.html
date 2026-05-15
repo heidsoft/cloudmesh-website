@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDL 工单审批 AI Agent 边界条件测试用例 | CloudMesh 博客</title>
+    <meta name="description" content="DDL 工单审批 AI Agent 系统边界条件全面梳理，含输入层、安全红线、工具层、审批流、上下文五大方向，附 AI 辅助找漏洞的方法论。">
+    <meta name="keywords" content="AI Agent, DDL审批, 边界条件, 测试用例, MCP, 智能运维">
+    
+    <meta property="og:title" content="DDL 工单审批 AI Agent 边界条件测试用例">
+    <meta property="og:description" content="DDL 工单审批 AI Agent 系统边界条件全面梳理，含五大方向测试用例">
+    <meta property="og:type" content="article">
+    
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #00d9ff;
+            --danger: #ff4757;
+            --warning: #ffa502;
+            --success: #2ed573;
+            --dark-800: #0f0f1a;
+            --dark-700: #16162a;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            padding-top: 56px;
+            background: var(--dark-800);
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { color: var(--primary); }
+
+        .navbar {
+            background: rgba(15, 15, 26, 0.95) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+            padding: 12px 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .article-container {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .article-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .article-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            color: #888;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .article-content {
+            background: var(--dark-700);
+            border-radius: 16px;
+            padding: 50px 45px;
+            border: 1px solid rgba(102, 126, 234, 0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .article-content h2 {
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin: 40px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 217, 255, 0.2);
+            font-weight: 700;
+        }
+
+        .article-content h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        .article-content p {
+            margin-bottom: 16px;
+            color: #d0d0d0;
+            font-size: 1.02rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 16px;
+            padding-left: 25px;
+        }
+
+        .article-content li {
+            margin-bottom: 8px;
+            color: #d0d0d0;
+        }
+
+        .article-content strong {
+            color: var(--accent);
+        }
+
+        .article-content code {
+            background: rgba(102, 126, 234, 0.15);
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.92em;
+        }
+
+        .article-content pre {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.9em;
+        }
+
+        .test-case {
+            background: rgba(0,0,0,0.3);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+        }
+
+        .test-case.danger {
+            border-left-color: var(--danger);
+        }
+
+        .test-case.warning {
+            border-left-color: var(--warning);
+        }
+
+        .test-case.success {
+            border-left-color: var(--success);
+        }
+
+        .test-case-title {
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 10px;
+            font-size: 1.02rem;
+        }
+
+        .test-case-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .tag-danger {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--danger);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .tag-warning {
+            background: rgba(255, 165, 2, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(255, 165, 2, 0.3);
+        }
+
+        .tag-success {
+            background: rgba(46, 213, 115, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(46, 213, 115, 0.3);
+        }
+
+        .tag-info {
+            background: rgba(102, 126, 234, 0.2);
+            color: var(--accent);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .category-intro {
+            background: linear-gradient(135deg, rgba(102,126,234,0.12), rgba(118,75,162,0.08));
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(102, 126, 234, 0.15);
+        }
+
+        .method-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            border: 1px solid rgba(102, 126, 234, 0.15);
+        }
+
+        .method-card h3 {
+            color: var(--accent);
+            margin-top: 0 !important;
+        }
+
+        .method-card pre {
+            margin-top: 15px;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .summary-table th, .summary-table td {
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .summary-table th {
+            background: rgba(102, 126, 234, 0.15);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .summary-table tr:nth-child(even) {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            color: var(--accent);
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+            transform: translateX(-5px);
+        }
+
+        hr.section-divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(102,126,234,0.4), transparent);
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .article-content { padding: 30px 20px; }
+            .article-header h1 { font-size: 1.6rem; }
+        }
+    
+        .blog-navbar { background: rgba(15,15,35,0.98); border-bottom: 1px solid rgba(102,126,234,0.2); padding: 0.5rem 0; }
+        .blog-navbar .navbar-brand { color: var(--primary) !important; font-weight: 800; font-size: 1.1rem; text-decoration: none; }
+        .blog-navbar .nav-link { color: var(--gray-400); padding: 0.5rem 1rem; font-size: 0.9rem; text-decoration: none; transition: color 0.2s; }
+        .blog-navbar .nav-link:hover, .blog-navbar .nav-link.active { color: var(--white); }
+        .blog-navbar .nav-link.active { color: var(--primary); }
+        .blog-footer { border-top: 1px solid var(--glass-border); padding: 40px 0 30px; margin-top: 60px; text-align: center; }
+        .blog-footer .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+        .blog-footer .footer-links a { color: var(--gray-500); text-decoration: none; font-size: 0.9rem; }
+        .blog-footer .footer-links a:hover { color: var(--primary); }
+        .blog-footer .copyright { color: var(--gray-600); font-size: 0.85rem; }
+
+    </style>
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;z-index:9999;">跳转到主要内容</a>
+<nav role="navigation" aria-label="主导航" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
+        <a href="/" style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap;" aria-label="CloudMesh 首页">☁ CloudMesh</a>
+        <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;">
+            <a href="/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">首页</a>
+            <div style="position:relative;" class="nav-dropdown">
+                <button onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true');this.parentElement.querySelector('.dd').classList.toggle('show')" aria-expanded="false" aria-haspopup="true" aria-label="产品菜单" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;border-radius:6px;transition:color 0.2s,background 0.2s;">产品 <span style="font-size:0.7rem;" aria-hidden="true">▼</span></button>
+                <div class="dd" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(22,22,42,0.98);border:1px solid rgba(102,126,234,0.3);border-radius:10px;padding:6px;min-width:190px;z-index:1001;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+                    <a href="/products/clawops.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-terminal" aria-hidden="true"></i> ClawOps</a>
+                    <a href="/products/itsm.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-tasks" aria-hidden="true"></i> ITSM</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-boxes-stacked" aria-hidden="true"></i> 智能补货助手</a>
+                    <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-file-signature" aria-hidden="true"></i> 合同审核助手</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/openclaw.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-robot" aria-hidden="true"></i> OpenClaw</a>
+                    <a href="/products/llm-cost-center.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-coins" aria-hidden="true"></i> LLM Cost Center</a>
+                </div>
+            </div>
+            <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
+            <a href="/open-source/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">开源</a>
+            <a href="/blog/" style="color:#fff;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;background:rgba(102,126,234,0.15);">博客</a>
+            <a href="/pricing.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">定价</a>
+            <a href="/docs/quickstart.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">文档</a>
+            <a href="/contact/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">联系</a>
+            <a href="/deploy/" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:0.82rem;font-weight:700;padding:8px 16px;text-decoration:none;border-radius:50px;white-space:nowrap;margin-left:4px;transition:opacity 0.2s;">免费试用</a>
+        </div>
+    </div>
+</nav>
+<style>
+.dd { display: none !important; }
+.dd.show { display: block !important; }
+@media (max-width: 768px) {
+    .hero { padding: 56px 0 32px; }
+    nav[role="navigation"] { height: 50px; }
+    nav[role="navigation"] > div { padding: 0 12px; }
+}
+</style><div class="article-container">
+        <a class="back-link" href="/blog/"><i class="fas fa-arrow-left"></i> 返回博客</a>
+
+        <div class="article-header">
+            <h1>DDL 工单审批 AI Agent 边界条件测试用例</h1>
+            <div class="article-meta">
+                <span><i class="fas fa-user"></i> 刘彬</span>
+                <span><i class="fas fa-calendar"></i> 2026-05-13</span>
+                <span><i class="fas fa-tag"></i> AI Agent</span>
+            </div>
+        </div>
+
+        <div class="article-content">
+
+            <p>DDL 工单审批是数据库变更的核心入口，高风险操作集中在这类场景里。本文梳理了一份边界条件测试用例，覆盖输入层、安全红线、工具层、审批流、上下文五大方向，供团队系统测试和优化参考。</p>
+
+            <hr class="section-divider">
+
+            <h2>一、输入层边界</h2>
+
+            <div class="category-intro">
+                <p style="margin-bottom:0"><strong>核心原则：</strong>所有外部输入都是不可信的。工单内容的来源可能是业务人员、导出工具、甚至恶意用户，必须在进入系统第一时间做完整校验。</p>
+            </div>
+
+            <h3>1. 空内容与格式错误</h3>
+
+            <div class="test-case">
+                <span class="test-case-tag tag-danger">高危</span>
+                <div class="test-case-title">工单内容为空</div>
+                <p>提交 <code>""</code> 或 <code>"   "</code> 空字符串，系统不能崩溃或静默通过。</p>
+                <p><strong>期望行为：</strong>返回错误提示"工单内容不能为空"，状态码 400。</p>
+            </div>
+
+            <div class="test-case">
+                <span class="test-case-tag tag-danger">高危</span>
+                <div class="test-case-title">SQL 语法严重错误</div>
+                <p>提交 <code>ALTER TABLE users adde COLUMN name varchar(50)</code> （拼写错误、缺少分号）</p>
+                <p><strong>期望行为：</strong>AI 在 review 阶段识别出语法错误，标记为"语法错误待修复"，工单不进入执行队列。</p>
+            </div>
+
+            <div class="test-case">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">DDL 混入了非 DDL 语句</div>
+                <p>工单中包含 SELECT、UPDATE、INSERT 等查询/修改语句。</p>
+                <p><strong>期望行为：</strong>AI 识别出非 DDL 语句，给出提示"本系统仅支持 DDL 操作，请移除以下语句后重新提交"，并指明哪几行。</p>
+            </div>
+
+            <div class="test-case">
+                <span class="test-case-tag tag-danger">高危</span>
+                <div class="test-case-title">超长 DDL 工单</div>
+                <p>工单包含 100+ 行 ALTER TABLE 语句，总 token 数超过模型上下文窗口。</p>
+                <p><strong>期望行为：</strong>系统在接收阶段做预检查，超过长度限制返回错误"工单内容超长，请分批提交"。若允许拆单，AI 自动建议拆单方案。</p>
+            </div>
+
+            <div class="test-case">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">编码特殊字符注入</div>
+                <p>工单中包含 SQL 注释 <code>-- </code>、<code>/* */</code> 或 Unicode 同源字符（大小写希腊字母混淆）。</p>
+                <p><strong>期望行为：</strong>系统做预处理清洗，或在 AI review 时识别出潜在注入风险并报警。</p>
+            </div>
+
+            <h3>2. 目标对象合法性</h3>
+
+            <div class="test-case">
+                <span class="test-case-tag tag-danger">高危</span>
+                <div class="test-case-title">操作对象为系统库</div>
+                <p><code>ALTER TABLE mysql.user DROP COLUMN password</code></p>
+                <p><strong>期望行为：</strong>系统预检查拦截，直接拒绝，系统库不在变更范围内。</p>
+            </div>
+
+            <div class="test-case">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">操作对象不存在的表</div>
+                <p><code>ALTER TABLE nonexistent_table ADD COLUMN age int</code></p>
+                <p><strong>期望行为：</strong>AI 在 review 时发现目标表不存在，标记错误并拒绝执行。</p>
+            </div>
+
+            <div class="test-case">
+                <span class="test-case-tag tag-info">低危</span>
+                <div class="test-case-title">字段已存在时 ADD COLUMN</div>
+                <p>表中已存在同名字段，再次 <code>ADD COLUMN</code>。</p>
+                <p><strong>期望行为：</strong>数据库返回明确错误（Column already exists），AI 识别该错误码并给出"字段已存在"的友好提示。</p>
+            </div>
+
+            <hr class="section-divider">
+
+            <h2>二、安全红线</h2>
+
+            <div class="category-intro">
+                <p style="margin-bottom:0"><strong>核心原则：</strong>某些 DDL 操作具有不可逆破坏性，系统必须有硬拦截能力，不能完全依赖 AI 判断。</p>
+            </div>
+
+            <h3>1. 不可逆高危操作</h3>
+
+            <div class="test-case danger">
+                <span class="test-case-tag tag-danger">极高危</span>
+                <div class="test-case-title">DROP DATABASE / DROP TABLE</div>
+                <p>整个数据库或整张表被删除，数据不可恢复。</p>
+                <p><strong>期望行为：</strong>系统硬拦截，无论谁提交都需要额外审批链路（至少两级审批），且 AI 需发出高危警告。</p>
+            </div>
+
+            <div class="test-case danger">
+                <span class="test-case-tag tag-danger">极高危</span>
+                <div class="test-case-title">TRUNCATE 大表</div>
+                <p>对超过 10 万行级别的表执行 <code>TRUNCATE TABLE</code>。</p>
+                <p><strong>期望行为：</strong>系统检测到 TRUNCATE 且表行数超过阈值时，触发硬拦截，需 DBA 二次确认。</p>
+            </div>
+
+            <div class="test-case danger">
+                <span class="test-case-tag tag-danger">高危</span>
+                <div class="test-case-title">无 WHERE 条件的 DELETE</div>
+                <p><code>DELETE FROM orders</code>（无 WHERE 子句）</p>
+                <p><strong>期望行为：</strong>虽然本系统仅支持 DDL，但若部分 DDL 含数据清理语义，系统应检测并报警。</p>
+            </div>
+
+            <h3>2. 锁表风险操作</h3>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">高危</span>
+                <div class="test-case-title">大表 ALTER（百万级以上）</div>
+                <p>对超过 100 万行的表执行 <code>ALTER TABLE ... ADD INDEX</code>，会导致全表锁。</p>
+                <p><strong>期望行为：</strong>系统检测表行数级别，对于大表 ALTER 提示"建议使用 pt-online-schema-change 或 gh-ost 在线变更工具"，并记录风险。</p>
+            </div>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">一次操作涉及多张关联表</div>
+                <p>同一工单中包含多个表的操作，且这些表存在外键关联。</p>
+                <p><strong>期望行为：</strong>AI 检测到外键关联，提示"建议检查表依赖关系，ALTER 顺序会影响外键约束"，要求确认执行顺序。</p>
+            </div>
+
+            <h3>3. 权限与安全</h3>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">高危</span>
+                <div class="test-case-title">修改其他用户的对象</div>
+                <p><code>ALTER TABLE other_user.orders ADD COLUMN flag int</code></p>
+                <p><strong>期望行为：</strong>检测到跨用户对象操作，AI 提示"当前用户无权限修改该对象"，工单拒绝。</p>
+            </div>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">级联删除操作</div>
+                <p><code>ALTER TABLE orders DROP FOREIGN KEY fk_user ON DELETE CASCADE</code></p>
+                <p><strong>期望行为：</strong>AI 识别级联语义，提示"该操作将触发 CASCADE 删除，请确认受影响记录数量"。</p>
+            </div>
+
+            <hr class="section-divider">
+
+            <h2>三、工具层边界</h2>
+
+            <div class="category-intro">
+                <p style="margin-bottom:0"><strong>核心原则：</strong>MCP 工具是 Agent 与外界的桥梁，工具超时、异常格式、调用循环都会导致工单卡死或错误执行。</p>
+            </div>
+
+            <h3>1. 工具执行异常</h3>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">工具调用超时</div>
+                <p>某个 MCP 工具（如 <code>execute_ddl</code>）在规定时间内未返回结果。</p>
+                <p><strong>期望行为：</strong>设置超时阈值（如 30s），超时后 AI 应重试一次，若仍超时则标记"工具执行超时"并告知用户，不进入自动审批。</p>
+            </div>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">工具返回异常格式</div>
+                <p>MCP 工具返回了非 JSON 格式或 JSON 结构与预期不符。</p>
+                <p><strong>期望行为：</strong>系统做 JSON 解析校验，解析失败时 AI 识别异常并给出"工具返回格式异常，请联系管理员检查日志"的提示。</p>
+            </div>
+
+            <div class="test-case danger">
+                <span class="test-case-tag tag-danger">高危</span>
+                <div class="test-case-title">工具调用循环检测</div>
+                <p>同一工具在短时间（如 5 分钟内）被连续调用超过 N 次（如 10 次）。</p>
+                <p><strong>期望行为：</strong>系统在第 N+1 次调用前中断，标记"疑似循环调用"，通知人工介入。这往往是 AI 进入死循环的信号。</p>
+            </div>
+
+            <h3>2. 调用顺序错误</h3>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">工具调用顺序错乱</div>
+                <p>Agent 在未完成 review 的情况下直接调用 <code>approve_ddl</code>。</p>
+                <p><strong>期望行为：</strong>工作流引擎做状态校验，只有在 review 通过后才能进入 approve。顺序违规时直接拒绝并报警。</p>
+            </div>
+
+            <h3>3. 并发调用</h3>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">同一工单被并发审批</div>
+                <p>工单处于 pending 状态时，被两个不同审批人同时操作。</p>
+                <p><strong>期望行为：</strong>工单加分布式锁，同一时间只有一个操作生效，另一个收到"工单正在被处理"的响应。</p>
+            </div>
+
+            <hr class="section-divider">
+
+            <h2>四、审批流边界</h2>
+
+            <div class="category-intro">
+                <p style="margin-bottom:0"><strong>核心原则：</strong>审批流的状态机必须有严格的合法性校验，人情审批、自己批自己等违规操作必须拦截。</p>
+            </div>
+
+            <h3>1. 身份与权限</h3>
+
+            <div class="test-case danger">
+                <span class="test-case-tag tag-danger">高危</span>
+                <div class="test-case-title">审批人就是提交人</div>
+                <p>用户 A 提交工单，同时以审批人身份进行 approve 操作。</p>
+                <p><strong>期望行为：</strong>系统硬拦截，审批人列表中必须排除提交人，且数据库层面做约束。</p>
+            </div>
+
+            <div class="test-case danger">
+                <span class="test-case-tag tag-danger">高危</span>
+                <div class="test-case-title">循环审批</div>
+                <p>A 审批 B，B 审批 A，形成审批环。</p>
+                <p><strong>期望行为：</strong>审批链入度检查，若检测到循环则触发报警，需要指定不在循环链中的人审批。</p>
+            </div>
+
+            <h3>2. 状态机校验</h3>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">状态乱跳</div>
+                <p>工单状态从 <code>pending</code> 直接跳到 <code>executed</code>，跳过 review 和 approve 阶段。</p>
+                <p><strong>期望行为：</strong>状态机只允许合法跳转（pending → reviewing → approving → executing），非法跳转直接拒绝。</p>
+            </div>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">重复审批</div>
+                <p>对已 approve 的工单再次发送 approve 请求。</p>
+                <p><strong>期望行为：</strong>幂等性校验，已审批工单再次 approve 返回"工单已审批，请勿重复操作"。</p>
+            </div>
+
+            <h3>3. 审批超时与撤回</h3>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">审批超时未处理</div>
+                <p>工单进入审批状态后 48 小时无人处理。</p>
+                <p><strong>期望行为：</strong>超时提醒机制（站内通知/钉钉/飞书推送），超时 72 小时自动标记"超时待处理"，并抄送管理员。</p>
+            </div>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">提交人撤回已提交的工单</div>
+                <p>工单正在审批中，提交人发起撤回请求。</p>
+                <p><strong>期望行为：</strong>若工单处于 pending/reviewing 阶段，允许撤回；若已执行则不允许，并提示"工单已执行，无法撤回"。</p>
+            </div>
+
+            <hr class="section-divider">
+
+            <h2>五、上下文与 Token 边界</h2>
+
+            <div class="category-intro">
+                <p style="margin-bottom:0"><strong>核心原则：</strong>上下文窗口是有限资源，超出后必须做截断或压缩，否则模型会"失忆"导致错误决策。</p>
+            </div>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">上下文快用完但未截断</div>
+                <p>长会话中，工单历史积累导致上下文剩余量不足以处理当前工单，但系统未做截断。</p>
+                <p><strong>期望行为：</strong>系统监控上下文使用率（如超过 80% 时触发压缩），AI 自动做会话摘要并清理旧消息。</p>
+            </div>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">Skill 调用后上下文被污染</div>
+                <p>某个 Skill 返回了大量的日志或调试信息，塞满了上下文窗口。</p>
+                <p><strong>期望行为：</strong>Skill 输出做长度限制（最多保留前 N 行摘要 + 后 M 行错误相关），超长输出截断并标记"输出已截断"。</p>
+            </div>
+
+            <div class="test-case warning">
+                <span class="test-case-tag tag-warning">中危</span>
+                <div class="test-case-title">Token 预算耗尽导致截断</div>
+                <p>模型输出在中间被截断（如 DDL 语句只输出一半）。</p>
+                <p><strong>期望行为：</strong>输出完成后做完整性校验（如 SQL 语句是否以分号结尾），不完整时要求 AI 补充或重新生成。</p>
+            </div>
+
+            <hr class="section-divider">
+
+            <h2>六、用 AI 找更多漏洞的方法论</h2>
+
+            <p>除了手工列举，还可以用 AI 来系统性地找漏洞。以下几个 Prompt 方法可以循环使用：</p>
+
+            <div class="method-card">
+                <h3>🎯 反向提问法</h3>
+                <p>让 AI 扮演攻击者或"找茬高手"的角色，系统性地审查系统。</p>
+                <pre><code>我的 DDL 审批 Agent 有以下工具和能力：
+[列出你的工具集]
+MCP 工具：execute_ddl, review_ddl, approve_ddl, reject_ddl, get_table_info...
+工作流状态：pending → reviewing → approving → executing → completed/rejected
+
+请站在攻击者角度，列出每个工具最可能出错的 10 种场景，
+以及在什么情况下会绕过审批直接执行。</code></pre>
+            </div>
+
+            <div class="method-card">
+                <h3>🕵️ 攻击模拟法</h3>
+                <p>让 AI 扮演恶意用户，找出可能的绕过路径。</p>
+                <pre><code>假设你是一个想绕过 DDL 审批直接执行危险 SQL 的恶意用户。
+你会怎么做？请列出 15 种攻击路径，包括：
+1. 利用输入校验漏洞
+2. 利用工具调用顺序漏洞
+3. 利用审批流漏洞
+4. 利用上下文窗口漏洞
+请同时说明每种攻击的成功条件和防御方案。</code></pre>
+            </div>
+
+            <div class="method-card">
+                <h3>🔍 遗漏检测法</h3>
+                <p>显式列出系统假设，让 AI 逐一检验。</p>
+                <pre><code>我的系统有以下核心假设：
+- 假设 1：工单内容一定是 DDL，不是 DML 或 DCL
+- 假设 2：审批人不会是提交人本人
+- 假设 3：工具调用不会超时或无限重试
+- 假设 4：上下文窗口永远够用
+- 假设 5：工单状态只按顺序跳转
+
+请逐一分析每个假设被违反时会发生什么，
+以及当前系统是否有对应的防御措施。</code></pre>
+            </div>
+
+            <div class="method-card">
+                <h3>📋 代码审查法</h3>
+                <p>将代码扔给另一个 Agent 进行交叉审查。</p>
+                <pre><code>请帮我审查以下代码，找出所有没有做边界条件判断的地方。
+重点关注：
+1. 参数校验（输入是否为空、格式是否正确）
+2. 权限校验（是否有越权风险）
+3. 状态机校验（是否有非法状态跳转）
+4. 超时处理（是否有超时设置）
+5. 并发安全（是否有竞态条件）
+
+[粘贴你的核心代码]</code></pre>
+            </div>
+
+            <hr class="section-divider">
+
+            <h2>七、测试矩阵速查表</h2>
+
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>类别</th>
+                        <th>测试用例</th>
+                        <th>风险等级</th>
+                        <th>自动化难度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>输入层</td>
+                        <td>空内容、语法错误、混非DDL、超长工单、特殊字符</td>
+                        <td>高</td>
+                        <td>易</td>
+                    </tr>
+                    <tr>
+                        <td>输入层</td>
+                        <td>系统库操作、对象不存在、字段已存在</td>
+                        <td>高</td>
+                        <td>易</td>
+                    </tr>
+                    <tr>
+                        <td>安全红线</td>
+                        <td>DROP DATABASE/TABLE、TRUNCATE大表</td>
+                        <td>极高</td>
+                        <td>易（规则拦截）</td>
+                    </tr>
+                    <tr>
+                        <td>安全红线</td>
+                        <td>大表ALTER、无WHERE DELETE、级联删除</td>
+                        <td>高</td>
+                        <td>中</td>
+                    </tr>
+                    <tr>
+                        <td>工具层</td>
+                        <td>工具超时、返回格式异常、循环调用</td>
+                        <td>高</td>
+                        <td>中</td>
+                    </tr>
+                    <tr>
+                        <td>工具层</td>
+                        <td>调用顺序错误、并发调用同一工单</td>
+                        <td>中</td>
+                        <td>中</td>
+                    </tr>
+                    <tr>
+                        <td>审批流</td>
+                        <td>自己批自己、循环审批、状态乱跳</td>
+                        <td>高</td>
+                        <td>易（数据库约束）</td>
+                    </tr>
+                    <tr>
+                        <td>审批流</td>
+                        <td>重复审批、超时未处理、撤回已执行工单</td>
+                        <td>中</td>
+                        <td>易</td>
+                    </tr>
+                    <tr>
+                        <td>上下文</td>
+                        <td>上下文超限未截断、Skill输出污染、输出不完整</td>
+                        <td>中</td>
+                        <td>难</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr class="section-divider">
+
+            <h2>八、下一步</h2>
+
+            <p>拿到这份测试用例后，建议按以下优先级推进：</p>
+            <ol>
+                <li><strong>先做规则拦截</strong>（DROP DATABASE/TABLE、TRUNCATE 等）——规则优先于 AI判断，明确危险操作直接硬拦截。</li>
+                <li><strong>再做状态机校验</strong>（数据库唯一索引 + 状态流转规则）——防止自己批自己、状态乱跳。</li>
+                <li><strong>然后自动化测试</strong>（把高频用例写成自动化脚本）——用 AI 生成一批异常工单，看系统反应。</li>
+                <li><strong>最后做探索性测试</strong>（用 AI 找漏）——等系统稳定后，用上述方法论循环挖掘边界 case。</li>
+            </ol>
+
+            <p>工单审批系统越严谨，数据库安全越有保障。测试过程中踩到的坑，都是后续的护城河。加油 🚀</p>
+
+        </div>
+    </div>
+
+
+    <footer class="blog-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="/">首页</a>
+                <a href="/products/">产品</a>
+                <a href="/solutions/">解决方案</a>
+                <a href="/blog/">博客</a>
+                <a href="/pricing.html">定价</a>
+                <a href="/contact/">联系</a>
+            </div>
+            <p class="copyright">&copy; 2026 CloudMesh. 让 AI 助手无所不能。</p>
+        </div>
+    </footer>
+
+</body>
+</html>

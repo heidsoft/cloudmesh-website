@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四书体系：儒学大厦的四大支柱 - CloudMesh 博客</title>
+    <meta name="description" content="深入解析四书（《大学》《中庸》《论语》《孟子》）的体系结构，理解儒家思想的核心框架与内在逻辑。">
+    <meta name="keywords" content="四书, 大学, 中庸, 论语, 孟子, 儒学, 朱熹, 宋明理学, 儒家思想">
+    <meta name="author" content="CloudMesh">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="四书体系：儒学大厦的四大支柱">
+    <meta property="og:description" content="深入解析四书的体系结构，理解儒家思想的核心理框架">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://cloudmesh.top/blog/sizhu-system.html">
+    
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+        }
+        .article-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        .article-meta {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        .article-content h2 {
+            color: var(--primary);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .article-content h3 {
+            color: var(--secondary);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .article-content p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .article-content blockquote {
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            background: #f8f9fa;
+            margin: 1.5rem 0;
+            font-style: italic;
+        }
+        .article-content table {
+            width: 100%;
+            margin: 1.5rem 0;
+        }
+        .article-content table th {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem;
+        }
+        .article-content table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .book-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: #fafafa;
+        }
+        .book-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+        .tag-cloud {
+            margin-top: 2rem;
+        }
+        .tag-cloud a {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            background: #e9ecef;
+            border-radius: 1rem;
+            color: #495057;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        .tag-cloud a:hover {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;z-index:9999;">跳转到主要内容</a>
+<nav role="navigation" aria-label="主导航" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
+        <a href="/" style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap;" aria-label="CloudMesh 首页">☁ CloudMesh</a>
+        <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;">
+            <a href="/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">首页</a>
+            <div style="position:relative;" class="nav-dropdown">
+                <button onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true');this.parentElement.querySelector('.dd').classList.toggle('show')" aria-expanded="false" aria-haspopup="true" aria-label="产品菜单" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;border-radius:6px;transition:color 0.2s,background 0.2s;">产品 <span style="font-size:0.7rem;" aria-hidden="true">▼</span></button>
+                <div class="dd" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(22,22,42,0.98);border:1px solid rgba(102,126,234,0.3);border-radius:10px;padding:6px;min-width:190px;z-index:1001;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+                    <a href="/products/clawops.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-terminal" aria-hidden="true"></i> ClawOps</a>
+                    <a href="/products/itsm.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-tasks" aria-hidden="true"></i> ITSM</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-boxes-stacked" aria-hidden="true"></i> 智能补货助手</a>
+                    <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-file-signature" aria-hidden="true"></i> 合同审核助手</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/openclaw.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-robot" aria-hidden="true"></i> OpenClaw</a>
+                    <a href="/products/llm-cost-center.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-coins" aria-hidden="true"></i> LLM Cost Center</a>
+                </div>
+            </div>
+            <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
+            <a href="/open-source/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">开源</a>
+            <a href="/blog/" style="color:#fff;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;background:rgba(102,126,234,0.15);">博客</a>
+            <a href="/pricing.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">定价</a>
+            <a href="/docs/quickstart.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">文档</a>
+            <a href="/contact/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">联系</a>
+            <a href="/deploy/" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:0.82rem;font-weight:700;padding:8px 16px;text-decoration:none;border-radius:50px;white-space:nowrap;margin-left:4px;transition:opacity 0.2s;">免费试用</a>
+        </div>
+    </div>
+</nav>
+<style>
+.dd { display: none !important; }
+.dd.show { display: block !important; }
+@media (max-width: 768px) {
+    .hero { padding: 56px 0 32px; }
+    nav[role="navigation"] { height: 50px; }
+    nav[role="navigation"] > div { padding: 0 12px; }
+}
+</style><!-- Header -->
+    <header class="article-header">
+        <div class="container">
+            <h1 class="display-5 fw-bold">四书体系：儒学大厦的四大支柱</h1>
+            <p class="lead">理解儒家思想的核框架与内在逻辑</p>
+            <div class="article-meta mt-3">
+                <span><i class="far fa-calendar"></i> 2026-05-11</span>
+                <span class="ms-3"><i class="far fa-clock"></i> 12分钟阅读</span>
+                <span class="ms-3"><i class="fas fa-tag"></i> 儒学</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container article-content">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                
+                <p class="lead">四书——《大学》《中庸》《论语》《孟子》——是宋明以后中国儒学教育的核心文本。它们共同构成了儒家思想的骨架，也是理解中国传统文化的钥匙。</p>
+
+                <h2>一、四书是怎么来的</h2>
+
+                <p>四书的名字我们都知道，但它们的集结过程并不简单：</p>
+
+                <h3>1. 《大学》与《中庸》</h3>
+                <p>原本都是《礼记》中的篇章。直到北宋程颢、程颐极力推崇，南宋朱熹将其抽出，与《论语》《孟子》合编，并作了详细注释。</p>
+
+                <h3>2. 《论语》与《孟子》</h3>
+                <p>《论语》是孔子弟子及再传弟子记录的孔子言行录，成书于战国初期。《孟子》是孟子和弟子共同编纂的著作，成书于战国中期。</p>
+
+                <h3>3. 朱熹的贡献</h3>
+                <p>朱熹（1130-1200）花了毕生精力注释四书，著成《四书章句集注》。元朝以后，这部书成为科举考试的标准教材，四书的地位从此确立。</p>
+
+                <blockquote>
+                    所谓圣贤之学，只在四书；四书之义，不在注疏，而在身体力行。
+                </blockquote>
+
+                <h2>二、四书的各自定位</h2>
+
+                <p>四本书各有侧重，共同构成一个完整的思想体系：</p>
+
+                <div class="book-card">
+                    <h4>📖 《大学》——儒学纲领</h4>
+                    <p><strong>定位：</strong>四书之首，儒学修养论的完整大纲</p>
+                    <p><strong>核心：</strong>三纲领（明明德、亲民、止于至善）+ 八条目（格物致知诚意正心修身齐家治国平天下）</p>
+                    <p><strong>特色：</strong>文字简短，结构清晰，是理解儒家思想最好的入门书</p>
+                </div>
+
+                <div class="book-card">
+                    <h4>📖 《中庸》——心性原理</h4>
+                    <p><strong>定位：</strong>儒家心性论的核心文本</p>
+                    <p><strong>核心：</strong>中庸之道、诚者天之道、率性之谓道</p>
+                    <p><strong>特色：</strong>论述儒家的最高道德境界"中和"，以及如何通过修身达到这种境界</p>
+                </div>
+
+                <div class="book-card">
+                    <h4>📖 《论语》——孔子语录</h4>
+                    <p><strong>定位：</strong>儒家思想的源头，孔子言行录</p>
+                    <p><strong>核心：</strong>仁、义、礼、智、信；君臣之道；为人处世</p>
+                    <p><strong>特色：</strong>语录体，简洁而含义深远，是理解孔子本人思想最权威的文献</p>
+                </div>
+
+                <div class="book-card">
+                    <h4>📖 《孟子》——义理扩展</h4>
+                    <p><strong>定位：</strong>儒家义理的系统化与扩展</p>
+                    <p><strong>核心：</strong>性善论、浩然之气、王道政治、义利之辨</p>
+                    <p><strong>特色：</strong>辩论色彩浓厚，有系统的论证，逻辑性强</p>
+                </div>
+
+                <h2>三、四书之间的逻辑关系</h2>
+
+                <p>四书不是四本孤立的文本，它们有严密的内在逻辑：</p>
+
+                <h3>1. 横向结构：四个维度</h3>
+                <table>
+                    <tr>
+                        <th>维度</th>
+                        <th>对应的书</th>
+                        <th>回答的核心问题</th>
+                    </tr>
+                    <tr>
+                        <td>方法论</td>
+                        <td>《大学》</td>
+                        <td>如何修养？从哪里开始？</td>
+                    </tr>
+                    <tr>
+                        <td>本体论</td>
+                        <td>《中庸》</td>
+                        <td>人性的本质是什么？</td>
+                    </tr>
+                    <tr>
+                        <td>价值观</td>
+                        <td>《论语》</td>
+                        <td>什么是仁？什么是君子？</td>
+                    </tr>
+                    <tr>
+                        <td>政治论</td>
+                        <td>《孟子》</td>
+                        <td>理想政治是什么？如何行王道？</td>
+                    </tr>
+                </table>
+
+                <h3>2. 纵向结构：三个层次</h3>
+
+                <table>
+                    <tr>
+                        <th>层次</th>
+                        <th>内容</th>
+                        <th>对应文本</th>
+                    </tr>
+                    <tr>
+                        <td>基础</td>
+                        <td>学习路径：格物→致知→诚意→正心</td>
+                        <td>《大学》</td>
+                    </tr>
+                    <tr>
+                        <td>核心</td>
+                        <td>价值核心：仁、义、礼、智</td>
+                        <td>《论语》《孟子》</td>
+                    </tr>
+                    <tr>
+                        <td>境界</td>
+                        <td>最高境界：中庸、至善、诚</td>
+                        <td>《中庸》</td>
+                    </tr>
+                </table>
+
+                <h2>四、四书与五经的关系</h2>
+
+                <p>说完四书，必须提五经。它们是儒学经典的两大支柱：</p>
+
+                <table>
+                    <tr>
+                        <th>类别</th>
+                        <th>书目</th>
+                        <th>核心内容</th>
+                    </tr>
+                    <tr>
+                        <td><strong>四书</strong></td>
+                        <td>大学、中庸、论语、孟子</td>
+                        <td>义理（心性、修养、价值观）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>五经</strong></td>
+                        <td>诗、书、易、礼、春秋</td>
+                        <td>制度（政治、历史、文化）</td>
+                    </tr>
+                </table>
+
+                <p><strong>简单理解：</strong></p>
+                <ul>
+                    <li>四书讲<strong>为什么要这样做</strong>（义理）</li>
+                    <li>五经讲<strong>具体怎么做</strong>（制度）</li>
+                    <li>四书是理论，五经是应用</li>
+                </ul>
+
+                <h2>五、四书的历史影响</h2>
+
+                <h3>1. 科举制度</h3>
+                <p>自元朝开始，四书成为科举考试的核心内容。读书人必须熟读《四书章句集注》，用朱熹的解释来答题。这种情况持续了约600年，直到1905年废除科举。</p>
+
+                <h3>2. 宋明理学</h3>
+                <p>四书是宋明理学的根基。理学家们围绕四书展开讨论，发展出了理学（程朱理学）和心学（陆王心学）两条路线。</p>
+
+                <h3>3. 东亚儒学圈</h3>
+                <p>四书的影响不限于中国：</p>
+                <ul>
+                    <li><strong>日本</strong>：江户时代的儒学教育以四书为核心</li>
+                    <li><strong>朝鲜</strong>：性理学（儒学）成为官方哲学</li>
+                    <li><strong>越南</strong>：儒学是传统教育的主体</li>
+                </ul>
+
+                <h2>六、如何学习四书</h2>
+
+                <h3>推荐顺序</h3>
+
+                <p><strong>第一阶段：</strong>《大学》→《论语》</p>
+                <p>《大学》建立框架，《论语》理解孔子。</p>
+
+                <p><strong>第二阶段：</strong>《孟子》→《中庸》</p>
+                <p>《孟子》扩展义理，《中庸》提升境界。</p>
+
+                <h3>推荐版本</h3>
+
+                <table>
+                    <tr>
+                        <th>级别</th>
+                        <th>推荐书</th>
+                        <th>特点</th>
+                    </tr>
+                    <tr>
+                        <td>入门</td>
+                        <td>朱熹《四书章句集注》（中华书局）</td>
+                        <td>最权威注本，繁体竖排</td>
+                    </tr>
+                    <tr>
+                        <td>白话</td>
+                        <td>杨伯峻《论语译注》《孟子译注》</td>
+                        <td>通俗易懂，注释详细</td>
+                    </tr>
+                    <tr>
+                        <td>进阶</td>
+                        <td>钱穆《论语新解》《孟子研究》</td>
+                        <td>学术性强，见解深刻</td>
+                    </tr>
+                </table>
+
+                <h3>学习心态</h3>
+                <p>四书不是速成书，而是需要反复阅读、慢慢体会的经典。每一次重读，都会有新的收获。不要贪多，专注于理解文本本身，比记住多少注释更重要。</p>
+
+                <hr class="my-5">
+
+                <h3>结语</h3>
+
+                <p>四书构成了儒学思想的骨架：《大学》给了我们修养的路径，《中庸》给了我们心性的原理，《论语》给了我们孔子的智慧，《孟子》给了我们行道的勇气。</p>
+
+                <p>理解四书，就理解了儒学的核心；理解儒学，就理解了中国传统文化的根基。这条线索，从未断过。</p>
+
+                <div class="tag-cloud">
+                    <a href="/blog"><i class="fas fa-tags"></i> 标签：</a>
+                    <a href="#">四书</a>
+                    <a href="#">大学</a>
+                    <a href="#">中庸</a>
+                    <a href="#">论语</a>
+                    <a href="#">孟子</a>
+                    <a href="#">儒学</a>
+                    <a href="#">朱熹</a>
+                    <a href="#">宋明理学</a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2026 CloudMesh. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

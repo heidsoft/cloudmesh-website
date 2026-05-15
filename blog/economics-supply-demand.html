@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供需模型：价格是怎么定的？ | CloudMesh</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding-top: 56px; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #2c3e50; border-bottom: 3px solid #e67e22; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 40px; }
+        h3 { color: #7f8c8d; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', 'Consolas', monospace; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 8px; overflow-x: auto; border-left: 4px solid #e67e22; }
+        .tag { display: inline-block; background: #fef3e7; color: #e67e22; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; margin-right: 5px; }
+        blockquote { border-left: 4px solid #27ae60; margin: 20px 0; padding: 10px 20px; background: #f0f9f0; }
+        .scenario { background: #fff8e1; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffc107; }
+        .example { background: #e8f5e9; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .key-point { background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #2196f3; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #e67e22; color: white; }
+        tr:nth-child(even) { background: #f9f9f9; }
+    
+        .blog-navbar { background: rgba(15,15,35,0.98); border-bottom: 1px solid rgba(102,126,234,0.2); padding: 0.5rem 0; }
+        .blog-navbar .navbar-brand { color: var(--primary) !important; font-weight: 800; font-size: 1.1rem; text-decoration: none; }
+        .blog-navbar .nav-link { color: var(--gray-400); padding: 0.5rem 1rem; font-size: 0.9rem; text-decoration: none; transition: color 0.2s; }
+        .blog-navbar .nav-link:hover, .blog-navbar .nav-link.active { color: var(--white); }
+        .blog-navbar .nav-link.active { color: var(--primary); }
+        .blog-footer { border-top: 1px solid var(--glass-border); padding: 40px 0 30px; margin-top: 60px; text-align: center; }
+        .blog-footer .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+        .blog-footer .footer-links a { color: var(--gray-500); text-decoration: none; font-size: 0.9rem; }
+        .blog-footer .footer-links a:hover { color: var(--primary); }
+        .blog-footer .copyright { color: var(--gray-600); font-size: 0.85rem; }
+
+    </style>
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;z-index:9999;">跳转到主要内容</a>
+<nav role="navigation" aria-label="主导航" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,35,0.98);border-bottom:1px solid rgba(102,126,234,0.2);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;">
+        <a href="/" style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap;" aria-label="CloudMesh 首页">☁ CloudMesh</a>
+        <div style="display:flex;align-items:center;gap:0;flex-wrap:nowrap;">
+            <a href="/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">首页</a>
+            <div style="position:relative;" class="nav-dropdown">
+                <button onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true');this.parentElement.querySelector('.dd').classList.toggle('show')" aria-expanded="false" aria-haspopup="true" aria-label="产品菜单" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;border-radius:6px;transition:color 0.2s,background 0.2s;">产品 <span style="font-size:0.7rem;" aria-hidden="true">▼</span></button>
+                <div class="dd" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(22,22,42,0.98);border:1px solid rgba(102,126,234,0.3);border-radius:10px;padding:6px;min-width:190px;z-index:1001;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+                    <a href="/products/clawops.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-terminal" aria-hidden="true"></i> ClawOps</a>
+                    <a href="/products/itsm.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-tasks" aria-hidden="true"></i> ITSM</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/smart-replenishment.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-boxes-stacked" aria-hidden="true"></i> 智能补货助手</a>
+                    <a href="/products/contract-review.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-file-signature" aria-hidden="true"></i> 合同审核助手</a>
+                    <div style="height:1px;background:rgba(102,126,234,0.15);margin:4px 8px;"></div>
+                    <a href="/products/openclaw.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-robot" aria-hidden="true"></i> OpenClaw</a>
+                    <a href="/products/llm-cost-center.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;color:#a0aec0;text-decoration:none;font-size:0.85rem;border-radius:8px;transition:color 0.2s,background 0.2s;"><i class="fas fa-coins" aria-hidden="true"></i> LLM Cost Center</a>
+                </div>
+            </div>
+            <a href="/solutions/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">解决方案</a>
+            <a href="/open-source/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">开源</a>
+            <a href="/blog/" style="color:#fff;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;background:rgba(102,126,234,0.15);">博客</a>
+            <a href="/pricing.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">定价</a>
+            <a href="/docs/quickstart.html" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">文档</a>
+            <a href="/contact/" style="color:#a0aec0;font-size:0.85rem;padding:8px 12px;text-decoration:none;white-space:nowrap;border-radius:6px;transition:color 0.2s,background 0.2s;">联系</a>
+            <a href="/deploy/" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:0.82rem;font-weight:700;padding:8px 16px;text-decoration:none;border-radius:50px;white-space:nowrap;margin-left:4px;transition:opacity 0.2s;">免费试用</a>
+        </div>
+    </div>
+</nav>
+<style>
+.dd { display: none !important; }
+.dd.show { display: block !important; }
+@media (max-width: 768px) {
+    .hero { padding: 56px 0 32px; }
+    nav[role="navigation"] { height: 50px; }
+    nav[role="navigation"] > div { padding: 0 12px; }
+}
+</style><article>
+        <header>
+            <span class="tag">经济学</span>
+            <span class="tag">通俗易懂</span>
+            <span class="tag">供需模型</span>
+            <h1>供需模型：价格是怎么定的？</h1>
+            <p>用菜市场、奶茶店、打车软件讲懂经济学最核心的模型 💰</p>
+        </header>
+
+        <section>
+            <h2>先问一个问题</h2>
+            <div class="scenario">
+                <strong>为什么同样的西瓜，夏天卖 1 块钱一斤，冬天卖 5 块钱一斤？</strong>
+                <br>是西瓜变了吗？
+                <br>不是。是<strong>买的人多了，卖的人少了</strong>。
+            </div>
+            <p>就这么简单 —— 这就是供需模型要讲的东西。</p>
+        </section>
+
+        <section>
+            <h2>🛒 需求：多少人想要买？</h2>
+
+            <h3>什么是需求？</h3>
+            <p>需求就是：<strong>在某个价格下，有多少人愿意买、能买得起</strong>。</p>
+
+            <div class="example">
+                <strong>🌡️ 拿奶茶举个例：</strong>
+                <ul>
+                    <li>奶茶 5 块钱一杯 → 大多数人买 → 100 个人想买</li>
+                    <li>奶茶 15 块钱一杯 → 少一些人买 → 60 个人想买</li>
+                    <li>奶茶 30 块钱一杯 → 只有真爱买 → 15 个人想买</li>
+                    <li>奶茶 50 块钱一杯 → 基本没人买 → 2 个人想买</li>
+                </ul>
+                <p>价格越贵，想买的人越少。这就是<strong>需求定律</strong>。</p>
+            </div>
+
+            <h3>需求曲线（看图更清楚）</h3>
+            <pre>
+价格（元）
+  50 │                          ●（只有2个人想买）
+     │                        ╱
+  30 │                     ●（15人）
+     │                   ╱
+  15 │               ●（60人）
+     │             ╱
+   5 │         ●（100人）
+     │       ╱
+     └─────────────────────────→ 人数
+       0   20   40   60   80  100
+            </pre>
+            <p>这条<strong>向下倾斜的线</strong>，就是需求曲线。价格越低，想要买的人越多。</p>
+        </section>
+
+        <section>
+            <h2>🏪 供给：多少人愿意卖？</h2>
+
+            <h3>什么是供给？</h3>
+            <p>供给就是：<strong>在某个价格下，有多少卖家愿意拿出来卖</strong>。</p>
+
+            <div class="example">
+                <strong>🍉 再拿西瓜举个例：</strong>
+                <ul>
+                    <li>西瓜 5 毛一斤 → 农民亏本，不想种 → 只有 10 个人卖</li>
+                    <li>西瓜 1 块钱一斤 → 勉强糊口 → 30 个人卖</li>
+                    <li>西瓜 2 块钱一斤 → 有赚头了 → 60 个人卖</li>
+                    <li>西瓜 5 块钱一斤 → 暴利！都去种 → 100 个人卖</li>
+                </ul>
+                <p>价格越贵，想卖的人越多。这也是<strong>供给定律</strong>。</p>
+            </div>
+
+            <h3>供给曲线</h3>
+            <pre>
+价格（元）
+   5 │●（100个人想卖）
+     │   ╲
+     │     ╲
+   2 │       ●（60人）
+     │         ╲
+   1 │           ●（30人）
+     │             ╲
+  0.5│               ●（10人）
+     └─────────────────────────→ 人数
+       0   20   40   60   80  100
+            </pre>
+            <p>这条<strong>向上倾斜的线</strong>，就是供给曲线。价格越贵，想卖的人越多。</p>
+        </section>
+
+        <section>
+            <h2>⚖️ 均衡：两边碰头的地方</h2>
+
+            <h3>什么是均衡价格？</h3>
+            <p>当<strong>想买的人</strong>和<strong>想卖的人</strong>数量差不多的时候，价格就稳定了。</p>
+            <p>这个稳定下来的价格，就叫<strong>均衡价格</strong>。</p>
+
+            <div class="key-point">
+                <strong>📊 均衡价格的形成：</strong>
+                <ul>
+                    <li>价格太高 → 卖家太多、买家太少 → 卖不出去 → 降价</li>
+                    <li>价格太低 → 买家太多、卖家太少 → 抢着买 → 涨价</li>
+                    <li>价格刚好 → 买卖平衡 → 价格稳定</li>
+                </ul>
+            </div>
+
+            <h3>供需均衡图</h3>
+            <pre>
+价格（元）
+   8 │
+     │                        ╱ 供给曲线 S
+   7 │                      ╱
+     │                    ╱
+   5 │         ● ← 均衡点 E（价格=5，数量=60）
+     │       ╱ ╲
+   3 │     ╱     ╲
+     │   ╱         ╲ 需求曲线 D
+   1 │ ╱
+     └─────────────────────────→ 数量
+       0   20   40   60   80  100
+
+   均衡价格 = 5 元
+   均衡数量 = 60 个（单位自定）
+            </pre>
+
+            <p>买卖双方碰头的那个点，就是<strong>市场 equilibrium（均衡）</strong>。</p>
+
+            <blockquote>
+                <strong>一句话理解：</strong>供需均衡就是"想买的人"和"想卖的人"数量差不多，价格不涨不跌。
+            </blockquote>
+        </section>
+
+        <section>
+            <h2>🌡️ 生活中的供需故事</h2>
+
+            <h3>故事1：口罩涨价</h3>
+            <div class="scenario">
+                <strong>发生了什么？</strong><br>
+                疫情期间，大家都要买口罩 → <strong>需求暴增</strong><br>
+                但口罩厂就那么多 → <strong>供给跟不上</strong><br>
+                结果：口罩价格从 1 块钱涨到 10 块钱
+                <br><br>
+                <strong>经济学解释：</strong>需求曲线右移（更多人想买），供给曲线不变 → 新的均衡点价格更高。
+            </div>
+
+            <h3>故事2：打车软件调价</h3>
+            <div class="scenario">
+                <strong>高峰期为什么贵？</strong><br>
+                早高峰大家都出门 → 打车需求暴涨<br>
+                但司机就那么多 → 供给固定<br>
+                结果：平台涨价，筛选出真正急需的人
+                <br><br>
+                <strong>经济学解释：</strong>需求曲线右移（在相同价格下，更多人想打）→ 均衡价格上升。
+            </div>
+
+            <h3>故事3：演唱会门票</h3>
+            <div class="scenario">
+                <strong>为什么黄牛票那么贵？</strong><br>
+                粉丝太多、票太少 → 供需失衡<br>
+                主办方原价票不够分 → 黄牛趁机加价<br>
+                结果：市场价远高于票面价
+            </div>
+        </section>
+
+        <section>
+            <h2>📈 需求/供给移动（进阶一点）</h2>
+
+            <p>有些事情会让整条曲线<strong>平移</strong>：</p>
+
+            <h3>什么让需求曲线移动？</h3>
+            <table>
+                <tr><th>因素</th><th>效果</th><th>例子</th></tr>
+                <tr><td>收入增加</td><td>需求↑（曲线右移）</td><td>大家更有钱了，多喝奶茶</td></tr>
+                <tr><td>替代品降价</td><td>需求↓（曲线左移）</td><td>咖啡便宜了，买奶茶的人少了</td></tr>
+                <tr><td>互补品降价</td><td>需求↑（曲线右移）</td><td>珍珠便宜了，奶茶更好卖了</td></tr>
+                <tr><td>口味/潮流变化</td><td>需求↑或↓</td><td>健康风潮 → 奶茶需求下降</td></tr>
+            </table>
+
+            <h3>什么让供给曲线移动？</h3>
+            <table>
+                <tr><th>因素</th><th>效果</th><th>例子</th></tr>
+                <tr><td>技术进步</td><td>供给↑（曲线右移）</td><td>机器替代人工 → 产能提升</td></tr>
+                <tr><td>原料涨价</td><td>供给↓（曲线左移）</td><td>牛奶贵了 → 奶茶成本↑</td></tr>
+                <tr><td>竞争者减少</td><td>供给↓（曲线左移）</td><td>同行倒闭 → 市场上产品减少</td></tr>
+                <tr><td>政策补贴</td><td>供给↑（曲线右移）</td><td>种粮食有补贴 → 更多人种地</td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>🎯 一句话总结</h2>
+            <div class="key-point">
+                <h3>供需模型的核心就三句话：</h3>
+                <ol>
+                    <li><strong>价格由供需决定</strong> — 想要的人多就涨，想卖的人多就跌</li>
+                    <li><strong>需求向上倾斜</strong> — 价格越低，买的人越多</li>
+                    <li><strong>供给向下倾斜</strong> — 价格越低，卖的人越少</li>
+                </ol>
+            </div>
+
+            <p>记住这三句话，你就掌握了经济学最最核心的思想。🎉</p>
+        </section>
+
+        <section>
+            <h2>❓ 思考题</h2>
+            <div class="scenario">
+                <strong>为什么同样的课程，在大学里只卖 100 块钱，在知识付费平台可以卖 999 块钱？</strong>
+                <br><br>
+                提示：从<strong>用户群体</strong>、<strong>使用场景</strong>、<strong>供需关系</strong>来想。
+                <br><br>
+                欢迎在评论区说出你的答案！
+            </div>
+        </section>
+
+        <footer>
+            <p><em>保持好奇，下一篇：《博弈论入门：为什么聪明人会做"傻"事？》</em></p>
+            <p><a href="index.html">← 返回博客首页</a></p>
+            <p><a href="economics-learning-series.html">← 经济学学习系列目录</a></p>
+        </footer>
+    </article>
+</body>
+</html>
